@@ -12,14 +12,17 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
     {
         public IActionResult CheckAvailability(DateTime _arrivingDateTime, int _partySize, TableAreas _tableArea)
         {
-            /*
-             * 1) Check for available table in that specific date. Return all tables that are OK.
-             * 2) Take the array from (1) and check in that for tables that are free in that specific time.
-             *    Return a (reduced) array with available tables.
-             * 3) Take the array from (2) and check in that for tables that have the required capacity.
-             *    Return a (reduced) array with available tables.
-             * 4) Take the array from (3) and check in that for tables that are placed in the required area.
-             *    Return the first table that you find.
+            /* tableId | date | time
+             * 
+             * Get an array with all tables booked for that date. 
+             * If a table is not included in the array, goto (1).
+             * If all tables are included, get all the tables of that date.
+             * Foreach reservation check if it will be available that time.
+             * If there is a possible reservation, get all the reservations of that table in that date.
+             * Check if the table will be free for at least 3 hours before the next reservation.
+             * If yes goto (1).
+             * 
+             * (1)Check if the specific table has the required capacity.
              */
 
             throw new NotImplementedException();
