@@ -49,5 +49,20 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
             return View(rAllReservations);
         }
 
+        [HttpPost]
+        public IActionResult CreateReservation(Reservation newReservation)
+        {
+            //newStudent.DateofBirth= DateTime.Now; //temporary solution
+            _dbContextobj.Reservations.Add(newReservation);
+            _dbContextobj.SaveChanges();
+            return View();
+        }
+
+        public IActionResult CreateReservation()
+        {
+            
+            return View();
+        }
+
     }
 }

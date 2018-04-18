@@ -1,0 +1,41 @@
+﻿@model Reservation
+@{
+    ViewData["Title"] = "CreateReservation";
+}
+
+<h2>Reservation at Molveno Restaurant</h2>
+<form asp-action="CreateReservation">
+    Name:
+    <input type="text" name="txt_GuestFullName" asp-for="_resGuest._guestName" />  @*//TEXT IS TEXBOX*@
+
+    <br />
+    <br />
+
+    Phone Number:
+    <input type="text" name="txt_GuestPhoneNumber" asp-for="_resGuest._guestPhone" />
+
+    <br />
+    <br />
+
+    E-mail:
+    <input type="email" name="e-box_GuestEmail" asp-for="_resGuest._guestEmail">
+
+    <br />
+    <br />
+
+    Hide Prices:
+
+    <input type="checkbox" name="chk_HidePrices" value="Yes"><br>
+
+    <br />
+    <br />
+
+    @*Reservation Date:
+        <asp:Calender><asp:Calendar ID="Calendar1" runat="server>SelectionMode="DayWeekMonth" onselectionchanged="Calendar1_SelectionChanged">
+        </asp:Calendar>
+
+        <br />
+        <br />*@
+
+    <input type="submit" value="Save" />
+</form>
