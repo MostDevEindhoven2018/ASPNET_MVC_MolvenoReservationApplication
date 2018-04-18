@@ -10,6 +10,15 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
 {
     public class ReservationController : Controller
     {
+        MyDBContext _dbContextobj;
+
+        public ReservationController(MyDBContext _context)
+        {
+            _dbContextobj = _context;
+        }
+
+
+
         public IActionResult CheckAvailability(DateTime _arrivingDateTime, int _partySize, TableAreas _tableArea)
         {
             /* tableId | date | time
@@ -27,5 +36,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
 
             throw new NotImplementedException();
         }
+
+
     }
 }
