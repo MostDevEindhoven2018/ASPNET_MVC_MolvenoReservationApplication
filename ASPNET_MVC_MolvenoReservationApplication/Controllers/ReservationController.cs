@@ -10,11 +10,13 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
 {
     public class ReservationController : Controller
     {
+        //Creating an instance (object) of MyDBContext 
         MyDBContext _dbContextobj;
 
         public ReservationController(MyDBContext _context)
         {
             _dbContextobj = _context;
+            _dbContextobj.Database.EnsureCreated(); //Checks if a database is already created, if not it creates it
         }
 
 
