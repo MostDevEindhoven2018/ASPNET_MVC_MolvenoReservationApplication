@@ -8,7 +8,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication
 {
     public class Reservation
     {
-        public int _resId { get; set; }
+        public int ReservationID { get; set; }
         public Table _resTable { get; set; }
         public Guest _resGuest {  get; set; }
         public int _resPartySize {  get; set; }

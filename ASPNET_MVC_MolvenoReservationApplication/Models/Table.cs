@@ -9,7 +9,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication
 {
     public class Table
     {
-        public int _tableId { get; set; }
+        public int TableID { get; set; }
         public int _tableCapacity { get; set; }
         public TableAreas MyProperty { get; set; }
     }

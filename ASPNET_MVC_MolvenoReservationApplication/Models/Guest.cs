@@ -9,7 +9,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication
 {
     public class Guest
     {
-        public int _guestId { get; set; }
+        public int GuestID { get; set; }
 
         [StringLength(20)]
         [Required(ErrorMessage ="Please enter your name since it is required in order to make a reservation")]
