@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ASPNET_MVC_MolvenoReservationApplication.Models;
+using ASPNET_MVC_MolvenoReservationApplication.Logic;
 
 namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
 {
@@ -19,7 +20,10 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
             _dbContextobj.Database.EnsureCreated(); //Checks if a database is already created, if not it creates it
         }
 
-
+        public IActionResult Index()
+        {
+            return View("CreateReservationView");
+        }
 
         public IActionResult CheckAvailability(DateTime _arrivingDateTime, int _partySize, TableAreas _tableArea)
         {
