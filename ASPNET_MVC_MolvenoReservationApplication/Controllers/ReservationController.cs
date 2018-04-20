@@ -20,9 +20,10 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
             _dbContextobj.Database.EnsureCreated(); //Checks if a database is already created, if not it creates it
         }
 
-        public IActionResult Index()
+        public IActionResult Create()
         {
-            return View("CreateReservationView");
+            return View();
+            //return View("CreateReservationView");
         }
 
         public IActionResult CheckAvailability(DateTime _arrivingDateTime, int _partySize, TableAreas _tableArea)
@@ -43,7 +44,23 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
             throw new NotImplementedException();
         }
 
-       
+        [HttpPost]
+        public IActionResult Create(Reservation reservation)
+        {
+            if (ModelState.IsValid)
+            {
+                Reservation reser = new Reservation();
+                reser._resArrivingTime = reservation._resArrivingTime;
+                reser._resHidePrices = reservation._resHidePrices;
 
+                _dbContextobj.Add(reser);
+                _dbContextobj.SaveChanges();
+
+                return RedirectToAction("Index");
+            }
+
+            return View(reservation);
+
+        }
     }
 }
