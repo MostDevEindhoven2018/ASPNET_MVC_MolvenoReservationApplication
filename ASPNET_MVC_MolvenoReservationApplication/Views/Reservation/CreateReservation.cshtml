@@ -1,41 +1,165 @@
 ﻿@model Reservation
-@{
-    ViewData["Title"] = "CreateReservation";
-}
 
-<h2>Reservation at Molveno Restaurant</h2>
-<form asp-action="CreateReservation">
-    Name:
-    <input type="text" name="txt_GuestFullName" asp-for="_resGuest._guestName" />  @*//TEXT IS TEXBOX*@
 
-    <br />
-    <br />
+    @{
+        ViewData["Title"] = "CreateReservation";
+    }
 
-    Phone Number:
-    <input type="text" name="txt_GuestPhoneNumber" asp-for="_resGuest._guestPhone" />
+    @section PageStyles
+        {
 
-    <br />
-    <br />
 
-    E-mail:
-    <input type="email" name="e-box_GuestEmail" asp-for="_resGuest._guestEmail">
+        <style>
+            body 
+            {
+                font-family: 'Times New Roman';
+                background-color: white;
+            }
 
-    <br />
-    <br />
+            form {
+                width: 30%;
+                border: 2px solid grey;
+                padding-left: 7px;
+                
+            }
 
-    Hide Prices:
+            .Comments {
+                text-align: left;
+                margin: 0px 0px 0px 148px; /*top,right,bottom,left*/
+            }
 
-    <input type="checkbox" name="chk_HidePrices" value="Yes"><br>
+            .DateandName {
+                text-align: left;
+                margin: 0px 0px 0px 148px; /*top,right,bottom,left*/
+            }
 
-    <br />
-    <br />
+            .GuestEmailPhone {
+                text-align: left;
+                margin: 0px 0px 0px 149px;
+            }
 
-    @*Reservation Date:
-        <asp:Calender><asp:Calendar ID="Calendar1" runat="server>SelectionMode="DayWeekMonth" onselectionchanged="Calendar1_SelectionChanged">
-        </asp:Calendar>
+            .timelabel {
+                text-align: left;
+                margin: 0px 0px 0px 113px;
+            }
 
-        <br />
-        <br />*@
+            .hidepricelabel {
+                text-align: left;
+                margin: 0px 0px 0px 690px;
+            }
 
-    <input type="submit" value="Save" />
-</form>
+        </style>
+
+
+        <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+        <script src="https://code.jquery.com/ui/jquery-ui-git.js"></script>
+
+        <link href="https://code.jquery.com/ui/1.12.1/themes/sunny/jquery-ui.css" rel="stylesheet" />
+        <script>
+            function inPage() {
+
+
+                $("#arrivingDate").datepicker(
+                    {
+                        dateFormat: "d-M-yy",
+                        changeYear: true
+                    }
+                );
+
+            }
+        </script>
+   
+    }
+
+   <body onload="inPage();">
+
+        <h2>Reservation at Molveno Restaurant</h2>
+        <form asp-action="CreateReservation" id="form">
+
+          
+                
+
+                @*//div id="" =division of the page*@
+            <div class="form-group">
+                <br />
+                <br />
+                <label for="Date">Date : </label>
+                <input type="text" name="txt_Date" asp-for="_resArrivingTime" id="arrivingDate" class="DateandName" />
+            </div>
+                <br />
+                <br />
+                <label for="Name">Name : </label>
+                <input type="text" class="DateandName" name="txt_GuestFullName" asp-for="_resGuest._guestName" />
+
+                <br />
+                <br />
+
+                Number of guests:
+                <input type="number" class="GuestEmailPhone" name="nup_NumberOfGuests" asp-for="_resPartySize" />
+
+                <br />
+                <br />
+
+                Time:
+                <select name="Time" class="timelabel">
+                    <option value="Hour12">12</option>
+                    <option value="Hour1">13</option>
+                    <option value="Hour2">14</option>
+                    <option value="Hour3">15</option>
+                    <option value="Hour4">16</option>
+                    <option value="Hour5">17</option>
+                    <option value="Hour6">18</option>
+                    <option value="Hour7">19</option>
+                    <option value="Hour8">20</option>
+                    <option value="Hour9">21</option>
+                </select>
+
+                <select name="Time" class="timelabel2">
+                    <option value="Minutes00">00</option>
+                    <option value="Minutes15">15</option>
+                    <option value="Minutes30">30</option>
+                    <option value="Minutes45">45</option>
+                </select>
+
+                <br />
+                <br />
+                Phone Number:
+                <input type="text" class="GuestEmailPhone" name="txt_GuestPhoneNumber" asp-for="_resGuest._guestPhone" />
+
+                <br />
+                <br />
+
+
+                Email:
+                <input type="email" name="e-box_GuestEmail" asp-for="_resGuest._guestEmail" class="GuestEmailPhone">
+
+                <br />
+                <br />
+
+                Hide Prices:
+
+                <input type="checkbox" class="hidepricelabel" name="chk_HidePrices" value="Yes">
+
+
+                <br />
+                <br />
+
+
+
+                Comments:
+                <input type="text" class="Comments" name="txt_Comments" asp-for="_resComments" />
+
+                <br />
+                <br />
+
+
+                <input type="submit" value="Save" />
+            </div>
+            
+        </form>
+    </body>
+   
+ 
+
+
+
