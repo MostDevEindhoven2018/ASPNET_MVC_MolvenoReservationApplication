@@ -90,11 +90,11 @@
         <h2>Reservation at Molveno Restaurant</h2>
         <form asp-action="CreateReservation" id="form">
 
-            <label for="calendar_Date">Date: </label> <input type="text" name="calendar_Date" asp-for="_resArrivingTime" class="textbox" />
+            <label for="calendar_Date">Date: </label> <input type="text" name="calendar_Date" asp-for="_resArrivingTime" class="textbox" required />
             <br />
-            <label for="txt_GuestName">Name: </label> <input type="text" name="txt_GuestName" asp-for="_resGuest._guestName" class="textbox" />
+            <label for="txt_GuestName">Name: </label> <input type="text" name="txt_GuestName" asp-for="_resGuest._guestName" class="textbox" pattern="[A-Za-z]" max="25" required/>
             <br />
-            <label for="num_NumberofGuests">Number of guests:</label><input type="number" name="num_NumberofGuests" asp-for="_resPartySize" class="numberbox" />
+            <label for="num_NumberofGuests">Number of guests:</label><input type="number" name="num_NumberofGuests" asp-for="_resPartySize" class="numberbox" max="10" min="0" required/>
             <br />
             <label for="cmb_Time">Time:</label><select name="cmb_Minutes" asp-for="_resLeavingTime" class="comboboxMinutes">
                 <option value="Minutes00">00</option>
@@ -115,7 +115,7 @@
             </select>
             
             <br />
-            <label for:"txt_GuestPhoneNumber">Phone number:</label><input type="text" name="txt_GuestPhoneNumber" asp-for="_resGuest._guestPhone" class="textbox" />
+            <label for:"txt_GuestPhoneNumber">Phone number:</label><input type="text" name="txt_GuestPhoneNumber" asp-for="_resGuest._guestPhone" class="textbox" pattern= "[0-9]" />
             <br />
             <label for:"e-box_GuestEmail">Email:</label><input type="email" name="e-box_GuestEmail" asp-for="_resGuest._guestEmail" class="emailbox">
             <br />
