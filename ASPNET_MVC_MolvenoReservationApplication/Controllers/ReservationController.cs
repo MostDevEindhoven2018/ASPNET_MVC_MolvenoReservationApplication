@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ASPNET_MVC_MolvenoReservationApplication.Models;
+using ASPNET_MVC_MolvenoReservationApplication.Logic;
 
 namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
 {
@@ -36,7 +37,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
              * (1)Check if the specific table has the required capacity.
              */
 
-            throw new NotImplementedException();
+             return View();
         }
 
        
