@@ -9,6 +9,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Logic
     {
         public bool CheckDateAvailability(DateTime date)
         {
+
             throw new NotImplementedException();
         }
 

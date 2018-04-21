@@ -8,14 +8,14 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Data
 {
     public static class DbInitializer
     {
-        public static void Itianilize(MyDBContext context)
+        public static void Initialize(MyDBContext context)
         {
             context.Database.EnsureCreated();
 
-            if (context.Reservations.Any())
-            {
-                return;
-            }
+            //if (context.Reservations.Any())
+            //{
+            //    return;
+            //}
 
             var Guests = new Guest[]
             {
@@ -49,7 +49,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Data
                 context.Tables.Add(t);
             }
 
-
+            context.SaveChanges();
         }
     }
 }
