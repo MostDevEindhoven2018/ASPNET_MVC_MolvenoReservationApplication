@@ -17,35 +17,39 @@
             }
 
             form {
-                width: 30%;
-                border: 2px solid grey;
-                padding-left: 7px;
-                
+                width: 450px;
+                border: 2px solid blue;
+                padding-left: 20px;
+                padding-right:20px;
+                padding-top: 10px;
+                padding-bottom: 10px;
+            }
+            label {
+               margin:10px 0px 10px 0px;
+
             }
 
-            .Comments {
-                text-align: left;
-                margin: 0px 0px 0px 148px; /*top,right,bottom,left*/
+            .textbox{
+                float: right;
+               
             }
 
-            .DateandName {
-                text-align: left;
-                margin: 0px 0px 0px 148px; /*top,right,bottom,left*/
+            .numberbox{
+                float:right;
             }
 
-            .GuestEmailPhone {
-                text-align: left;
-                margin: 0px 0px 0px 149px;
+            .comboboxMinutes {
+                float: right;
             }
-
-            .timelabel {
-                text-align: left;
-                margin: 0px 0px 0px 113px;
+            .combobox{
+                float:right;
             }
-
-            .hidepricelabel {
-                text-align: left;
-                margin: 0px 0px 0px 690px;
+            
+            .emailbox{
+                float:right;
+            }
+            .checkbox{
+                float:right;
             }
 
         </style>
@@ -72,92 +76,49 @@
     }
 
    <body onload="inPage();">
-
+      
         <h2>Reservation at Molveno Restaurant</h2>
         <form asp-action="CreateReservation" id="form">
 
-          
-                
+            <label for="calendar_Date">Date: </label> <input type="text" name="calendar_Date" asp-for="_resArrivingTime" class="textbox" />
+            <br />
+            <label for="txt_GuestName">Name: </label> <input type="text" name="txt_GuestName" asp-for="_resGuest._guestName" class="textbox" />
+            <br />
+            <label for="num_NumberofGuests">Number of guests:</label><input type="number" name="num_NumberofGuests" asp-for="_resPartySize" class="numberbox" />
+            <br />
+            <label for="cmb_Time">Time:</label><select name="cmb_Minutes" asp-for="_resLeavingTime" class="comboboxMinutes">
+                <option value="Minutes00">00</option>
+                <option value="Minutes15">15</option>
+                <option value="Minutes30">30</option>
+                <option value="Minutes45">45</option>
+            </select><select name="cmb_Time" asp-for="_resLeavingTime" class="combobox">
+                <option value="Hour12">12</option>
+                <option value="Hour1">13</option>
+                <option value="Hour2">14</option>
+                <option value="Hour3">15</option>
+                <option value="Hour4">16</option>
+                <option value="Hour5">17</option>
+                <option value="Hour6">18</option>
+                <option value="Hour7">19</option>
+                <option value="Hour8">20</option>
+                <option value="Hour9">21</option>
+            </select>
+            
+            <br />
+            <label for:"txt_GuestPhoneNumber">Phone number:</label><input type="text" name="txt_GuestPhoneNumber" asp-for="_resGuest._guestPhone" class="textbox" />
+            <br />
+            <label for:"e-box_GuestEmail">Email:</label><input type="email" name="e-box_GuestEmail" asp-for="_resGuest._guestEmail" class="emailbox">
+            <br />
+            <label for:"chk_HidePrices">Hide Prices:</label><input type="checkbox" name="chk_HidePrices" asp-for="_resHidePrices" class="checkbox" >
+            <br />
+            <label for="txt_Comments">Comments:</label><input type="text" name="txt_Comments" asp-for="_resComments" class="textbox" />       
+            <br />
+            <input type="submit" value="Save" />
 
-                @*//div id="" =division of the page*@
-            <div class="form-group">
-                <br />
-                <br />
-                <label for="Date">Date : </label>
-                <input type="text" name="txt_Date" asp-for="_resArrivingTime" id="arrivingDate" class="DateandName" />
-            </div>
-                <br />
-                <br />
-                <label for="Name">Name : </label>
-                <input type="text" class="DateandName" name="txt_GuestFullName" asp-for="_resGuest._guestName" />
-
-                <br />
-                <br />
-
-                Number of guests:
-                <input type="number" class="GuestEmailPhone" name="nup_NumberOfGuests" asp-for="_resPartySize" />
-
-                <br />
-                <br />
-
-                Time:
-                <select name="Time" class="timelabel">
-                    <option value="Hour12">12</option>
-                    <option value="Hour1">13</option>
-                    <option value="Hour2">14</option>
-                    <option value="Hour3">15</option>
-                    <option value="Hour4">16</option>
-                    <option value="Hour5">17</option>
-                    <option value="Hour6">18</option>
-                    <option value="Hour7">19</option>
-                    <option value="Hour8">20</option>
-                    <option value="Hour9">21</option>
-                </select>
-
-                <select name="Time" class="timelabel2">
-                    <option value="Minutes00">00</option>
-                    <option value="Minutes15">15</option>
-                    <option value="Minutes30">30</option>
-                    <option value="Minutes45">45</option>
-                </select>
-
-                <br />
-                <br />
-                Phone Number:
-                <input type="text" class="GuestEmailPhone" name="txt_GuestPhoneNumber" asp-for="_resGuest._guestPhone" />
-
-                <br />
-                <br />
-
-
-                Email:
-                <input type="email" name="e-box_GuestEmail" asp-for="_resGuest._guestEmail" class="GuestEmailPhone">
-
-                <br />
-                <br />
-
-                Hide Prices:
-
-                <input type="checkbox" class="hidepricelabel" name="chk_HidePrices" value="Yes">
-
-
-                <br />
-                <br />
-
-
-
-                Comments:
-                <input type="text" class="Comments" name="txt_Comments" asp-for="_resComments" />
-
-                <br />
-                <br />
-
-
-                <input type="submit" value="Save" />
-            </div>
             
         </form>
     </body>
+
    
  
 
