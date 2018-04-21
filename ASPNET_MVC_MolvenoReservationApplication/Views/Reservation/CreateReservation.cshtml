@@ -13,20 +13,20 @@
             body 
             {
                 font-family: 'Times New Roman';
-                background-color: white;
+                background-color: lightblue;
             }
 
             form {
                 width: 450px;
-                border: 2px solid blue;
+                border: 2px solid grey;
                 padding-left: 20px;
                 padding-right:20px;
                 padding-top: 10px;
                 padding-bottom: 10px;
             }
             label {
-               margin:10px 0px 10px 0px;
-
+                margin: 10px 0px 10px 0px;
+                background-color: lightgoldenrodyellow;
             }
 
             .textbox{
@@ -51,6 +51,16 @@
             .checkbox{
                 float:right;
             }
+
+            .OtherProblems {
+                position: center;
+                border: 1px solid blue;
+                background-color: lightgoldenrodyellow;
+                padding: 20px;
+                font-weight:bold;
+                color:black;
+            }
+
 
         </style>
 
@@ -113,6 +123,7 @@
             <br />
             <label for="txt_Comments">Comments:</label><input type="text" name="txt_Comments" asp-for="_resComments" class="textbox" />       
             <br />
+            <label for:"AnyotherProblem" class="OtherProblems">Feel free to contact us on 0000000000 if you experience any problems.</label>
             <input type="submit" value="Save" />
 
             

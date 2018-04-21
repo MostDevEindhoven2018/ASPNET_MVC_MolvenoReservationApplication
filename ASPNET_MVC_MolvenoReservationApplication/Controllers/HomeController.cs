@@ -17,14 +17,14 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
 
         public IActionResult About()
         {
-            ViewData["Message"] = "Your application description page.";
+            ViewData["Message"] = "About us:";
 
             return View();
         }
 
         public IActionResult Contact()
         {
-            ViewData["Message"] = "Your contact page.";
+            ViewData["Message"] = "Contact info:";
 
             return View();
         }
