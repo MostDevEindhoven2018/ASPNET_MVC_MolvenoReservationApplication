@@ -41,7 +41,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
              * (1)Check if the specific table has the required capacity.
              */
 
-            throw new NotImplementedException();
+             return View();
         }
 
         [HttpPost]
