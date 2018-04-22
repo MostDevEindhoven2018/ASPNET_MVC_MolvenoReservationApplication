@@ -1,137 +1,161 @@
 ﻿@model Reservation
 
 
-    @{
-        ViewData["Title"] = "CreateReservation";
-    }
+@{
+    ViewData["Title"] = "CreateReservation";
+}
 
-    @section PageStyles
-        {
-
-
-        <style>
-            body 
-            {
-                font-family: 'Times New Roman';
-                background-color: lightblue;
-            }
-
-            form {
-                width: 450px;
-                border: 2px solid grey;
-                padding-left: 20px;
-                padding-right:20px;
-                padding-top: 10px;
-                padding-bottom: 10px;
-            }
-            label {
-                margin: 10px 0px 10px 0px;
-                background-color: lightgoldenrodyellow;
-            }
-
-            .textbox{
-                float: right;
-               
-            }
-
-            .numberbox{
-                float:right;
-            }
-
-            .comboboxMinutes {
-                float: right;
-            }
-            .combobox{
-                float:right;
-            }
-            
-            .emailbox{
-                float:right;
-            }
-            .checkbox{
-                float:right;
-            }
-
-            .OtherProblems {
-                position: center;
-                border: 1px solid blue;
-                background-color: lightgoldenrodyellow;
-                padding: 20px;
-                font-weight:bold;
-                color:black;
-            }
+@section PageStyles
+    {
 
 
-        </style>
+    <style>
+        body {
+            font-family: 'Times New Roman';
+            background-color: lightblue;
+        }
+
+        form {
+            width: 450px;
+            border: 2px solid grey;
+            padding-left: 20px;
+            padding-right: 20px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+
+        label {
+            margin: 10px 0px 10px 0px;
+            background-color: lightgoldenrodyellow;
+        }
+
+        .textbox {
+            float: right;
+        }
+
+        .numberbox {
+            float: right;
+        }
+
+        .comboboxMinutes {
+            float: right;
+        }
+
+        .combobox {
+            float: right;
+        }
+
+        .emailbox {
+            float: right;
+        }
+
+        .checkbox {
+            float: right;
+        }
+
+        .OtherProblems {
+            position: center;
+            border: 1px solid blue;
+            background-color: lightgoldenrodyellow;
+            padding: 20px;
+            font-weight: bold;
+            color: black;
+        }
+    </style>
 
 
-        <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-        <script src="https://code.jquery.com/ui/jquery-ui-git.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://code.jquery.com/ui/jquery-ui-git.js"></script>
 
-        <link href="https://code.jquery.com/ui/1.12.1/themes/sunny/jquery-ui.css" rel="stylesheet" />
-        <script>
-            function inPage() {
+    <link href="https://code.jquery.com/ui/1.12.1/themes/sunny/jquery-ui.css" rel="stylesheet" />
+    <script>
+        function inPage() {
 
 
-                $("#arrivingDate").datepicker(
-                    {
-                        dateFormat: "d-M-yy",
-                        changeYear: true
-                    }
-                );
+            $("#arrivingDate").datepicker(
+                {
+                    dateFormat: "d-M-yy",
+                    changeYear: true
+                }
+            );
 
-            }
-        </script>
-   
-    }
+        }
+    </script>
 
-   <body onload="inPage();">
-      
-        <h2>Reservation at Molveno Restaurant</h2>
-        <form asp-action="CreateReservation" id="form">
+}
 
-            <label for="calendar_Date">Date: </label> <input type="date" name="calendar_Date" asp-for="_resArrivingTime" class="textbox" required min="2018-04-23" max="2020-04-23" />
-            <br />
-            <label for="txt_GuestName">Name: </label> <input type="text" name="txt_GuestName" asp-for="_resGuest._guestName" class="textbox" pattern="[A-Za-z]" max="25" required/>
-            <br />
-            <label for="num_NumberofGuests">Number of guests:</label><input type="number" name="num_NumberofGuests" asp-for="_resPartySize" class="numberbox" max="10" min="0" required/>
-            <br />
-            <label for="cmb_Time">Time:</label><select name="cmb_Minutes" asp-for="_resLeavingTime" class="comboboxMinutes">
-                <option value="Minutes00">00</option>
-                <option value="Minutes15">15</option>
-                <option value="Minutes30">30</option>
-                <option value="Minutes45">45</option>
-            </select><select name="cmb_Time" asp-for="_resLeavingTime" class="combobox">
-                <option value="Hour12">12</option>
-                <option value="Hour1">13</option>
-                <option value="Hour2">14</option>
-                <option value="Hour3">15</option>
-                <option value="Hour4">16</option>
-                <option value="Hour5">17</option>
-                <option value="Hour6">18</option>
-                <option value="Hour7">19</option>
-                <option value="Hour8">20</option>
-                <option value="Hour9">21</option>
-            </select>
-            
-            <br />
-            <label for:"txt_GuestPhoneNumber">Phone number:</label><input type="text" name="txt_GuestPhoneNumber" asp-for="_resGuest._guestPhone" class="textbox" pattern= "[0-9]" />
-            <br />
-            <label for:"e-box_GuestEmail">Email:</label><input type="email" name="e-box_GuestEmail" asp-for="_resGuest._guestEmail" class="emailbox">
-            <br />
-            <label for:"chk_HidePrices">Hide Prices:</label><input type="checkbox" name="chk_HidePrices" asp-for="_resHidePrices" class="checkbox" >
-            <br />
-            <label for="txt_Comments">Comments:</label><input type="text" name="txt_Comments" asp-for="_resComments" class="textbox" />       
-            <br />
-            <label for:"AnyotherProblem" class="OtherProblems">Feel free to contact us on 0000000000 if you experience any problems.</label>
-            <input type="submit" value="Save" />
+<body onload="inPage();">
 
-            
-        </form>
-    </body>
+    <h2>Reservation at Molveno Restaurant</h2>
+    <form asp-action="Create" id="form">
 
-   
- 
+        <label for="calendar_Date">Date: </label> <!--input type="date" name="calendar_Date" asp-for="_resArrivingTime" class="textbox" required min="2018-04-23" max="2020-04-23" /-->
+        <div class='input-group date' id='datetimepicker1'>
+            <input type='text' class="form-control" asp-for="_resArrivingTime" />
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar"></span>
+            </span>
+        </div>
+        <br />
+        <label for="txt_GuestName">Name: </label> <input type="text" name="txt_GuestName" asp-for="_resGuest._guestName" class="textbox" pattern="[A-Za-z]*" max="25" required />
+        <br />
+        <label for="num_NumberofGuests">Number of guests:</label><input type="number" name="num_NumberofGuests" asp-for="_resPartySize" class="numberbox" max="10" min="0" required />
+        <br />
+        <div class="container">
+            <div class="row">
+                <div class='col-sm-6'>
+                    <div class="form-group">
+                        <div class='input-group date' id='datetimepicker1'>
+                            <input type='text' class="form-control" asp-for="_resLeavingTime"/>
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <script type="text/javascript">
+                    $(function () {
+                        $('#datetimepicker1').datetimepicker();
+                    });
+                </script>
+            </div>
+        </div>
+        <!--<label for="cmb_Time">Time:</label><select name="cmb_Minutes" asp-for="_resLeavingTime" class="comboboxMinutes">
+            <option value="Minutes00">00</option>
+            <option value="Minutes15">15</option>
+            <option value="Minutes30">30</option>
+            <option value="Minutes45">45</option>
+        </select><select name="cmb_Time" asp-for="_resLeavingTime" class="combobox">
+            <option value="Hour12">12</option>
+            <option value="Hour1">13</option>
+            <option value="Hour2">14</option>
+            <option value="Hour3">15</option>
+            <option value="Hour4">16</option>
+            <option value="Hour5">17</option>
+            <option value="Hour6">18</option>
+            <option value="Hour7">19</option>
+            <option value="Hour8">20</option>
+            <option value="Hour9">21</option>
+        </select>-->
+
+        <br />
+        <label for:"txt_GuestPhoneNumber">Phone number:</label><input type="text" name="txt_GuestPhoneNumber" asp-for="_resGuest._guestPhone" class="textbox" pattern="[0-9]*" />
+        <br />
+        <label for:"e-box_GuestEmail">Email:</label><input type="email" name="e-box_GuestEmail" asp-for="_resGuest._guestEmail" class="emailbox">
+        <br />
+        <label for:"chk_HidePrices">Hide Prices:</label><input type="checkbox" name="chk_HidePrices" asp-for="_resHidePrices" class="checkbox">
+        <br />
+        <label for="txt_Comments">Comments:</label><input type="text" name="txt_Comments" asp-for="_resComments" class="textbox" />
+        <br />
+        <label for:"AnyotherProblem" class="OtherProblems">Feel free to contact us on 0000000000 if you experience any problems.</label>
+        <input type="submit" value="Save" />
+
+
+    </form>
+</body>
+
+
+
 
 
 

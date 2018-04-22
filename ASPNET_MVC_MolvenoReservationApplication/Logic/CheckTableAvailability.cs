@@ -16,9 +16,21 @@ using Microsoft.Data.Sqlite;
 namespace ASPNET_MVC_MolvenoReservationApplication.Logic
 {
         
-    public class CheckTableAvailability : DbContext
+    public class CheckTableAvailability
     {
-               
+        private MyDBContext _dbContext;
+        private Reservation _reservation;
+
+        public CheckTableAvailability(MyDBContext context, Reservation reservation)
+        {
+            _dbContext = context;
+            _reservation = reservation;
+        }               
+
+        public bool CheckPartySize()
+        {
+            return false;
+        }
 
         // Make lists
         // listReservationDate: list with existing reservations that have the same reservation date as the current reservation

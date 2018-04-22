@@ -32,7 +32,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
         public IActionResult Create()
         {
             return View();
-            //return View("CreateReservationView");
+            //return View("CreateReservation");
         }
 
         public IActionResult CheckAvailability(DateTime _arrivingDateTime, int _partySize, TableAreas _tableArea)
@@ -71,6 +71,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
         {
             if (ModelState.IsValid)
             {
+                //Logic.CheckTableAvailability ca = new CheckTableAvailability();
                 _dbContextobj.Add(reservation);
                 await _dbContextobj.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
