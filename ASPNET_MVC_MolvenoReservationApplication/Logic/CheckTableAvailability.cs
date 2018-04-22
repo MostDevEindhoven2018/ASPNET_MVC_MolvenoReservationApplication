@@ -130,11 +130,11 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Logic
             using (var context = new MyDBContext(optionsBuilder.Options))
             {
                 var query = from res in context.Tables
-                            select new Table
+                            select new Table()
                             {
                                 TableID = res.TableID,
                                 _tableCapacity = res._tableCapacity,
-                                MyProperty = res.MyProperty
+                                _tableArea = res._tableArea
                             };
                 listTables = query.ToList();
             }

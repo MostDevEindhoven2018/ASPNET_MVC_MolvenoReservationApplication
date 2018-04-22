@@ -48,67 +48,67 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
             /// +++++++++++++++++++++++++++++++++++++++++++++++++++++++
             /// FILL DATABASE START
 
-            var table1 = new Table
-            {
-                // Can't set the ID, or else error:: SqlException: Cannot insert explicit value for identity column in table 'Tables' when IDENTITY_INSERT is set to OFF.
-                //TableID = 1,
-                _tableCapacity = 4,
-                MyProperty = TableAreas.Window
-            };
+            //var table1 = new Table
+            //{
+            //    // Can't set the ID, or else error:: SqlException: Cannot insert explicit value for identity column in table 'Tables' when IDENTITY_INSERT is set to OFF.
+            //    //TableID = 1,
+            //    _tableCapacity = 4,
+            //    MyProperty = TableAreas.Window
+            //};
 
-            var res1 = new Reservation
-            {
-                //ReservationID = 1,
-                _resTable = table1,
-                 _resPartySize=3,
-                _resArrivingTime= new DateTime (2018,04,27,12,00,00),
-                _resHidePrices = false,
-                _resComments = ""
-            };
+            //var res1 = new Reservation
+            //{
+            //    //ReservationID = 1,
+            //    _resTable = table1,
+            //     _resPartySize=3,
+            //    _resArrivingTime= new DateTime (2018,04,27,12,00,00),
+            //    _resHidePrices = false,
+            //    _resComments = ""
+            //};
 
-            var table2 = new Table
-            {
-                //TableID = 2,
-                _tableCapacity = 6,
-                MyProperty = TableAreas.Fireplace
-            };
+            //var table2 = new Table
+            //{
+            //    //TableID = 2,
+            //    _tableCapacity = 6,
+            //    MyProperty = TableAreas.Fireplace
+            //};
 
-            var res2 = new Reservation
-            {
-                //ReservationID = 2,
-                _resTable = table2,
-                _resPartySize = 5,
-                _resArrivingTime = new DateTime(2018, 04, 27, 14, 00, 00),
-                _resHidePrices = false,
-                _resComments = ""
-            };
+            //var res2 = new Reservation
+            //{
+            //    //ReservationID = 2,
+            //    _resTable = table2,
+            //    _resPartySize = 5,
+            //    _resArrivingTime = new DateTime(2018, 04, 27, 14, 00, 00),
+            //    _resHidePrices = false,
+            //    _resComments = ""
+            //};
 
-            var res3 = new Reservation
-            {
-                //ReservationID = 3,
-                _resTable = table2,
-                _resPartySize = 6,
-                _resArrivingTime = new DateTime(2018, 04, 27, 17, 00, 00),
-                _resHidePrices = false,
-                _resComments = ""
-            };
+            //var res3 = new Reservation
+            //{
+            //    //ReservationID = 3,
+            //    _resTable = table2,
+            //    _resPartySize = 6,
+            //    _resArrivingTime = new DateTime(2018, 04, 27, 17, 00, 00),
+            //    _resHidePrices = false,
+            //    _resComments = ""
+            //};
 
-            var table3 = new Table
-            {
-                //TableID = 3,
-                _tableCapacity = 2,
-                MyProperty = TableAreas.Lake
-            };
+            //var table3 = new Table
+            //{
+            //    //TableID = 3,
+            //    _tableCapacity = 2,
+            //    MyProperty = TableAreas.Lake
+            //};
 
-            var res4 = new Reservation
-            {
-                //ReservationID = 4,
-                _resTable = table3,
-                _resPartySize = 2,
-                _resArrivingTime = new DateTime(2018, 04, 27, 15, 00, 00),
-                _resHidePrices = false,
-                _resComments = ""
-            };
+            //var res4 = new Reservation
+            //{
+            //    //ReservationID = 4,
+            //    _resTable = table3,
+            //    _resPartySize = 2,
+            //    _resArrivingTime = new DateTime(2018, 04, 27, 15, 00, 00),
+            //    _resHidePrices = false,
+            //    _resComments = ""
+            //};
 
             //_dbContextobj.Tables.Add(table1);
             //_dbContextobj.Reservations.Add(res1);
