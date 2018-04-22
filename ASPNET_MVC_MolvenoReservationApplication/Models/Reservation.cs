@@ -18,6 +18,4 @@ namespace ASPNET_MVC_MolvenoReservationApplication
         public string _resComments { get; set; }
 
     }
-        
-    
 }

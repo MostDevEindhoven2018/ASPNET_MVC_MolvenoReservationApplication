@@ -18,8 +18,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Logic
         
     public class CheckTableAvailability : DbContext
     {
-        
-       
+               
 
         // Make lists
         // listReservationDate: list with existing reservations that have the same reservation date as the current reservation
