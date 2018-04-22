@@ -90,7 +90,7 @@
         <h2>Reservation at Molveno Restaurant</h2>
         <form asp-action="CreateReservation" id="form">
 
-            <label for="calendar_Date">Date: </label> <input type="text" name="calendar_Date" asp-for="_resArrivingTime" class="textbox" required />
+            <label for="calendar_Date">Date: </label> <input type="date" name="calendar_Date" asp-for="_resArrivingTime" class="textbox" required min="2018-04-23" max="2020-04-23" />
             <br />
             <label for="txt_GuestName">Name: </label> <input type="text" name="txt_GuestName" asp-for="_resGuest._guestName" class="textbox" pattern="[A-Za-z]" max="25" required/>
             <br />

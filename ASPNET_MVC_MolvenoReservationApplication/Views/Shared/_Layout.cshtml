@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - ASPNET_MVC_MolvenoReservationApplication</title>
+    <title>@ViewData["Title"] - MOLVENO RESTAURANT</title>
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -35,6 +35,7 @@
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+                    <li><a asp-area="" asp-controller="Reservation" asp-action="CreateReservation">Reserve a table</a></li>
                 </ul>
             </div>
         </div>
@@ -43,7 +44,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; 2018 - ASPNET_MVC_MolvenoReservationApplication</p>
+            <p>&copy; Molveno Restaurant</p>
         </footer>
     </div>
 
