@@ -1,7 +1,23 @@
-﻿
+﻿@model List<Reservation>
 @{
     ViewData["Title"] = "CheckAvailability";
 }
 
 <h2>CheckAvailability</h2>
+
+<table class="table">
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.ReservationID</td>
+            <td>@item._resArrivingTime</td>
+            <td>@item._resPartySize</td>
+            <td>@item._resGuest</td>
+            <td>@item._resTable</td>
+            <td>@item._resHidePrices</td>
+        </tr>
+    }
+
+</table>
 
