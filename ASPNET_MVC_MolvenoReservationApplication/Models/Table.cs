@@ -11,6 +11,17 @@ namespace ASPNET_MVC_MolvenoReservationApplication
     {
         public int TableID { get; set; }
         public int _tableCapacity { get; set; }
-        public TableAreas MyProperty { get; set; }
+        public TableAreas _tableArea { get; set; }
+
+        public Table(int capacity)
+        {
+            this._tableCapacity = capacity;
+        }
+
+        public Table(int capacity, TableAreas area)
+        {
+            this._tableCapacity = capacity;
+            this._tableArea = area;
+        }
     }
 }
