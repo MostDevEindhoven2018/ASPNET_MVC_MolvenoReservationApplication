@@ -48,12 +48,12 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
             /// +++++++++++++++++++++++++++++++++++++++++++++++++++++++
             /// FILL DATABASE START
 
-            var table1 = new Table
+            var table1 = new Table(4)
             {
                 // Can't set the ID, or else error:: SqlException: Cannot insert explicit value for identity column in table 'Tables' when IDENTITY_INSERT is set to OFF.
                 //TableID = 1,
                 _tableCapacity = 4,
-                MyProperty = TableAreas.Window
+                _tableArea = TableAreas.Window
             };
 
             var res1 = new Reservation
@@ -66,11 +66,11 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
                 _resComments = ""
             };
 
-            var table2 = new Table
+            var table2 = new Table(6)
             {
                 //TableID = 2,
                 _tableCapacity = 6,
-                MyProperty = TableAreas.Fireplace
+                _tableArea = TableAreas.Fireplace
             };
 
             var res2 = new Reservation
@@ -93,11 +93,11 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
                 _resComments = ""
             };
 
-            var table3 = new Table
+            var table3 = new Table(2)
             {
                 //TableID = 3,
                 _tableCapacity = 2,
-                MyProperty = TableAreas.Lake
+                _tableArea = TableAreas.Lake
             };
 
             var res4 = new Reservation

@@ -40,14 +40,10 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Logic
         {
             // https://docs.microsoft.com/en-us/ef/core/miscellaneous/testing/sqlite#writing-tests
             // Connect to database
-            //var connection = new SqliteConnection("DataSource=:memory:");
-            //var connection = new SqliteConnection("DataSource=C:/Program Files/Microsoft SQL Server/MSSQL14.MSSQLSERVER/MSSQL/DATA/ReservationDB.db");
-            //var sqlCon = new SqliteConnection("Data Source=.\\SQLEXPRESS;AttachDBFileName=|DataDirectory|\\ReservationDB.mdf; integrated security=true;user instance=true;");
 
-
+            ///?????? Can't connect to database from this class. Can connect from Controller.
             ////@"Data Source=(MachineName;IntstanceName=Sql server name); Intitial Catalog (DBName); Integrated Security=True"
             SqlConnection sqlCon = new SqlConnection(@"Data Source=.\\MSSQL14.MSSQLSERVER; Initial Catalog = ReservationDB; Integrated Security=True");
-
 
             var options = new DbContextOptionsBuilder<MyDBContext>().UseSqlite(sqlCon).Options;
 
@@ -103,7 +99,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Logic
                 }
             }
 
-            // If listReservationDateTime has no records, then overlapping date and time of current reservations with existing ones
+            // Checks if the list is empty, if it is empty, there a no reservations on time on that day and returns true (can make a reservation), or else returns false
             if (listReservationDateTime.Count() == 0)
             {
                 return true;
@@ -121,37 +117,36 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Logic
         /// <returns></returns>
         public bool CheckTimePerTable()
         {
+            // https://docs.microsoft.com/en-us/ef/core/miscellaneous/testing/sqlite#writing-tests
+            // Connect to database
+            ////@"Data Source=(MachineName;IntstanceName=Sql server name); Intitial Catalog (DBName); Integrated Security=True"
+            SqlConnection sqlCon = new SqlConnection(@"Data Source=.\\MSSQL14.MSSQLSERVER; Initial Catalog = ReservationDB; Integrated Security=True");
 
+            var options = new DbContextOptionsBuilder<MyDBContext>().UseSqlite(sqlCon).Options;
 
-            //Select records of the existing reservations that have the same reservation date as the current reservation
-            var optionsBuilder = new DbContextOptionsBuilder<MyDBContext>();
-            optionsBuilder.UseSqlite("Data Source=ReservationDB.db");
-
-            using (var context = new MyDBContext(optionsBuilder.Options))
+            using (var context = new MyDBContext(options))
             {
+                // https://stackoverflow.com/questions/19238413/how-to-display-foreign-key-values-in-mvc-view
+                // Makes a list of all tables with their ID and capacity
                 var query = from res in context.Tables
-                            select new Table
-                            {
-                                TableID = res.TableID,
-                                _tableCapacity = res._tableCapacity,
-                                MyProperty = res.MyProperty
-                            };
+                     select new Table(0)
+                     {
+                         TableID = res.TableID,
+                         _tableCapacity = res._tableCapacity,
+                         _tableArea = res._tableArea
+                     };
                 listTables = query.ToList();
             }
 
-
-
-
-
+            // Test if list with Table IDs (listTables) are present in the list with reservations that have overlapping reservation time and date (listReservationDateTime)
+            // Add a table record (with tableID) to the list (listFreeTables) to get a list of tables that do not have overlapping reseration time and date
             var test2NotInTest1 = listTables.Where(t2 => !listReservationDateTime.Any(t1 => t2.Equals(t1)));
             foreach (Table i in test2NotInTest1)
             {
                 listFreeTables.Add(i);
             }
 
-            Console.ReadKey();
-
-            // If listReservationDateTime has no records, then overlapping date and time of current reservations with existing ones
+            // If listFreeTables has no records, then there are not an tables free on the  current reservation date and time. Return false (can't make a reservation)
             if (listFreeTables.Count() == 0)
             {
                 return false;
@@ -164,7 +159,27 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Logic
 
         public bool CheckPartySize(int partySize)
         {
-            throw new NotImplementedException();
+            foreach (Table table in listFreeTables)
+            {
+                if (table._tableCapacity <= partySize)
+                {
+                    listFreeTablesNumberOfGuest.Add(table);
+                }
+                //??? Possible to link tables? Table right = TableID#; Table left TableID#. 
+                //??? If a table with ID=A is free and Table left or right is also free, we can sum the number of _tableCapacity for that table to be able to place more people in a reservation
+                //else if ()
+
+            }
+
+            // If the list with tables that have enough seats for the current party size is zero, then returns false (can't make reservation with the partysize on the current reservation time and date)
+            if (listFreeTablesNumberOfGuest.Count() == 0)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
     }
 }
