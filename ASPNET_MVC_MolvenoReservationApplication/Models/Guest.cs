@@ -26,7 +26,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication
         public Guest(string name, string phoneOrEmail)
         {
             this._guestName = name;
-            if (int.TryParse(phoneOrEmail, out int n))
+            if (long.TryParse(phoneOrEmail, out long n))
             {
                 this._guestPhone = phoneOrEmail;
             }
