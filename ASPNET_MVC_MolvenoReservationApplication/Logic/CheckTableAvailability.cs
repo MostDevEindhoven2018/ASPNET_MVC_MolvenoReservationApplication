@@ -47,8 +47,10 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Logic
                                     
             using (var context = new MyDBContext(options))
             {
+                
+
                 // Select records of the existing reservations that have the same reservation date as the current reservation
-                var query = from res in context.Reservations
+                var query = from res in context.Reservations.Include (p => p._resTable)
                             where res._resArrivingTime == date
                             select res;
             // Saves the seleted records from the database to the list "listReservationDate"
@@ -56,6 +58,8 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Logic
 
             }
 
+
+            
             connection.Close();
 
 

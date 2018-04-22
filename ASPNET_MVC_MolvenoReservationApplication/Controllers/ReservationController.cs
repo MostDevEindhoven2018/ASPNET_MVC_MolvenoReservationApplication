@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ASPNET_MVC_MolvenoReservationApplication.Models;
 using ASPNET_MVC_MolvenoReservationApplication.Logic;
+using ASPNET_MVC_MolvenoReservationApplication.Controllers;
+using System.Data;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Data.Sqlite;
 
 namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
 {
@@ -114,7 +118,9 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
             /// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
             /// 
 
-            DateTime Curr_res_date = new DateTime(2018, 04, 27, 15, 00, 00);
+            DateTime Curr_res_arr = new DateTime(2018, 04, 27, 15, 0, 0);
+            
+
 
 
             //CheckTableAvailability Checkings = new CheckTableAvailability();
@@ -127,8 +133,8 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
 
             //return View(list);
 
-            var query = from res in _dbContextobj.Reservations
-                        where res._resArrivingTime == Curr_res_date
+            var query = from res in _dbContextobj.Reservations/*.Include (p=>p _dbContextobj.Tables)*/
+                        where res._resArrivingTime.Date == Curr_res_arr.Date
                         select res;
             // Saves the seleted records from the database to the list "listReservationDate"
             
