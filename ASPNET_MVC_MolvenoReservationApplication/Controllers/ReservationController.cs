@@ -45,8 +45,8 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
              * (1)Check if the specific table has the required capacity.
              */
              
-            /// +++++++++++++++++++++++++++++++++++++++++++++++++++++++
-            /// FILL DATABASE START
+            throw new NotImplementedException();
+        }
 
             //var table1 = new Table
             //{
