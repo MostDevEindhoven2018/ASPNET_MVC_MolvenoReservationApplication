@@ -47,12 +47,12 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Logic
             // Info tp get values of foreign keys in the table https://stackoverflow.com/questions/19238413/how-to-display-foreign-key-values-in-mvc-view
             // Select records of the existing reservations that have the same reservation date as the current reservation
             var query = from res in _DbContext.Reservations.Include(p => p._resTable)
-                        where res._resArrivingTime.Date == date.Date
+                        //where res._resArrivingTime.Date == date.Date
                         select res;
             // Saves the seleted records from the database to the list "listReservationDate"
-            listReservationDate = query.ToList();
+            //listReservationDate = query.ToList();
 
-            return listReservationDate;
+            return query.ToList();/*listReservationDate*/;
 
 
             //// Checks if the list is empty, if it is empty, there a no reservations for that day and returns true (can make a reservation), or else returns false
