@@ -125,7 +125,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
 
             DateTime Curr_res_arr = new DateTime(2018, 04, 27, 15, 0, 0);
             
-            CheckTableAvailability Checkings = new CheckTableAvailability();
+            CheckTableAvailability Checkings = new CheckTableAvailability(_dbContextobj);
             
             List< Reservation> list1= Checkings.CheckDateAvailability(Curr_res_arr);
 

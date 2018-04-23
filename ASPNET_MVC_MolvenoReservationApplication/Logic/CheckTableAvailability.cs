@@ -17,10 +17,17 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Logic
 {
         
     public class CheckTableAvailability : DbContext
-    {
-        
-       
+    {        
+        // Connect to database that was opened by the ReservationController
+        // Make a new object of type DBContext to use for this class
+        public MyDBContext _DbContext;
 
+        // Make a constructor of the CheckTableAvailability with as parameter the DBContext(here can you input the context that was opnened in the ReservationController)
+        public CheckTableAvailability(MyDBContext dbContext)
+        {
+            _DbContext = dbContext;
+        }
+        
         // Make lists
         // listReservationDate: list with existing reservations that have the same reservation date as the current reservation
         // listReservationDateTime: list with existing reservations that have the same reservation date and time as the current reservation
@@ -30,7 +37,6 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Logic
         List<Table> listFreeTables = new List<Table>();
         List<Table> listFreeTablesNumberOfGuest = new List<Table>();
 
-        /// https://www.youtube.com/watch?v=Wt9p1og8aSo
         /// <summary>
         /// From database Reservations gets the existing reservations that have the same date as the current reservation.
         /// </summary>
@@ -38,26 +44,13 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Logic
         /// <returns>Returns a bool. True: No existing reservations on the current reservation date. False: Existing reservations on the current reservation date</returns>
         public /*bool*/ List<Reservation> CheckDateAvailability(DateTime date)
         {
-            // https://docs.microsoft.com/en-us/ef/core/miscellaneous/testing/sqlite#writing-tests
-            // Connect to database
-
-            ///?????? Can't connect to database from this class. Can connect from Controller.
-            ////@"Data Source=(MachineName;IntstanceName=Sql server name); Intitial Catalog (DBName); Integrated Security=True"
-            SqlConnection sqlCon = new SqlConnection(@"Data Source=.\\MSSQL14.MSSQLSERVER; Initial Catalog = ReservationDB; Integrated Security=True");
-
-            var options = new DbContextOptionsBuilder<MyDBContext>().UseSqlite(sqlCon).Options;
-
-            using (var context = new MyDBContext(options))
-            {
-                // https://stackoverflow.com/questions/19238413/how-to-display-foreign-key-values-in-mvc-view
-                // Select records of the existing reservations that have the same reservation date as the current reservation
-                var query = from res in context.Reservations.Include(p => p._resTable)
-                            where res._resArrivingTime.Date == date.Date
-                            select res;
-                // Saves the seleted records from the database to the list "listReservationDate"
-                listReservationDate = query.ToList();
-
-            }          
+            // Info tp get values of foreign keys in the table https://stackoverflow.com/questions/19238413/how-to-display-foreign-key-values-in-mvc-view
+            // Select records of the existing reservations that have the same reservation date as the current reservation
+            var query = from res in _DbContext.Reservations.Include(p => p._resTable)
+                        where res._resArrivingTime.Date == date.Date
+                        select res;
+            // Saves the seleted records from the database to the list "listReservationDate"
+            listReservationDate = query.ToList();
 
             return listReservationDate;
 
