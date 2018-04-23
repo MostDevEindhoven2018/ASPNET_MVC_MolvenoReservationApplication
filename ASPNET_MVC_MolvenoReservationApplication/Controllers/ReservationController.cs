@@ -30,7 +30,14 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
             //return View("CreateReservationView");
         }
 
-        public IActionResult CheckAvailability(DateTime _arrivingDateTime, int _partySize, TableAreas _tableArea)
+        
+
+        
+
+        
+        
+
+        public IActionResult CheckAvailability(DateTime _arrivingDateTime, int _partySize/*, TableAreas _tableArea*/)
         {
             /* tableId | date | time
              * 
@@ -44,100 +51,13 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
              * 
              * (1)Check if the specific table has the required capacity.
              */
-             
-            /// +++++++++++++++++++++++++++++++++++++++++++++++++++++++
-            /// FILL DATABASE START
-
-            var table1 = new Table(4)
-            {
-                // Can't set the ID, or else error:: SqlException: Cannot insert explicit value for identity column in table 'Tables' when IDENTITY_INSERT is set to OFF.
-                //TableID = 1,
-                _tableCapacity = 4,
-                _tableArea = TableAreas.Window
-            };
-
-            var res1 = new Reservation
-            {
-                //ReservationID = 1,
-                _resTable = table1,
-                 _resPartySize=3,
-                _resArrivingTime= new DateTime (2018,04,27,12,00,00),
-                _resHidePrices = false,
-                _resComments = ""
-            };
-
-            var table2 = new Table(6)
-            {
-                //TableID = 2,
-                _tableCapacity = 6,
-                _tableArea = TableAreas.Fireplace
-            };
-
-            var res2 = new Reservation
-            {
-                //ReservationID = 2,
-                _resTable = table2,
-                _resPartySize = 5,
-                _resArrivingTime = new DateTime(2018, 04, 27, 14, 00, 00),
-                _resHidePrices = false,
-                _resComments = ""
-            };
-
-            var res3 = new Reservation
-            {
-                //ReservationID = 3,
-                _resTable = table2,
-                _resPartySize = 6,
-                _resArrivingTime = new DateTime(2018, 04, 27, 17, 00, 00),
-                _resHidePrices = false,
-                _resComments = ""
-            };
-
-            var table3 = new Table(2)
-            {
-                //TableID = 3,
-                _tableCapacity = 2,
-                _tableArea = TableAreas.Lake
-            };
-
-            var res4 = new Reservation
-            {
-                //ReservationID = 4,
-                _resTable = table3,
-                _resPartySize = 2,
-                _resArrivingTime = new DateTime(2018, 04, 27, 15, 00, 00),
-                _resHidePrices = false,
-                _resComments = ""
-            };
-
-            //_dbContextobj.Tables.Add(table1);
-            //_dbContextobj.Reservations.Add(res1);
-            //_dbContextobj.Tables.Add(table2);
-            //_dbContextobj.Tables.Add(table3);
-            //_dbContextobj.Reservations.Add(res2);
-            //_dbContextobj.Reservations.Add(res3);
-            //_dbContextobj.Reservations.Add(res4);
-            //_dbContextobj.SaveChanges();
-
-            /// FILL DATABASE END
-            /// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-            /// 
 
             DateTime Curr_res_arr = new DateTime(2018, 04, 27, 15, 0, 0);
-            
+
             CheckTableAvailability Checkings = new CheckTableAvailability(_dbContextobj);
             
             List< Reservation> list1= Checkings.CheckDateAvailability(Curr_res_arr);
-
-            //List<Reservation> list1 = new List<Reservation>();
-            //list1 = Checkings.CheckDateAvailability(Curr_res_arr);
-
-            //Checkings.CheckTime(Curr_res_date);
-            ////Checkings.CheckTimePerTable();
-
-
-
-
+                        
             ////TEST: to see if database can be reached
             ////return View(list);
             //// https://stackoverflow.com/questions/19238413/how-to-display-foreign-key-values-in-mvc-view
