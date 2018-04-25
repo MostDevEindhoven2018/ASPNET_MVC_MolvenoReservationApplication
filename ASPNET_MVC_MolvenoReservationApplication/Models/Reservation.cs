@@ -30,6 +30,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication
 
         public bool _resHidePrices { get; set; }
 
+        [DataType(DataType.MultilineText)]
         public string _resComments { get; set; }
 
     }
