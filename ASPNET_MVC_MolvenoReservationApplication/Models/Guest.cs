@@ -14,16 +14,19 @@ namespace ASPNET_MVC_MolvenoReservationApplication
         [StringLength(30, MinimumLength = 4)]
         [Required(ErrorMessage = "Please enter your name.")]
         [DataType(DataType.Text)]
+        [Display(Name = "Name", AutoGenerateField = true)]
         public string _guestName { get; set; }
 
         [StringLength(13, MinimumLength = 13, ErrorMessage = "Your phone should be 13 numbers long.")]
         [Phone]
         [DataType(DataType.PhoneNumber)]
+        [Display(Name = "Phone", AutoGenerateField = true)]
         public string _guestPhone { get; set; }
 
         [StringLength(40, MinimumLength = 5)]
         [EmailAddress]
         [DataType(DataType.EmailAddress)]
+        [Display(Name = "Email", AutoGenerateField = true)]
         public string _guestEmail { get; set; }
 
 

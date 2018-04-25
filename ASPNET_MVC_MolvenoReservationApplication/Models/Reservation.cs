@@ -5,31 +5,38 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ASPNET_MVC_MolvenoReservationApplication 
+namespace ASPNET_MVC_MolvenoReservationApplication
 {
     public class Reservation
     {
 
         public int ReservationID { get; set; }
 
+        [Display(Name = "Table", AutoGenerateField = false)]
         [DataType(DataType.Custom)]
         public virtual Table _resTable { get; set; }
 
+        [Display(Name = "Guest", AutoGenerateField = false)]
         [DataType(DataType.Custom)]
-        public Guest _resGuest {  get; set; }
+        public Guest _resGuest { get; set; }
 
+        [Display(Name = "Party size", AutoGenerateField = true)]
         [Required(ErrorMessage = "Please enter the amount of people attending.")]
-        public int _resPartySize {  get; set; }
+        public int _resPartySize { get; set; }
 
-        [Required(ErrorMessage ="Please enter your date and time of arrival.")]
+        [Display(Name = "Arriving time", AutoGenerateField = true)]
+        [Required(ErrorMessage = "Please enter your date and time of arrival.")]
         [DataType(DataType.DateTime)]
-        public DateTime _resArrivingTime {  get; set; }
+        public DateTime _resArrivingTime { get; set; }
 
+        [Display(Name = "Leaving time", AutoGenerateField = true)]
         [DataType(DataType.DateTime)]
-        public DateTime _resLeavingTime {  get; set; }
+        public DateTime _resLeavingTime { get; set; }
 
+        [Display(Name = "Hide prices", AutoGenerateField = true)]
         public bool _resHidePrices { get; set; }
 
+        [Display(Name = "Comments", AutoGenerateField = true)]
         [DataType(DataType.MultilineText)]
         public string _resComments { get; set; }
 

@@ -13,12 +13,14 @@ namespace ASPNET_MVC_MolvenoReservationApplication
         public int TableID { get; set; }
 
         [Required]
-        [Range(2, 20, ErrorMessage = "Between 2 and 20 pleople can fit to a table.")]
+        [Display(Name = "Capacity", AutoGenerateField = true)]
+        [Range(1, 20, ErrorMessage = "Between 2 and 20 pleople can fit to a table.")]
         public int _tableCapacity { get; set; }
 
         /// <summary>
         /// enum. The area in which the table will be placed. Defaults to: Main area.
         /// </summary>
+        [Display(Name = "Area", AutoGenerateField = true)]
         public TableAreas _tableArea { get; set; }
 
         public Table() { }
