@@ -11,17 +11,19 @@ namespace ASPNET_MVC_MolvenoReservationApplication
     {
         public int GuestID { get; set; }
 
-        [StringLength(20)]
-        [Required(ErrorMessage ="Please enter your name since it is required in order to make a reservation")]
+        [StringLength(30, MinimumLength = 4)]
+        [Required(ErrorMessage = "Please enter your name.")]
         public string _guestName { get; set; }
 
-        [StringLength(13)]
+        [StringLength(13, MinimumLength = 13, ErrorMessage = "Your phone number should be 13 numbers long.")]
+        [Phone]
         public string _guestPhone { get; set; }
 
-        [StringLength(40)]
+        [StringLength(40, MinimumLength = 5)]
+        [EmailAddress]
         public string _guestEmail { get; set; }
 
-        
+
         public Guest() { }
 
         public Guest(string name, string phoneOrEmail)

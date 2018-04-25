@@ -67,7 +67,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
             return View(query.ToList());
 
             //return View (list1);
-
+        }
 
 
         [HttpPost]
