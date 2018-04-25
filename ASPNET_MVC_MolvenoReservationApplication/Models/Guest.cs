@@ -20,6 +20,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication
 
         [StringLength(40)]
         public string _guestEmail { get; set; }
+
         
         public Guest() { }
 

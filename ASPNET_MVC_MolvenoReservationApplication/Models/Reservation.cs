@@ -16,7 +16,6 @@ namespace ASPNET_MVC_MolvenoReservationApplication
         public DateTime _resLeavingTime {  get; set; }
         public bool _resHidePrices { get; set; }
         public string _resComments { get; set; }
-               
-        
+
     }
 }
