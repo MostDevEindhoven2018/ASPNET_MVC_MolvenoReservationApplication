@@ -51,7 +51,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Logic
         {
             // Info tp get values of foreign keys in the table https://stackoverflow.com/questions/19238413/how-to-display-foreign-key-values-in-mvc-view
             // Select records of the existing reservations that have the same reservation date as the current reservation
-            var query = from res in _DbContext.Reservations.Include(p => p._resTable)
+            var query = from res in _dbContext.Reservations.Include(p => p._resTable)
                         where res._resArrivingTime.Date == date.Date
                         select res;
 

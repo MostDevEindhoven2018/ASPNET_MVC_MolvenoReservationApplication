@@ -1,0 +1,31 @@
+﻿@model ASPNET_MVC_MolvenoReservationApplication.Table
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Table</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model._tableCapacity)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model._tableCapacity)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model._tableArea)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model._tableArea)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.TableID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
