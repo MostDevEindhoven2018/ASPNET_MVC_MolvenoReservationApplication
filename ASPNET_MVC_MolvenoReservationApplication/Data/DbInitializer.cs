@@ -12,10 +12,10 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Data
         {
             context.Database.EnsureCreated();
 
-            //if (context.Reservations.Any())
-            //{
-            //    return;
-            //}
+            if (context.Reservations.Any())
+            {
+                return;
+            }
 
             var Guests = new Guest[]
             {
