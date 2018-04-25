@@ -33,5 +33,29 @@ namespace ASPNET_MVC_MolvenoReservationApplication
         [DataType(DataType.MultilineText)]
         public string _resComments { get; set; }
 
+        /// <summary>
+        /// Reservation constructor. The default leaving time is (arriving time) + 3 hours.
+        /// </summary>
+        /// <param name="partySize">int. The number of people attending the event.</param>
+        /// <param name="arrivingDateTime">datetime. The arriving date and time.</param>
+        public Reservation(int partySize, DateTime arrivingDateTime)
+        {
+            this._resPartySize = partySize;
+            this._resArrivingTime = arrivingDateTime;
+            this._resLeavingTime = arrivingDateTime.AddHours(3d);
+        }
+
+        /// <summary>
+        /// Reservation constructor with custom leaving time as input.
+        /// </summary>
+        /// <param name="partySize">int. The number of people attending the event.</param>
+        /// <param name="arrivingDateTime">datetime. The arriving date and time.</param>
+        /// <param name="leavingDateTime">datetime. The leaving date and time.</param>
+        public Reservation(int partySize, DateTime arrivingDateTime, DateTime leavingDateTime)
+        {
+            this._resPartySize = partySize;
+            this._resArrivingTime = arrivingDateTime;
+            this._resLeavingTime = leavingDateTime;
+        }
     }
 }
