@@ -13,11 +13,9 @@ namespace ASPNET_MVC_MolvenoReservationApplication
         public int ReservationID { get; set; }
 
         [Display(Name = "Table", AutoGenerateField = false)]
-        [DataType(DataType.Custom)]
         public virtual Table _resTable { get; set; }
 
         [Display(Name = "Guest", AutoGenerateField = false)]
-        [DataType(DataType.Custom)]
         public Guest _resGuest { get; set; }
 
         [Display(Name = "Party size", AutoGenerateField = true)]
@@ -39,6 +37,11 @@ namespace ASPNET_MVC_MolvenoReservationApplication
         [Display(Name = "Comments", AutoGenerateField = true)]
         [DataType(DataType.MultilineText)]
         public string _resComments { get; set; }
+
+        public Reservation()
+        {
+
+        }
 
         /// <summary>
         /// Reservation constructor. The default leaving time is (arriving time) + 3 hours.

@@ -12,7 +12,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Data
         {
             context.Database.EnsureCreated();
 
-            if (context.Reservations.Any())
+            if (context.Reservations.Any() || context.Tables.Any())
             {
                 return;
             }
