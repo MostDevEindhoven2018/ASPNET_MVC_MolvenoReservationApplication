@@ -30,7 +30,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Logic
         
         public List<Table> GetAvailableTables(DateTime start, DateTime end, int partySize)
         {
-            List<Reservation> ReservationInOurTimeSlot = new List<Reservation>();
+            List<Reservation> ReservationsInOurTimeSlot = new List<Reservation>();
             List<Table> ReservedTables = new List<Table>();             //  Step 1
 
             List<Table> AllTables = new List<Table>();                  //  Step 2
@@ -40,16 +40,21 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Logic
             // Step 1
             // First get all reservation in our time slot by using these four rules.
 
-            ReservationInOurTimeSlot = _DbContext.Reservations.Where(reservation =>
+            ReservationsInOurTimeSlot = _DbContext.Reservations.Where(reservation =>
 
+            //Rule 1:
+            // If the start time is between the two times... WRONG!
             (reservation._resArrivingTime > start && reservation._resArrivingTime < end)    ||
+            // If the end time is between the two times... WRONG!
             (reservation._resLeavingTime > start && reservation._resLeavingTime < end)      ||
+            // If the start time is before the first time and the end time is after the second time... WRONG!
             (reservation._resArrivingTime < start && reservation._resLeavingTime > end)     ||
+            // If both the start and end times are exactly the same... WRONG!
             (reservation._resArrivingTime == start && reservation._resLeavingTime == end)
 
             ).ToList();
 
-            ReservedTables = ReservationInOurTimeSlot.Select(reservation => reservation._resTable).ToList();
+            ReservedTables = ReservationsInOurTimeSlot.Select(reservation => reservation._resTable).ToList();
 
 
             // Step 2
