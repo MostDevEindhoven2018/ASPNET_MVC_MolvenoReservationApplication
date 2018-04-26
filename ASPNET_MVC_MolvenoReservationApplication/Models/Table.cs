@@ -12,6 +12,8 @@ namespace ASPNET_MVC_MolvenoReservationApplication
     {
         public int TableID { get; set; }
 
+
+        
         [Required]
         [Display(Name = "Capacity", AutoGenerateField = true)]
         [Range(1, 20, ErrorMessage = "Between 2 and 20 pleople can fit to a table.")]
@@ -20,6 +22,8 @@ namespace ASPNET_MVC_MolvenoReservationApplication
         /// <summary>
         /// enum. The area in which the table will be placed. Defaults to: Main area.
         /// </summary>
+        /// 
+        // What is the default?
         [Display(Name = "Area", AutoGenerateField = true)]
         public TableAreas _tableArea { get; set; }
 
