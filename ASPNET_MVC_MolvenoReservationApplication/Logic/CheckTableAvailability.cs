@@ -56,6 +56,23 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Logic
 
             ReservedTables = ReservationsInOurTimeSlot.Select(reservation => reservation._resTable).ToList();
 
+            ////////// Is it also possible to exclude these two conditions instead of including the four rules above?
+            ////////// Step 1
+            ////////// First get database/excisting reservations that overlap with the current/new reservation by excluding the database reservations that do not overlap with the current reservation
+            ////////ReservationsInOurTimeSlot = _DbContext.Reservations.Where(reservation =>
+            ////////// Exclude if one of the two conditions is true
+            ////////!(
+            //////////Condition 1:
+            ////////// No overlap of database/excisting reservation on right side of current/new reservation
+            ////////(reservation._resArrivingTime < start && reservation._resLeavingTime <= start) ||   // SAME (start > reservation._resArrivingTime && start >= reservation._resLeavingTime) ||
+            ////////// Condition 2:
+            ////////// No overlap of database/excisting reservation on left side of current/new reservation
+            ////////(reservation._resArrivingTime >= end && reservation._resLeavingTime > end)          // SAME (end <= reservation._resArrivingTime && end < reservation._resLeavingTime)
+
+            ////////)).ToList();
+                        
+            ////////ReservedTables = ReservationsInOurTimeSlot.Select(reservation => reservation._resTable).ToList();
+
 
             // Step 2
 
