@@ -7,7 +7,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ASPNET_MVC_MolvenoReservationApplication
 {
-    
     public class Guest
     {
         public int GuestID { get; set; }
@@ -16,7 +15,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication
         // Same with max length? I know a guy called Sebastiaan-Ferdinand van Bimsbergen tot Nijverdal, thats 49 characters
         // Does this check for weird characters like % or &?
         // Does it remove whitespace before and after the name?
-        [StringLength(30, MinimumLength = 4)]
+        [StringLength(200, MinimumLength = 1)]
         [Required(ErrorMessage = "Please enter your name.")]
         [DataType(DataType.Text)]
         [Display(Name = "Name", AutoGenerateField = true)]
@@ -26,9 +25,9 @@ namespace ASPNET_MVC_MolvenoReservationApplication
         // Whitespace?
         // If I add the - between the 06 and the rest of my number, does it break?
         // other weird characters?
-        [StringLength(13, MinimumLength = 13, ErrorMessage = "Your phone should be 13 numbers long.")]
+        [StringLength(20, MinimumLength = 7)]
         [Phone]
-        [DataType(DataType.PhoneNumber)]
+        [DataType(DataType.PhoneNumber, ErrorMessage = "Invalid number.")]
         [Display(Name = "Phone", AutoGenerateField = true)]
         public string _guestPhone { get; set; }
 
@@ -37,9 +36,9 @@ namespace ASPNET_MVC_MolvenoReservationApplication
         // something before the @?
         // Something after the @?
         // A landcode like .nl or .com?
-        [StringLength(40, MinimumLength = 5)]
+        [StringLength(100, MinimumLength = 5)]
         [EmailAddress]
-        [DataType(DataType.EmailAddress)]
+        [DataType(DataType.EmailAddress, ErrorMessage = "Invalid e-mail.")]
         [Display(Name = "Email", AutoGenerateField = true)]
         public string _guestEmail { get; set; }
 
