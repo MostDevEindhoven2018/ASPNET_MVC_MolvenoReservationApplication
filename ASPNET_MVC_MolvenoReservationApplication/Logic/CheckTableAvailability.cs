@@ -20,12 +20,12 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Logic
     {        
         // Connect to database that was opened by the ReservationController
         // Make a new object of type DBContext to use for this class
-        public MyDBContext _DbContext;
+        private MyDBContext _DbContext;
 
         // Make a constructor of the CheckTableAvailability with as parameter the DBContext(here can you input the context that was opnened in the ReservationController)
         public CheckTableAvailability(MyDBContext dbContext)
         {
-            _DbContext = dbContext;
+            this._DbContext = dbContext;
         }
         
         public List<Table> GetAvailableTables(DateTime start, DateTime end, int partySize)

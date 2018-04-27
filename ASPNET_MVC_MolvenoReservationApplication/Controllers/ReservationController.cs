@@ -24,8 +24,6 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
             _AvailabilityCheck = new CheckTableAvailability(_context);
 
             _dbContextobj = _context;
-            _dbContextobj.Database.EnsureCreated(); //Checks if a database is already created, if not it creates it
-
         }
 
         public IActionResult Create()
