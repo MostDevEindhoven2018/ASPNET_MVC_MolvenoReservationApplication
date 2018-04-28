@@ -1,0 +1,88 @@
+﻿@model ASPNET_MVC_MolvenoReservationApplication.Reservation
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+
+
+
+<h2>Create</h2>
+
+
+<h4>Reservation</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @* Input Validation: minimum party size = 0; maximum party size=10; it is required *@
+            <div class="form-group">
+                <label asp-for="_resPartySize" class="control-label"></label>
+                <input asp-for="_resPartySize" class="form-control" max="10" min="1" required tabindex="3" />
+                <span asp-validation-for="_resPartySize" class="text-danger"></span>
+
+            </div>
+
+            @* Input Validation: It only accepts letters; it accepts a maximum of 25 characters; it is required;  *@
+            <div class="form-group">
+                <label asp-for="_resGuest._guestName" class="control-label"></label>
+                <input asp-for="_resGuest._guestName" class="form-control" pattern="^[A-Za-z][A-Za-z ,.'-]{0,23}[A-Za-z]$" max="25" required tabindex="2" title="The name should only consist of letters with a maximum of 25 characters." />
+                <span asp-validation-for="_resGuest._guestName" class="text-danger"></span>
+            </div>
+
+            @* Input Validation: It only accepts letters; It expects 10 numbers; not required;  *@
+            <div class="form-group">
+                <label asp-for="_resGuest._guestPhone" class="control-label"></label>
+                <input asp-for="_resGuest._guestPhone" class="form-control" pattern="(?:[+][0-9]{10})|(?:[0][0-9]{9})|(?:[0-9]{10})" tabindex="6" title="Phone number should consist of 10 numbers" id="username" />
+                <span asp-validation-for="_resGuest._guestPhone" class="text-danger"></span>
+            </div>
+
+            @* Input Validation: As an email box it checks if @ is included; not required *@
+            <div class="form-group">
+                <label asp-for="_resGuest._guestEmail" class="control-label"></label>
+                <input asp-for="_resGuest._guestEmail" input type="email" class="form-control" />
+                <span asp-validation-for="_resGuest._guestEmail" class="text-danger"></span>
+            </div>
+
+            @* Input Validation: As a calendar *@
+            <div class="form-group">
+                <label asp-for="_resArrivingTime" class="control-label"></label>
+                <input asp-for="_resArrivingTime" input type="date" class="form-control" id="minimumdate"/>
+                <span asp-validation-for="_resArrivingTime" class="text-danger"></span>
+            </div>
+
+            @* Input Validation: The minimum Hour can be 12 and maximum hour can be 21; all minutes are included *@
+            <div class="form-group">
+                <label asp-for="_resLeavingTime" class="control-label"></label>
+                <input asp-for="_resLeavingTime" class="form-control" input type="time" min="12:00" max="21:00" />
+                <span asp-validation-for="_resLeavingTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="_resHidePrices" /> @Html.DisplayNameFor(model => model._resHidePrices)
+                    </label>
+                </div>
+            </div>
+
+            @* Input Validation: Maximum number of characters accepted is a 100 *@
+            <div class="form-group">
+                <label asp-for="_resComments" class="control-label"></label>
+                <input asp-for="_resComments" class="form-control" max="100" />
+                <span asp-validation-for="_resComments" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+
+
+
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
