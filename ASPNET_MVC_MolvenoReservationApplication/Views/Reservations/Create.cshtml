@@ -4,14 +4,68 @@
     ViewData["Title"] = "Create";
 }
 
-
-
-
 <h2>Create</h2>
 
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="https://code.jquery.com/ui/jquery-ui-git.js"></script>
 
-<h4>Reservation</h4>
-<hr />
+<link href="https://code.jquery.com/ui/1.12.1/themes/sunny/jquery-ui.css" rel="stylesheet" />
+<script>
+    function inPage() {
+
+
+
+        $("#arrivingDate").datepicker(
+            {
+                dateFormat: "d-m-yy",
+                changeYear: true
+            }
+        );
+</script>
+
+<script>
+    ///+++++++++++++++++++++++++++++++++
+    ///jQuery function that inputs the phonenumber and email and changes required to empty/false for one of them when the other one has a value
+    jQuery(function ($) {
+
+        var $inputs = $('input[name=_resGuest._guestEmail],input[name=_resGuest._guestPhone]');
+        $inputs.on('input', function () {
+            $inputs.not(this).prop('required', !$(this).val().length);
+
+        });
+    });
+    ////+++++++++++++++++++++++++++++++
+</script>
+
+<script>
+    /// ++++++++++++++++++++++++++++++++++=
+    /// This lets the min value of calendat_date go to today so you can make a reservation on a day in the past
+    /// First makes a value for today in the same layout as the input from the DateTimePicker
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth() + 1; // January is 0
+    var yyyy = today.getFullYear();
+    if (dd < 10) {
+        dd = '0' + dd
+    }
+    if (mm < 10) {
+        mm = '0' + mm
+    }
+
+    today = yyyy + '-' + mm + '-' + dd;
+    /// Changes the min attribute of calender_Date to today
+    /// Needs an Id attribute; getElementByName didn't work
+    document.getElementById("minimumdate").setAttribute("min", today);
+    ////+++++++++++++++++++++++++++++++++++++++
+</script>
+
+}
+
+<body onload="inPage();">
+
+    <h4>Reservation</h4>
+    <hr />
+</body>
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
@@ -31,7 +85,7 @@
                 <span asp-validation-for="_resGuest._guestName" class="text-danger"></span>
             </div>
 
-            @* Input Validation: It only accepts letters; It expects 10 numbers; not required;  *@
+            @* Input Validation: It only accepts numbers; It expects 10 numbers; not required;  *@
             <div class="form-group">
                 <label asp-for="_resGuest._guestPhone" class="control-label"></label>
                 <input asp-for="_resGuest._guestPhone" class="form-control" pattern="(?:[+][0-9]{10})|(?:[0][0-9]{9})|(?:[0-9]{10})" tabindex="6" title="Phone number should consist of 10 numbers" id="username" />
@@ -48,7 +102,7 @@
             @* Input Validation: As a calendar *@
             <div class="form-group">
                 <label asp-for="_resArrivingTime" class="control-label"></label>
-                <input asp-for="_resArrivingTime" input type="date" class="form-control" id="minimumdate"/>
+                <input asp-for="_resArrivingTime" input type="date" class="form-control" id="minimumdate" />
                 <span asp-validation-for="_resArrivingTime" class="text-danger"></span>
             </div>
 
@@ -84,5 +138,6 @@
 
 <div>
     <a asp-action="Index">Back to List</a>
+
 </div>
 
