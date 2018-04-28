@@ -39,31 +39,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
             throw new NotImplementedException();
         }
 
-        public IActionResult Index()
-        {
-            var return_AllReservations = from reservations in _dbContextobj.Reservations
-                                         select reservations;
-
-            var rAllReservations = return_AllReservations.ToList();
-
-            return View(rAllReservations);
-        }
-
-        [HttpPost]
-        public IActionResult CreateReservation(Reservation newReservation)
-        {
-
-            _dbContextobj.Reservations.Add(newReservation);
-            _dbContextobj.SaveChanges();
-            return View();
-        }
-
-        public IActionResult CreateReservation()
-        {
-
-            return View();
-        }
-
+       
 
     }
 }
