@@ -1,0 +1,37 @@
+﻿@model ASPNET_MVC_MolvenoReservationApplication.Guest
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Guest</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model._guestName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model._guestName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model._guestPhone)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model._guestPhone)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model._guestEmail)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model._guestEmail)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.GuestID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

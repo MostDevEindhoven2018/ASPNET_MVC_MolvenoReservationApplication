@@ -20,22 +20,23 @@ namespace ASPNET_MVC_MolvenoReservationApplication
         [DataType(DataType.Text)]
         [Display(Name = "Name", AutoGenerateField = true)]
         public string _guestName { get; set; }
+        //public string _guestName { get { return _guestName; }
+        //    set { if (String.IsNullOrWhiteSpace(value) || String.IsNullOrEmpty(value))
+        //        {
+        //            return;
+        //        }
+        //        else if (String.Format())// add regex
+        //        {
 
-        // My phone number is 10 characters long. ( 0652680658 ;) xxx ). Now this does not get accepted.
-        // Whitespace?
-        // If I add the - between the 06 and the rest of my number, does it break?
-        // other weird characters?
+        //        }
+        //            } }
+        
         [StringLength(20, MinimumLength = 7)]
         [Phone]
         [DataType(DataType.PhoneNumber, ErrorMessage = "Invalid number.")]
         [Display(Name = "Phone", AutoGenerateField = true)]
         public string _guestPhone { get; set; }
 
-
-        // Does it check for a @?
-        // something before the @?
-        // Something after the @?
-        // A landcode like .nl or .com?
         [StringLength(100, MinimumLength = 5)]
         [EmailAddress]
         [DataType(DataType.EmailAddress, ErrorMessage = "Invalid e-mail.")]
