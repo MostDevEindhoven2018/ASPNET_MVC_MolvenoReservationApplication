@@ -67,5 +67,15 @@ namespace ASPNET_MVC_MolvenoReservationApplication
             this._resArrivingTime = arrivingDateTime;
             this._resLeavingTime = leavingDateTime;
         }
+
+        public Reservation(int partySize, DateTime arrivingDatetime,
+            DateTime leavingDatetime, Table table, Guest guest)
+        {
+            this._resPartySize = partySize;
+            this._resArrivingTime = arrivingDatetime;
+            this._resLeavingTime = leavingDatetime;
+            this._resGuest = guest;
+            this._resTable = table;
+        }
     }
 }
