@@ -1,0 +1,306 @@
+﻿@model Reservation
+
+
+@{
+    ViewData["Title"] = "CreateReservation";
+}
+
+@section PageStyles
+    {
+
+
+    <style>
+        body {
+            font-family: 'Times New Roman';
+            background-color: lightblue;
+        }
+
+        form {
+            width: 450px;
+            border: 2px solid grey;
+            padding-left: 20px;
+            padding-right: 20px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+
+        label {
+            margin: 10px 0px 10px 0px;
+            background-color: lightgoldenrodyellow;
+        }
+
+        .textbox {
+            float: right;
+        }
+
+        .numberbox {
+            float: right;
+        }
+
+        .comboboxMinutes {
+            float: right;
+        }
+
+        .combobox {
+            float: right;
+        }
+
+        .emailbox {
+            float: right;
+        }
+
+        .checkbox {
+            float: right;
+        }
+
+        .OtherProblems {
+            position: center;
+            border: 1px solid blue;
+            background-color: lightgoldenrodyellow;
+            padding: 20px;
+            font-weight: bold;
+            color: black;
+        }
+    </style>
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://code.jquery.com/ui/jquery-ui-git.js"></script>
+
+    <link href="https://code.jquery.com/ui/1.12.1/themes/sunny/jquery-ui.css" rel="stylesheet" />
+    <script>
+            function inPage() {
+
+
+
+                $("#arrivingDate").datepicker(
+                    {
+                        dateFormat: "d-m-yy",
+                        changeYear: true,
+                    }
+                );
+    </script>
+
+    <script>
+                jQuery(function ($) {
+
+                    var $inputs = $('input[name=txt_GuestPhoneNumber],input[name=e-box_GuestEmail]');
+                    $inputs.on('input', function () {
+                        $inputs.not(this).prop('required', !$(this).val().length);
+
+                    });
+                });
+    </script>   
+
+}
+
+<body onload="inPage();">
+    <h2>Reservation at Molveno Restaurant</h2>
+    <form asp-action="CreateReservation" id="form">
+
+
+        <label for="calendar_Date">Date: </label> <input onchange="myFunction(),MyFunction2()" id="calendar_Date" type="date" name="calendar_Date" asp-for="_resArrivingTime" class="textbox" min="2018-04-23" max="2020-04-23" tabindex="1" required />
+        <script>
+                var today = new Date();
+                var dd = today.getDate();
+                var mm = today.getMonth() + 1; // January is 0
+                var yyyy = today.getFullYear();
+                if (dd < 10) {
+                    dd = '0' + dd
+                }
+                if (mm < 10) {
+                    mm = '0' + mm
+                }
+
+                today = yyyy + '-' + mm + '-' + dd;
+                document.getElementById("calendar_Date").setAttribute("min", today);
+        </script>
+        <br />
+        <label for="txt_GuestName">Name: </label> <input type="text" name="txt_GuestName" asp-for="_resGuest._guestName" class="textbox" pattern="^[A-Za-z][A-Za-z ,.'-]{0,23}[A-Za-z]$" max="25" required tabindex="2" />
+        <br />
+        <label for="num_NumberofGuests">Number of guests:</label><input type="number" name="num_NumberofGuests" asp-for="_resPartySize" class="numberbox" max="10" min="0" required tabindex="3" />
+        <br />
+        <label for="cmb_Time">Time:</label><select id="cmb_Minutes" name="cmb_Minutes" asp-for="_resLeavingTime" class="comboboxMinutes" tabindex="5">
+            <option disabled selected hidden></option>
+            <option value="Minutes00">00</option>
+            <option value="Minutes15">15</option>
+            <option value="Minutes30">30</option>
+            <option value="Minutes45">45</option>
+        </select>
+        <select onchange="MyFunction2()" id="cmb_Time" name="cmb_Time" asp-for="_resLeavingTime" class="combobox" tabindex="4">
+            <option disabled selected hidden></option>
+            <option value="Hour12">12</option>
+            <option value="Hour1">13</option>
+            <option value="Hour2">14</option>
+            <option value="Hour3">15</option>
+            <option value="Hour4">16</option>
+            <option value="Hour5">17</option>
+            <option value="Hour6">18</option>
+            <option value="Hour7">19</option>
+            <option value="Hour8">20</option>
+            <option value="Hour9">21</option>
+        </select>
+        <script>
+            // Need two new Date(); or else cannot use the step when the hour is almost over
+                var today2 = new Date();
+                var today3 = new Date();
+                var dd2 = today2.getDate();
+                var mm2 = today2.getMonth() + 1; // January is 0
+                var yy2 = today2.getFullYear();
+                if (dd2 < 10) {
+                    dd2 = '0' + dd2
+                }
+                if (mm2 < 10) {
+                    mm2 = '0' + mm2
+                }
+
+                today2Date = yy2 + '-' + mm2 + '-' + dd2;
+
+                //For TEST command these three lines
+                var todayHour2 = today2.getHours();
+                var todayHour3 = today3.getHours();
+                var todayMin2 = today2.getMinutes();
+
+                ////// TEST ///
+                ////var todayHour2 = 12;
+                ////var todayHour3 = 12;
+                ////var todayMin2 = 24;
+                ////// TEST ///
+
+
+                // 12=[1]; 13=[2];...21=[10]
+                // Have to make number the same as the index of cmb_Time
+                todayHour2 = (todayHour2 - 11);
+
+                // have to make the index one index higher because the hour is almost over; can only choose future hours
+                var todayHour3 = (todayHour3 - 11) + 1;
+
+
+                // 00=[1]; 15=[2]; 30=[3]; 45=[4]
+                // Have to number the same as in the index of cmb_Minutes + 1, should only be able to choose future minutes
+                todayMin2 = Math.ceil((todayMin2 + 0.1) / 15) + 1;
+
+                function myFunction() {
+
+                    // Reset first to disabled=false when Date is changed
+                    for (var k = 1; k < 11; k++) {
+                        document.getElementById("cmb_Time").options[k].disabled = false;
+                    }
+
+                    var date = document.getElementById("calendar_Date").value;
+                    
+                    // Chech if date in datepicker is the same as today
+                    if (date == today2Date) {
+
+                        // Resets value in box
+                        document.getElementById("cmb_Time").value = null;
+
+                        // Check if the minutes in the time is above 45 minutes, which means the hour is almost over
+                        if (todayMin2 > 4) {
+
+                            // For every index in cmb_Time, check if it is lower than the hour of the time now
+                            // If true, then disable the option
+                            // Don't have to disable the minutes because can only choose future hours
+                            for (var y = 1; y < 11; y++) {
+                                if (y < todayHour3) {
+
+                                    document.getElementById("cmb_Time").options[y].disabled = true;
+                                }
+                            }
+                        }
+                        // If the hour isn't almost done
+                        else {
+
+                            // Checks if you are reserving at 21h. If you are, it will disable all hours
+                            // Because cannot reserve anymore. Could make a reservation for 21h at 20.59
+                            if (todayHour2 == 10) {
+                                for (var z = 1; z < 11; z++) {
+                                    document.getElementById("cmb_Time").options[z].disabled = true;
+                                }
+
+                            }
+
+                            // Don't have to make the index one index higher because the hour is isn't almost over
+                            // uses todayHour2 = (todayHour2 - 11);
+                            // For every idex in the cmb_Time, check if it is lower than the hour of the time now
+                            // If true, then disable the option
+                            for (var i = 1; i < 11; i++) {
+                                if (i < todayHour2) {
+
+                                    document.getElementById("cmb_Time").options[i].disabled = true;
+
+                                }
+                            }
+                        }
+                    }
+                }
+
+
+                function MyFunction2() {
+
+                    // First reset
+                    for (var x = 1; x < 5; x++) {
+                        document.getElementById("cmb_Minutes").options[x].disabled = false;
+                    }
+
+                    var date2 = document.getElementById("calendar_Date").value;
+                    var selectedHour = document.getElementById("cmb_Time").selectedIndex;
+
+                    // Cannot make a reservation for later than 21
+                    if (selectedHour == 10) {
+                        document.getElementById("cmb_Minutes").options[1].disabled = false;
+                        document.getElementById("cmb_Minutes").options[2].disabled = true;
+                        document.getElementById("cmb_Minutes").options[3].disabled = true;
+                        document.getElementById("cmb_Minutes").options[4].disabled = true;
+
+                    }
+
+                    if (date2 == today2Date) {
+
+                        // Resets value in box
+                        document.getElementById("cmb_Minutes").value = null;
+
+                        // Cannot make a reservation for today after 21h
+                        if (todayHour2 == 10) {
+                            for (var a = 1; a < 11; a++) {
+                                document.getElementById("cmb_Minutes").options[a].disabled = true;
+                            }
+
+                        }
+
+                        // For every every index in cmb_Minutes, check if it is lower than index of the minutes now
+                        // If true, disable the option
+                        if ( selectedHour == todayHour2) {
+
+                            for (var j = 1; j < 5; j++) {
+
+                                if (j < todayMin2) {
+
+                                    document.getElementById("cmb_Minutes").options[j].disabled = true;
+                                }
+                            }
+
+                        }
+                    }
+
+                }
+
+        </script>
+        <br />
+        <label for:"txt_GuestPhoneNumber">Phone number:</label><input id="txt_GuestPhoneNumber" type="text" name="txt_GuestPhoneNumber" asp-for="_resGuest._guestPhone" class="textbox" pattern="(?:[+][0-9]{10})|(?:[0][0-9]{9})|(?:[0]{2}[3][0-9]{10})" tabindex="6" required />
+        <br />
+        <label for:"e-box_GuestEmail">Email:</label><input id="e-box_GuestEmail" type="email" name="e-box_GuestEmail" asp-for="_resGuest._guestEmail" class="emailbox" tabindex="7" required />
+        <br />
+        <label for:"chk_HidePrices">Hide Prices:</label><input type="checkbox" name="chk_HidePrices" asp-for="_resHidePrices" class="checkbox" tabindex="8">
+        <br />
+        <label for="txt_Comments">Comments:</label><input type="text" name="txt_Comments" asp-for="_resComments" class="textbox" tabindex="9" />
+        <br />
+        <label for:"AnyotherProblem" class="OtherProblems">Feel free to contact us on 0000000000 if you experience any problems.</label>
+        <input type="submit" value="Create" tabindex="10" />
+    </form>
+</body>
+
+
+
+
+
