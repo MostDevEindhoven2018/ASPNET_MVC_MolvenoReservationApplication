@@ -25,7 +25,11 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
 
             _dbContextobj = _context;
             _dbContextobj.Database.EnsureCreated(); //Checks if a database is already created, if not it creates it
+        }
 
+        public async Task<IActionResult> Index()
+        {
+            return View(await _dbContextobj.Reservations.ToListAsync());
         }
 
         public IActionResult Create()
@@ -63,6 +67,17 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
 
             // Add a message about this time and date being fully booked. 
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(Reservation reservation)
+        {
+            if (ModelState.IsValid)
+            {
+                //Logic.CheckTableAvailability ca = new CheckTableAvailability();
+                _dbContextobj.Add(reservation);
+                await _dbContextobj.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
             return View(reservation);
 
         }
