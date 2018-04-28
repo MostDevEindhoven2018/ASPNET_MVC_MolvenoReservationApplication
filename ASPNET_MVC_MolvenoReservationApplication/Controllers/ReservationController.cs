@@ -67,6 +67,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
 
             // Add a message about this time and date being fully booked. 
 
+            ////From ValidationServerSide branch
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Reservation reservation)
@@ -81,7 +82,32 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
             return View(reservation);
 
         }
+        ////From the ValidationClientSide branch
+        public IActionResult Index()
+        {
+            var return_AllReservations = from reservations in _dbContextobj.Reservations
+                                         select reservations;
 
+            var rAllReservations = return_AllReservations.ToList();
+
+            return View(rAllReservations);
+        }
+
+        ////From the ValidationClientSide branch
+        [HttpPost]
+        public IActionResult CreateReservation(Reservation newReservation)
+        {
+
+            _dbContextobj.Reservations.Add(newReservation);
+            _dbContextobj.SaveChanges();
+            return View();
+        }
+
+        public IActionResult CreateReservation()
+        {
+
+            return View();
+        }
 
 
     }
