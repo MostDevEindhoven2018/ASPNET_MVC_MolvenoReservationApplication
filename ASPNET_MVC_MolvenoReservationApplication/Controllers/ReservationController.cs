@@ -24,21 +24,44 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
             _AvailabilityCheck = new CheckTableAvailability(_context);
 
             _dbContextobj = _context;
+
+            ///Not in CheckTableAvailability
             _dbContextobj.Database.EnsureCreated(); //Checks if a database is already created, if not it creates it
         }
 
+////+++++++++++++++++++++++++++++++++++++++++++
+////Two indexes
+
+        ////From ValidationServerSide branch
         public async Task<IActionResult> Index()
         {
             return View(await _dbContextobj.Reservations.ToListAsync());
         }
 
-        public IActionResult Create()
-        {
-            return View();
-            //return View("CreateReservationView");
-        }
 
+        ////////From the ValidationClientSide branch: commented because error
+        ////public IActionResult Index()
+        ////{
+        ////    var return_AllReservations = from reservations in _dbContextobj.Reservations
+        ////                                 select reservations;
 
+        ////    var rAllReservations = return_AllReservations.ToList();
+
+        ////    return View(rAllReservations);
+        ////}
+
+///++++++++++++++++
+
+//// ===============================
+        //// Three create actions
+        ///
+
+        ////////From the CheckTableAvailability branch: commented because error
+        ////public IActionResult Create()
+        ////{
+        ////    return View();
+        ////    //return View("CreateReservationView");
+        ////}
 
         [HttpPost]
         public IActionResult Create(Reservation reservation)
@@ -61,37 +84,37 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
                 // Add a message about the Inputs not being valid. ModelState is false.
                 return View(reservation);
 
-                
+
 
             }
 
-            // Add a message about this time and date being fully booked. 
+            ////Comment from CheckTableAvailability
+            // Add a message about this time and date being fully booked.
 
-            ////From ValidationServerSide branch
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Reservation reservation)
-        {
-            if (ModelState.IsValid)
-            {
-                //Logic.CheckTableAvailability ca = new CheckTableAvailability();
-                _dbContextobj.Add(reservation);
-                await _dbContextobj.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
             return View(reservation);
-
         }
-        ////From the ValidationClientSide branch
-        public IActionResult Index()
-        {
-            var return_AllReservations = from reservations in _dbContextobj.Reservations
-                                         select reservations;
 
-            var rAllReservations = return_AllReservations.ToList();
 
-            return View(rAllReservations);
-        }
+        //////From ValidationServerSide branch: Commented because error
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Create(Reservation reservation)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        //Logic.CheckTableAvailability ca = new CheckTableAvailability();
+        //        _dbContextobj.Add(reservation);
+        //        await _dbContextobj.SaveChangesAsync();
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    return View(reservation);
+
+        //}
+
+
+
+        ////====================================================
+
 
         ////From the ValidationClientSide branch
         [HttpPost]
@@ -103,6 +126,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
             return View();
         }
 
+        ////From the ValidationClientSide branch
         public IActionResult CreateReservation()
         {
 

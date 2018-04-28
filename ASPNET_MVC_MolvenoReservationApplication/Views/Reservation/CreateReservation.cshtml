@@ -82,6 +82,8 @@
     </script>
 
     <script>
+        ///+++++++++++++++++++++++++++++++++
+                ///jQuery function that inputs the phonenumber and email and changes required to empty/false for one of them when the other one has a value
                 jQuery(function ($) {
 
                     var $inputs = $('input[name=txt_GuestPhoneNumber],input[name=e-box_GuestEmail]');
@@ -90,6 +92,7 @@
 
                     });
                 });
+        ////+++++++++++++++++++++++++++++++
     </script>   
 
 }
@@ -101,6 +104,9 @@
 
         <label for="calendar_Date">Date: </label> <input onchange="myFunction(),MyFunction2()" id="calendar_Date" type="date" name="calendar_Date" asp-for="_resArrivingTime" class="textbox" min="2018-04-23" max="2020-04-23" tabindex="1" required />
         <script>
+            /// ++++++++++++++++++++++++++++++++++=
+            /// This lets the min value of calendat_date go to today so you can make a reservation on a day in the past
+                /// First makes a value for today in the same layout as the input from the DateTimePicker
                 var today = new Date();
                 var dd = today.getDate();
                 var mm = today.getMonth() + 1; // January is 0
@@ -113,7 +119,10 @@
                 }
 
                 today = yyyy + '-' + mm + '-' + dd;
+                /// Changes the min attribute of calender_Date to today
+                /// Needs an Id attribute; getElementByName didn't work
                 document.getElementById("calendar_Date").setAttribute("min", today);
+            ////+++++++++++++++++++++++++++++++++++++++
         </script>
         <br />
         <label for="txt_GuestName">Name: </label> <input type="text" name="txt_GuestName" asp-for="_resGuest._guestName" class="textbox" pattern="^[A-Za-z][A-Za-z ,.'-]{0,23}[A-Za-z]$" max="25" required tabindex="2" />
@@ -121,14 +130,14 @@
         <label for="num_NumberofGuests">Number of guests:</label><input type="number" name="num_NumberofGuests" asp-for="_resPartySize" class="numberbox" max="10" min="0" required tabindex="3" />
         <br />
         <label for="cmb_Time">Time:</label><select id="cmb_Minutes" name="cmb_Minutes" asp-for="_resLeavingTime" class="comboboxMinutes" tabindex="5">
-            <option disabled selected hidden></option>
+            <option disabled selected hidden></option>  @*Added this option so when you start you don't see 12:00, but you cannot select it (hidden)*@
             <option value="Minutes00">00</option>
             <option value="Minutes15">15</option>
             <option value="Minutes30">30</option>
             <option value="Minutes45">45</option>
         </select>
         <select onchange="MyFunction2()" id="cmb_Time" name="cmb_Time" asp-for="_resLeavingTime" class="combobox" tabindex="4">
-            <option disabled selected hidden></option>
+            <option disabled selected hidden></option>  @*Added this option so when you start you don't see 12:00, but you cannot select it (hidden)*@
             <option value="Hour12">12</option>
             <option value="Hour1">13</option>
             <option value="Hour2">14</option>
@@ -141,6 +150,10 @@
             <option value="Hour9">21</option>
         </select>
         <script>
+            /////++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+            //// Script to not let you select a time (hour/minutes) in the past when today is selected in the DateTimePicker
+            //// In calendar_Date input need: onchange="myFunction(),MyFunction2()      /// Changes the hours and minutes when the input value of DateTimePicker changes (e.g. when today is selected reset the comboboxes, cannot reserve in past (hour/minutes))
+            //// In cmb_Time input need: onchange="MyFunction2()                        /// Changes the minutes when the input value of cmb_Time changes (e.g. for this hour cannot reserve in past (minutes))
             // Need two new Date(); or else cannot use the step when the hour is almost over
                 var today2 = new Date();
                 var today3 = new Date();
@@ -235,7 +248,6 @@
                     }
                 }
 
-
                 function MyFunction2() {
 
                     // First reset
@@ -284,12 +296,12 @@
                     }
 
                 }
-
+            ////+++++++++++++++++++++++++++++++++++++++++++++++++++++
         </script>
         <br />
-        <label for:"txt_GuestPhoneNumber">Phone number:</label><input id="txt_GuestPhoneNumber" type="text" name="txt_GuestPhoneNumber" asp-for="_resGuest._guestPhone" class="textbox" pattern="(?:[+][0-9]{10})|(?:[0][0-9]{9})|(?:[0]{2}[3][0-9]{10})" tabindex="6" required />
+        <label for:"txt_GuestPhoneNumber">Phone number:</label><input type="text" name="txt_GuestPhoneNumber" asp-for="_resGuest._guestPhone" class="textbox" pattern="(?:[+][0-9]{10})|(?:[0][0-9]{9})|(?:[0]{2}[3][0-9]{10})" tabindex="6" required />
         <br />
-        <label for:"e-box_GuestEmail">Email:</label><input id="e-box_GuestEmail" type="email" name="e-box_GuestEmail" asp-for="_resGuest._guestEmail" class="emailbox" tabindex="7" required />
+        <label for:"e-box_GuestEmail">Email:</label><input type="email" name="e-box_GuestEmail" asp-for="_resGuest._guestEmail" class="emailbox" tabindex="7" required />
         <br />
         <label for:"chk_HidePrices">Hide Prices:</label><input type="checkbox" name="chk_HidePrices" asp-for="_resHidePrices" class="checkbox" tabindex="8">
         <br />
