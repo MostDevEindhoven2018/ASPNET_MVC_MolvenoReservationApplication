@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>Create</h2>
@@ -18,9 +19,11 @@
                 <span asp-validation-for="_tableCapacity" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="MyProperty" class="control-label"></label>
-                <select asp-for="MyProperty" class="form-control"></select>
-                <span asp-validation-for="MyProperty" class="text-danger"></span>
+                <label asp-for="_tableArea" class="control-label"></label>
+                <select asp-for="_tableArea" asp-items="Html.GetEnumSelectList<TableAreas>() " class="form-control">
+                    <option value="">-- Not specified --</option>
+                </select>
+                <span asp-validation-for="_tableArea" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-default" />
@@ -33,3 +36,6 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

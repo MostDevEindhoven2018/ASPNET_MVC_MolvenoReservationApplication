@@ -54,7 +54,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("TableID,_tableCapacity,MyProperty")] Table table)
+        public async Task<IActionResult> Create([Bind("TableID,_tableCapacity,_tableArea")] Table table)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +86,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("TableID,_tableCapacity,MyProperty")] Table table)
+        public async Task<IActionResult> Edit(int id, [Bind("TableID,_tableCapacity,_tableArea")] Table table)
         {
             if (id != table.TableID)
             {
