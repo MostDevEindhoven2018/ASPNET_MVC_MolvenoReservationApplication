@@ -7,16 +7,19 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ASPNET_MVC_MolvenoReservationApplication;
 using ASPNET_MVC_MolvenoReservationApplication.Models;
+using ASPNET_MVC_MolvenoReservationApplication.Logic;
 
 namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
 {
     public class ReservationsController : Controller
     {
         private readonly MyDBContext _context;
+        private CheckTableAvailability _AvailabilityCheck;
 
         public ReservationsController(MyDBContext context)
         {
             _context = context;
+            _AvailabilityCheck = new CheckTableAvailability(context);
         }
 
         // GET: Reservations
@@ -56,11 +59,22 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ReservationID,_resPartySize,_resArrivingTime,_resLeavingTime,_resHidePrices,_resComments")] Reservation reservation)
         {
-            if (ModelState.IsValid)
+            reservation._resLeavingTime = reservation._resArrivingTime.AddHours(3);
+
+            List<Table> AvailableTables = _AvailabilityCheck.GetAvailableTables(reservation._resArrivingTime,
+                reservation._resLeavingTime, reservation._resPartySize);
+
+            if (AvailableTables.Any())
             {
-                _context.Add(reservation);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                reservation._resTable = AvailableTables.First();
+
+
+                if (ModelState.IsValid)
+                {
+                    _context.Add(reservation);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
             }
             return View(reservation);
         }

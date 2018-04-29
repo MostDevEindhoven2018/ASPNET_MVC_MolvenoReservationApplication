@@ -6,22 +6,23 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ASPNET_MVC_MolvenoReservationApplication;
+using ASPNET_MVC_MolvenoReservationApplication.Models;
 
-namespace ASPNET_MVC_MolvenoReservationApplication.Models
+namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
 {
     public class GuestsController : Controller
     {
-        MyDBContext _dbContextobj;
+        private readonly MyDBContext _context;
 
         public GuestsController(MyDBContext context)
         {
-            _dbContextobj = context;
+            _context = context;
         }
 
         // GET: Guests
         public async Task<IActionResult> Index()
         {
-            return View(await _dbContextobj.Guests.ToListAsync());
+            return View(await _context.Guests.ToListAsync());
         }
 
         // GET: Guests/Details/5
@@ -32,7 +33,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Models
                 return NotFound();
             }
 
-            var guest = await _dbContextobj.Guests
+            var guest = await _context.Guests
                 .SingleOrDefaultAsync(m => m.GuestID == id);
             if (guest == null)
             {
@@ -57,8 +58,8 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Models
         {
             if (ModelState.IsValid)
             {
-                _dbContextobj.Add(guest);
-                await _dbContextobj.SaveChangesAsync();
+                _context.Add(guest);
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(guest);
@@ -72,7 +73,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Models
                 return NotFound();
             }
 
-            var guest = await _dbContextobj.Guests.SingleOrDefaultAsync(m => m.GuestID == id);
+            var guest = await _context.Guests.SingleOrDefaultAsync(m => m.GuestID == id);
             if (guest == null)
             {
                 return NotFound();
@@ -96,8 +97,8 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Models
             {
                 try
                 {
-                    _dbContextobj.Update(guest);
-                    await _dbContextobj.SaveChangesAsync();
+                    _context.Update(guest);
+                    await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -123,7 +124,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Models
                 return NotFound();
             }
 
-            var guest = await _dbContextobj.Guests
+            var guest = await _context.Guests
                 .SingleOrDefaultAsync(m => m.GuestID == id);
             if (guest == null)
             {
@@ -138,15 +139,15 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Models
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var guest = await _dbContextobj.Guests.SingleOrDefaultAsync(m => m.GuestID == id);
-            _dbContextobj.Guests.Remove(guest);
-            await _dbContextobj.SaveChangesAsync();
+            var guest = await _context.Guests.SingleOrDefaultAsync(m => m.GuestID == id);
+            _context.Guests.Remove(guest);
+            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool GuestExists(int id)
         {
-            return _dbContextobj.Guests.Any(e => e.GuestID == id);
+            return _context.Guests.Any(e => e.GuestID == id);
         }
     }
 }
