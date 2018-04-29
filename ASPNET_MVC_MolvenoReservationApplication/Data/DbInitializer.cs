@@ -34,14 +34,10 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Data
             var Tables = new Table[]
             {
                 new Table(4, TableAreas.Main),
-                new Table(4, TableAreas.Main),
-                new Table(4, TableAreas.Main),
-                new Table(4, TableAreas.Main),
                 new Table(8, TableAreas.Fireplace),
                 new Table(4, TableAreas.Fireplace),
                 new Table(4, TableAreas.Lake),
-                new Table(4, TableAreas.Lake),
-                new Table(8, TableAreas.Lake),
+                new Table(8, TableAreas.Lake)
             };
 
             foreach(Table t in Tables)

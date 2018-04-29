@@ -25,8 +25,9 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
 
             _dbContextobj = _context;
 
-            ///Not in CheckTableAvailability
-            _dbContextobj.Database.EnsureCreated(); //Checks if a database is already created, if not it creates it
+            //// George deleted
+            ///////Not in CheckTableAvailability
+            ////_dbContextobj.Database.EnsureCreated(); //Checks if a database is already created, if not it creates it
         }
 
 ////+++++++++++++++++++++++++++++++++++++++++++
@@ -84,7 +85,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
                 // Add a message about the Inputs not being valid. ModelState is false.
                 return View(reservation);
 
-
+                
 
             }
 
