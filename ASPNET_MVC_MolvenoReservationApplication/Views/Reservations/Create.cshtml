@@ -17,12 +17,12 @@
             padding-top: 10px;
             padding-bottom: 10px;
         }
-            /*body {
+        /*body {
                 font-family: 'Times New Roman';
                 background-color: lightblue;
             }
 
-           
+
             label {
                 margin: 10px 0px 10px 0px;
                 background-color: lightgoldenrodyellow;
@@ -60,7 +60,7 @@
                 font-weight: bold;
                 color: black;
             }
-       
+
         input:invalid {
             box-shadow: 0 0 5px 1px red;
         }
@@ -68,7 +68,7 @@
         input:focus:invalid {
             outline: none;
         }*/
-        </style>
+    </style>
 
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
     <script src="https://code.jquery.com/ui/jquery-ui-git.js"></script>
@@ -103,56 +103,101 @@
 
 }
 
-    <body onload="inPage();">
 
-        <h2>Create</h2>
+<body background="https://i.pinimg.com/originals/5a/a2/f4/5aa2f4c287849a6b5d3b8de4424e083d.jpg">
+</body>
 
-        <h4>Reservation at Molveno Lake Resort Restaurant</h4>
-        <hr />
+<body onload="inPage();">
 
-        <div class="row">
-            <div class="col-md-4">
-                <form asp-action="Create" id="form">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    @* Input Validation: As a calendar *@
-                    <div class="form-group">
-                        <label asp-for="_resArrivingTime.Date" for="calendar_Date" class="control-label">Date</label>
-                        <input asp-for="_resArrivingTime.Date" class="form-control textbox" onchange="myFunction(),MyFunction2()" id="minimumdate" type="date" name="calendar_Date" min="2018-04-23" max="2020-04-23" tabindex="1" required />
-                        <span asp-validation-for="_resArrivingTime.Date" class="text-danger"></span>
-                        <script>
-                            /// ++++++++++++++++++++++++++++++++++=
-                            /// This lets the min value of calendat_date go to today so you can make a reservation on a day in the past
-                            /// First makes a value for today in the same layout as the input from the DateTimePicker
-                            var today = new Date();
-                            var dd = today.getDate();
-                            var mm = today.getMonth() + 1; // January is 0
-                            var yyyy = today.getFullYear();
-                            if (dd < 10) {
-                                dd = '0' + dd
-                            }
-                            if (mm < 10) {
-                                mm = '0' + mm
-                            }
 
-                            today = yyyy + '-' + mm + '-' + dd;
-                            /// Changes the min attribute of calender_Date to today
-                            /// Needs an Id attribute; getElementByName didn't work
-                            //document.getElementById("calendar_Date").setAttribute("min", today);
-                            document.getElementById("minimumdate").setAttribute("min", today);
 
-                            ////+++++++++++++++++++++++++++++++++++++++
-                        </script>
-                    </div>
-                    <br />
-                    <label>Time:</label>
-                    <br />
-                    @* Input Validation: The minimum Hour can be 12 and maximum hour can be 21; all minutes are included *@
-                    @* Input Validation: The minimum Hour can be 12 and maximum hour can be 21; all minutes are included  if its not 21 hours*@
-                    <div class="form-group">
+    <h2>Create</h2>
 
-                        <label asp-for="_resArrivingTime.Hour" for="cmb_Time" class="control-label"></label>
+    <h4>Reservation at Molveno Lake Resort Restaurant</h4>
+    <hr />
+
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Create" id="form">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                @* Input Validation: As a calendar *@
+                <div class="form-group">
+                    <label asp-for="_resArrivingTime.Date" for="calendar_Date" class="control-label">Date</label>
+                    <input asp-for="_resArrivingTime.Date" class="form-control textbox" onchange="myFunction(),MyFunction2()" id="minimumdate" type="date" name="calendar_Date" min="2018-04-23" max="2020-04-23" tabindex="1" required />
+                    <span asp-validation-for="_resArrivingTime.Date" class="text-danger"></span>
+                    <script>
+                        /// ++++++++++++++++++++++++++++++++++=
+                        /// This lets the min value of calendat_date go to today so you can make a reservation on a day in the past
+                        /// First makes a value for today in the same layout as the input from the DateTimePicker
+                        var today = new Date();
+                        var dd = today.getDate();
+                        var mm = today.getMonth() + 1; // January is 0
+                        var yyyy = today.getFullYear();
+                        if (dd < 10) {
+                            dd = '0' + dd
+                        }
+                        if (mm < 10) {
+                            mm = '0' + mm
+                        }
+
+                        today = yyyy + '-' + mm + '-' + dd;
+                        /// Changes the min attribute of calender_Date to today
+                        /// Needs an Id attribute; getElementByName didn't work
+                        //document.getElementById("calendar_Date").setAttribute("min", today);
+                        document.getElementById("minimumdate").setAttribute("min", today);
+
+                        ////+++++++++++++++++++++++++++++++++++++++
+                    </script>
+                </div>
+                <br />
+                <label>Time:</label>
+                <br />
+                @* Input Validation: The minimum Hour can be 12 and maximum hour can be 21; all minutes are included *@
+                @* Input Validation: The minimum Hour can be 12 and maximum hour can be 21; all minutes are included  if its not 21 hours*@
+                <div class="form-group">
+
+                    <label asp-for="_resArrivingTime.Hour" for="cmb_Time" class="control-label"></label>
+                    <select asp-for="_resArrivingTime.Hour" class="form-control-static combobox" type="number" max="10" min="0" required tabindex="2" onchange="MyFunction2()" id="cmb_Time" name="cmb_Time">
+                        <option disabled selected hidden></option>  @*Added this option so when you start you don't see 12:00, but you cannot select it (hidden)*@
+                        <option value="Hour12">12</option>
+                        <option value="Hour1">13</option>
+                        <option value="Hour2">14</option>
+                        <option value="Hour3">15</option>
+                        <option value="Hour4">16</option>
+                        <option value="Hour5">17</option>
+                        <option value="Hour6">18</option>
+                        <option value="Hour7">19</option>
+                        <option value="Hour8">20</option>
+                        <option value="Hour9">21</option>
+                    </select>
+                    <span asp-validation-for="_resArrivingTime.Hour" class="text-danger"></span>
+
+                    <label asp-for="_resArrivingTime.Minute" for="cmb_Minutes" class="control-label"></label>
+                    <select asp-for="_resArrivingTime.Minute" class="form-control-static comboboxMinutes" type="number" max="10" min="0" required tabindex="3" id="cmb_Minutes" name="cmb_Minutes">
+                        <option disabled selected hidden></option>  @*Added this option so when you start you don't see 12:00, but you cannot select it (hidden)*@
+                        <option value="Minutes00">00</option>
+                        <option value="Minutes15">15</option>
+                        <option value="Minutes30">30</option>
+                        <option value="Minutes45">45</option>
+                    </select>
+                    <span asp-validation-for="_resArrivingTime.Minute" class="text-danger"></span>
+
+                </div>
+                @* Use this when inputboxes are aligned to the right *@
+                @*<div class="form-group">
+                        <label asp-for="_resArrivingTime.Minute" for="cmb_Minutes" class="control-label"></label>
+                        <select asp-for="_resArrivingTime.Minute" class="form-control-static comboboxMinutes" type="number" max="10" min="0" required tabindex="3" id="cmb_Minutes" name="cmb_Minutes">
+                            <option disabled selected hidden></option>  Added this option so when you start you don't see 12:00, but you cannot select it (hidden)
+                            <option value="Minutes00">00</option>
+                            <option value="Minutes15">15</option>
+                            <option value="Minutes30">30</option>
+                            <option value="Minutes45">45</option>
+                        </select>
+                        <span asp-validation-for="_resArrivingTime.Minute" class="text-danger"></span>
+
+                        <label asp-for="_resArrivingTime.Hour" for="cmb_Time" class="control-label">Time:</label>
                         <select asp-for="_resArrivingTime.Hour" class="form-control-static combobox" type="number" max="10" min="0" required tabindex="2" onchange="MyFunction2()" id="cmb_Time" name="cmb_Time">
-                            <option disabled selected hidden></option>  @*Added this option so when you start you don't see 12:00, but you cannot select it (hidden)*@
+                            <option disabled selected hidden></option>  Added this option so when you start you don't see 12:00, but you cannot select it (hidden)
                             <option value="Hour12">12</option>
                             <option value="Hour1">13</option>
                             <option value="Hour2">14</option>
@@ -166,260 +211,221 @@
                         </select>
                         <span asp-validation-for="_resArrivingTime.Hour" class="text-danger"></span>
 
-                        <label asp-for="_resArrivingTime.Minute" for="cmb_Minutes" class="control-label"></label>
-                        <select asp-for="_resArrivingTime.Minute" class="form-control-static comboboxMinutes" type="number" max="10" min="0" required tabindex="3" id="cmb_Minutes" name="cmb_Minutes">
-                            <option disabled selected hidden></option>  @*Added this option so when you start you don't see 12:00, but you cannot select it (hidden)*@
-                            <option value="Minutes00">00</option>
-                            <option value="Minutes15">15</option>
-                            <option value="Minutes30">30</option>
-                            <option value="Minutes45">45</option>
-                        </select>
-                        <span asp-validation-for="_resArrivingTime.Minute" class="text-danger"></span>
+                    </div>*@
+                <script>
+                    /////++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+                    //// Script to not let you select a time (hour/minutes) in the past when today is selected in the DateTimePicker
+                    //// In calendar_Date input need: onchange="myFunction(),MyFunction2()      /// Changes the hours and minutes when the input value of DateTimePicker changes (e.g. when today is selected reset the comboboxes, cannot reserve in past (hour/minutes))
+                    //// In cmb_Time input need: onchange="MyFunction2()                        /// Changes the minutes when the input value of cmb_Time changes (e.g. for this hour cannot reserve in past (minutes))
+                    // Need two new Date(); or else cannot use the step when the hour is almost over
+                    var today2 = new Date();
+                    var today3 = new Date();
+                    var dd2 = today2.getDate();
+                    var mm2 = today2.getMonth() + 1; // January is 0
+                    var yy2 = today2.getFullYear();
+                    if (dd2 < 10) {
+                        dd2 = '0' + dd2
+                    }
+                    if (mm2 < 10) {
+                        mm2 = '0' + mm2
+                    }
 
-                    </div>
-                    @* Use this when inputboxes are aligned to the right *@
-                    @*<div class="form-group">
-            <label asp-for="_resArrivingTime.Minute" for="cmb_Minutes" class="control-label"></label>
-            <select asp-for="_resArrivingTime.Minute" class="form-control-static comboboxMinutes" type="number" max="10" min="0" required tabindex="3" id="cmb_Minutes" name="cmb_Minutes">
-                <option disabled selected hidden></option>  Added this option so when you start you don't see 12:00, but you cannot select it (hidden)
-                <option value="Minutes00">00</option>
-                <option value="Minutes15">15</option>
-                <option value="Minutes30">30</option>
-                <option value="Minutes45">45</option>
-            </select>
-            <span asp-validation-for="_resArrivingTime.Minute" class="text-danger"></span>
+                    today2Date = yy2 + '-' + mm2 + '-' + dd2;
 
-            <label asp-for="_resArrivingTime.Hour" for="cmb_Time" class="control-label">Time:</label>
-            <select asp-for="_resArrivingTime.Hour" class="form-control-static combobox" type="number" max="10" min="0" required tabindex="2" onchange="MyFunction2()" id="cmb_Time" name="cmb_Time">
-                <option disabled selected hidden></option>  Added this option so when you start you don't see 12:00, but you cannot select it (hidden)
-                <option value="Hour12">12</option>
-                <option value="Hour1">13</option>
-                <option value="Hour2">14</option>
-                <option value="Hour3">15</option>
-                <option value="Hour4">16</option>
-                <option value="Hour5">17</option>
-                <option value="Hour6">18</option>
-                <option value="Hour7">19</option>
-                <option value="Hour8">20</option>
-                <option value="Hour9">21</option>
-            </select>
-            <span asp-validation-for="_resArrivingTime.Hour" class="text-danger"></span>
+                    //For TEST command these three lines
+                    var todayHour2 = today2.getHours();
+                    var todayHour3 = today3.getHours();
+                    var todayMin2 = today2.getMinutes();
 
-        </div>*@
-                    <script>
-                        /////++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-                        //// Script to not let you select a time (hour/minutes) in the past when today is selected in the DateTimePicker
-                        //// In calendar_Date input need: onchange="myFunction(),MyFunction2()      /// Changes the hours and minutes when the input value of DateTimePicker changes (e.g. when today is selected reset the comboboxes, cannot reserve in past (hour/minutes))
-                        //// In cmb_Time input need: onchange="MyFunction2()                        /// Changes the minutes when the input value of cmb_Time changes (e.g. for this hour cannot reserve in past (minutes))
-                        // Need two new Date(); or else cannot use the step when the hour is almost over
-                        var today2 = new Date();
-                        var today3 = new Date();
-                        var dd2 = today2.getDate();
-                        var mm2 = today2.getMonth() + 1; // January is 0
-                        var yy2 = today2.getFullYear();
-                        if (dd2 < 10) {
-                            dd2 = '0' + dd2
-                        }
-                        if (mm2 < 10) {
-                            mm2 = '0' + mm2
+                    ////// TEST ///
+                    ////var todayHour2 = 12;
+                    ////var todayHour3 = 12;
+                    ////var todayMin2 = 24;
+                    ////// TEST ///
+
+
+                    // 12=[1]; 13=[2];...21=[10]
+                    // Have to make number the same as the index of cmb_Time
+                    todayHour2 = (todayHour2 - 11);
+
+                    // have to make the index one index higher because the hour is almost over; can only choose future hours
+                    var todayHour3 = (todayHour3 - 11) + 1;
+
+
+                    // 00=[1]; 15=[2]; 30=[3]; 45=[4]
+                    // Have to number the same as in the index of cmb_Minutes + 1, should only be able to choose future minutes
+                    todayMin2 = Math.ceil((todayMin2 + 0.1) / 15) + 1;
+
+                    function myFunction() {
+
+                        // Reset first to disabled=false when Date is changed
+                        for (var k = 1; k < 11; k++) {
+                            document.getElementById("cmb_Time").options[k].disabled = false;
                         }
 
-                        today2Date = yy2 + '-' + mm2 + '-' + dd2;
+                        var date = document.getElementById("minimumdate").value;
 
-                        //For TEST command these three lines
-                        var todayHour2 = today2.getHours();
-                        var todayHour3 = today3.getHours();
-                        var todayMin2 = today2.getMinutes();
+                        // Chech if date in datepicker is the same as today
+                        if (date == today2Date) {
 
-                        ////// TEST ///
-                        ////var todayHour2 = 12;
-                        ////var todayHour3 = 12;
-                        ////var todayMin2 = 24;
-                        ////// TEST ///
+                            // Resets value in box
+                            document.getElementById("cmb_Time").value = null;
 
+                            // Check if the minutes in the time is above 45 minutes, which means the hour is almost over
+                            if (todayMin2 > 4) {
 
-                        // 12=[1]; 13=[2];...21=[10]
-                        // Have to make number the same as the index of cmb_Time
-                        todayHour2 = (todayHour2 - 11);
+                                // For every index in cmb_Time, check if it is lower than the hour of the time now
+                                // If true, then disable the option
+                                // Don't have to disable the minutes because can only choose future hours
+                                for (var y = 1; y < 11; y++) {
+                                    if (y < todayHour3) {
 
-                        // have to make the index one index higher because the hour is almost over; can only choose future hours
-                        var todayHour3 = (todayHour3 - 11) + 1;
-
-
-                        // 00=[1]; 15=[2]; 30=[3]; 45=[4]
-                        // Have to number the same as in the index of cmb_Minutes + 1, should only be able to choose future minutes
-                        todayMin2 = Math.ceil((todayMin2 + 0.1) / 15) + 1;
-
-                        function myFunction() {
-
-                            // Reset first to disabled=false when Date is changed
-                            for (var k = 1; k < 11; k++) {
-                                document.getElementById("cmb_Time").options[k].disabled = false;
-                            }
-
-                            var date = document.getElementById("minimumdate").value;
-
-                            // Chech if date in datepicker is the same as today
-                            if (date == today2Date) {
-
-                                // Resets value in box
-                                document.getElementById("cmb_Time").value = null;
-
-                                // Check if the minutes in the time is above 45 minutes, which means the hour is almost over
-                                if (todayMin2 > 4) {
-
-                                    // For every index in cmb_Time, check if it is lower than the hour of the time now
-                                    // If true, then disable the option
-                                    // Don't have to disable the minutes because can only choose future hours
-                                    for (var y = 1; y < 11; y++) {
-                                        if (y < todayHour3) {
-
-                                            document.getElementById("cmb_Time").options[y].disabled = true;
-                                        }
-                                    }
-                                }
-                                // If the hour isn't almost done
-                                else {
-
-                                    // Checks if you are reserving at 21h. If you are, it will disable all hours
-                                    // Because cannot reserve anymore. Could make a reservation for 21h at 20.59
-                                    if (todayHour2 == 10) {
-                                        for (var z = 1; z < 11; z++) {
-                                            document.getElementById("cmb_Time").options[z].disabled = true;
-                                        }
-
-                                    }
-
-                                    // Don't have to make the index one index higher because the hour is isn't almost over
-                                    // uses todayHour2 = (todayHour2 - 11);
-                                    // For every idex in the cmb_Time, check if it is lower than the hour of the time now
-                                    // If true, then disable the option
-                                    for (var i = 1; i < 11; i++) {
-                                        if (i < todayHour2) {
-
-                                            document.getElementById("cmb_Time").options[i].disabled = true;
-
-                                        }
+                                        document.getElementById("cmb_Time").options[y].disabled = true;
                                     }
                                 }
                             }
-                        }
+                            // If the hour isn't almost done
+                            else {
 
-                        function MyFunction2() {
-
-                            // First reset
-                            for (var x = 1; x < 5; x++) {
-                                document.getElementById("cmb_Minutes").options[x].disabled = false;
-                            }
-
-                            var date2 = document.getElementById("minimumdate").value;
-                            var selectedHour = document.getElementById("cmb_Time").selectedIndex;
-
-                            // Cannot make a reservation for later than 21
-                            if (selectedHour == 10) {
-                                document.getElementById("cmb_Minutes").options[1].disabled = false;
-                                document.getElementById("cmb_Minutes").options[2].disabled = true;
-                                document.getElementById("cmb_Minutes").options[3].disabled = true;
-                                document.getElementById("cmb_Minutes").options[4].disabled = true;
-
-                            }
-
-                            if (date2 == today2Date) {
-
-                                // Resets value in box
-                                document.getElementById("cmb_Minutes").value = null;
-
-                                // Cannot make a reservation for today after 21h
-                                if (todayHour2 >= 10) {
-                                    for (var a = 1; a < 11; a++) {
-                                        document.getElementById("cmb_Minutes").options[a].disabled = true;
+                                // Checks if you are reserving at 21h. If you are, it will disable all hours
+                                // Because cannot reserve anymore. Could make a reservation for 21h at 20.59
+                                if (todayHour2 == 10) {
+                                    for (var z = 1; z < 11; z++) {
+                                        document.getElementById("cmb_Time").options[z].disabled = true;
                                     }
 
                                 }
 
-                                // For every every index in cmb_Minutes, check if it is lower than index of the minutes now
-                                // If true, disable the option
-                                if (selectedHour == todayHour2) {
+                                // Don't have to make the index one index higher because the hour is isn't almost over
+                                // uses todayHour2 = (todayHour2 - 11);
+                                // For every idex in the cmb_Time, check if it is lower than the hour of the time now
+                                // If true, then disable the option
+                                for (var i = 1; i < 11; i++) {
+                                    if (i < todayHour2) {
 
-                                    for (var j = 1; j < 5; j++) {
+                                        document.getElementById("cmb_Time").options[i].disabled = true;
 
-                                        if (j < todayMin2) {
-
-                                            document.getElementById("cmb_Minutes").options[j].disabled = true;
-                                        }
                                     }
-
                                 }
                             }
+                        }
+                    }
+
+                    function MyFunction2() {
+
+                        // First reset
+                        for (var x = 1; x < 5; x++) {
+                            document.getElementById("cmb_Minutes").options[x].disabled = false;
+                        }
+
+                        var date2 = document.getElementById("minimumdate").value;
+                        var selectedHour = document.getElementById("cmb_Time").selectedIndex;
+
+                        // Cannot make a reservation for later than 21
+                        if (selectedHour == 10) {
+                            document.getElementById("cmb_Minutes").options[1].disabled = false;
+                            document.getElementById("cmb_Minutes").options[2].disabled = true;
+                            document.getElementById("cmb_Minutes").options[3].disabled = true;
+                            document.getElementById("cmb_Minutes").options[4].disabled = true;
 
                         }
-                                                                                                                                                            ////+++++++++++++++++++++++++++++++++++++++++++++++++++++
-                    </script>
 
-                    @* Input Validation: minimum party size = 0; maximum party size=10; it is required *@
-                    <div class="form-group">
-                        <label asp-for="_resPartySize" for="num_NumberofGuests" class="control-label">Party size:</label>
-                        <input asp-for="_resPartySize" class="form-control numberbox" type="number" name="num_NumberofGuests" max="10" min="1" required tabindex="4" />
-                        <span asp-validation-for="_resPartySize" class="text-danger"></span>
-                    </div>
+                        if (date2 == today2Date) {
 
-                    @* Input Validation: It only accepts letters; it accepts a maximum of 25 characters; it is required;  *@
-                    <div class="form-group">
-                        <label asp-for="_resGuest._guestName" for="txt_GuestName" class="control-label">Name:</label>
-                        <input asp-for="_resGuest._guestName" class="form-control textbox" type="text" name="txt_GuestName" pattern="^[A-Za-z][A-Za-z ,.'-]{0,23}[A-Za-z]$" max="25" required tabindex="5" title="The name should only consist of letters with a maximum of 25 characters." />
-                        <span asp-validation-for="_resGuest._guestName" class="text-danger"></span>
-                    </div>
+                            // Resets value in box
+                            document.getElementById("cmb_Minutes").value = null;
 
-                    @* Input Validation: It only accepts numbers; It expects 10 numbers; not required;  *@
-                    @* Input Validation: It only accepts numbers; It expects 10 numbers; is required unless email has a value;  *@
-                    @*|(?:[0]{2}[3][0-9]{10}) = for 0031-612345678 numbers*@
-                    <div class="form-group">
-                        <label asp-for="_resGuest._guestPhone" for="txt_GuestPhoneNumber" class="control-label">Phone number:</label>
-                        <input asp-for="_resGuest._guestPhone" class="form-control textbox" type="text" max="25" name="txt_GuestPhoneNumber" pattern="(?:[+][0-9]{10})|(?:[0][0-9]{9})" tabindex="6" required title="Phone number should consist of 10 numbers" id="username" />
-                        <span asp-validation-for="_resGuest._guestPhone" class="text-danger"></span>
-                    </div>
+                            // Cannot make a reservation for today after 21h
+                            if (todayHour2 >= 10) {
+                                for (var a = 1; a < 11; a++) {
+                                    document.getElementById("cmb_Minutes").options[a].disabled = true;
+                                }
 
-                    @* Input Validation: As an email box it checks if @ is included; not required *@
-                    @* Input Validation: It only accepts numbers; It expects 10 numbers; is required unless phone number has a value;  *@
-                    <div class="form-group">
-                        <label asp-for="_resGuest._guestEmail" for="e-box_GuestEmail" class="control-label">Email:</label>
-                        <input asp-for="_resGuest._guestEmail" class="form-control emailbox" type="email" name="e-box_GuestEmail" tabindex="7" required />
-                        <span asp-validation-for="_resGuest._guestEmail" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="_resHidePrices" for="chk_HidePrices" class="control-label">Hide Prices:</label>
-                        <input asp-for="_resHidePrices" class="form-control-static checkbox" type="checkbox" name="chk_HidePrices" tabindex="8"/>
-                        <span asp-validation-for="_resHidePrices" class="text-danger"></span>
-                    </div>
+                            }
 
-                    @* Input Validation: Maximum number of characters accepted is a 100 *@
-                    <div class="form-group">
-                        <label asp-for="_resComments" class="control-label" for="txt_Comments">Comments:</label>
-                        <input asp-for="_resComments" class="form-control textbox" type="text" name="txt_Comments" tabindex="9" max="100" />
-                        <span asp-validation-for="_resComments" class="text-danger"></span>
-                    </div>
-                    <br />
-                    <br />
-                    <div class="form-group">
-                        <input type="submit" value="Confirm Reservation" class="btn btn-default" tabindex="10" />
-                    </div>
-                    <div class="form-group">
-                        <label for:"AnyotherProblem" class="OtherProblems">Feel free to contact us on 0000000000 if you experience any problems.</label>
-                    </div>
-                </form>
-            </div>
+                            // For every every index in cmb_Minutes, check if it is lower than index of the minutes now
+                            // If true, disable the option
+                            if (selectedHour == todayHour2) {
+
+                                for (var j = 1; j < 5; j++) {
+
+                                    if (j < todayMin2) {
+
+                                        document.getElementById("cmb_Minutes").options[j].disabled = true;
+                                    }
+                                }
+
+                            }
+                        }
+
+                    }
+                                                                                                                                                                        ////+++++++++++++++++++++++++++++++++++++++++++++++++++++
+                </script>
+
+                @* Input Validation: minimum party size = 0; maximum party size=10; it is required *@
+                <div class="form-group">
+                    <label asp-for="_resPartySize" for="num_NumberofGuests" class="control-label">Party size:</label>
+                    <input asp-for="_resPartySize" class="form-control numberbox" type="number" name="num_NumberofGuests" max="10" min="1" required tabindex="4" />
+                    <span asp-validation-for="_resPartySize" class="text-danger"></span>
+                </div>
+
+                @* Input Validation: It only accepts letters; it accepts a maximum of 25 characters; it is required;  *@
+                <div class="form-group">
+                    <label asp-for="_resGuest._guestName" for="txt_GuestName" class="control-label">Name:</label>
+                    <input asp-for="_resGuest._guestName" class="form-control textbox" type="text" name="txt_GuestName" pattern="^[A-Za-z][A-Za-z ,.'-]{0,23}[A-Za-z]$" max="25" required tabindex="5" title="The name should only consist of letters with a maximum of 25 characters." />
+                    <span asp-validation-for="_resGuest._guestName" class="text-danger"></span>
+                </div>
+
+                @* Input Validation: It only accepts numbers; It expects 10 numbers; not required;  *@
+                @* Input Validation: It only accepts numbers; It expects 10 numbers; is required unless email has a value;  *@
+                @*|(?:[0]{2}[3][0-9]{10}) = for 0031-612345678 numbers*@
+                <div class="form-group">
+                    <label asp-for="_resGuest._guestPhone" for="txt_GuestPhoneNumber" class="control-label">Phone number:</label>
+                    <input asp-for="_resGuest._guestPhone" class="form-control textbox" type="text" max="25" name="txt_GuestPhoneNumber" pattern="(?:[+][0-9]{10})|(?:[0][0-9]{9})" tabindex="6" required title="Phone number should consist of 10 numbers" id="username" />
+                    <span asp-validation-for="_resGuest._guestPhone" class="text-danger"></span>
+                </div>
+
+                @* Input Validation: As an email box it checks if @ is included; not required *@
+                @* Input Validation: It only accepts numbers; It expects 10 numbers; is required unless phone number has a value;  *@
+                <div class="form-group">
+                    <label asp-for="_resGuest._guestEmail" for="e-box_GuestEmail" class="control-label">Email:</label>
+                    <input asp-for="_resGuest._guestEmail" class="form-control emailbox" type="email" name="e-box_GuestEmail" tabindex="7" required />
+                    <span asp-validation-for="_resGuest._guestEmail" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="_resHidePrices" for="chk_HidePrices" class="control-label">Hide Prices:</label>
+                    <input asp-for="_resHidePrices" class="form-control-static checkbox" type="checkbox" name="chk_HidePrices" tabindex="8" />
+                    <span asp-validation-for="_resHidePrices" class="text-danger"></span>
+                </div>
+
+                @* Input Validation: Maximum number of characters accepted is a 100 *@
+                <div class="form-group">
+                    <label asp-for="_resComments" class="control-label" for="txt_Comments">Comments:</label>
+                    <input asp-for="_resComments" class="form-control textbox" type="text" name="txt_Comments" tabindex="9" max="100" />
+                    <span asp-validation-for="_resComments" class="text-danger"></span>
+                </div>
+                <br />
+                <br />
+                <div class="form-group">
+                    <input type="submit" value="Confirm Reservation" class="btn btn-default" tabindex="10" />
+                </div>
+                <div class="form-group">
+                    <label for:"AnyotherProblem" class="OtherProblems">Feel free to contact us on 0000000000 if you experience any problems.</label>
+                </div>
+            </form>
         </div>
+    </div>
 
-        <div>
-            <a asp-action="Index">Back to List</a>
-        </div>
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
 
-    </body>
+</body>
 
 @* This commented because else can't press the confrim reservation button *@
 @*@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}*@
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }*@
 
 
 
