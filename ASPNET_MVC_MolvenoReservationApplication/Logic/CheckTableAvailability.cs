@@ -52,7 +52,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Logic
             // If both the start and end times are exactly the same... WRONG!
             (reservation._resArrivingTime == start && reservation._resLeavingTime == end)
 
-            ).ToList();
+            ).Include("Table").ToList();
 
             ReservedTables = ReservationsInOurTimeSlot.Select(reservation => reservation._resTable).ToList();
 
