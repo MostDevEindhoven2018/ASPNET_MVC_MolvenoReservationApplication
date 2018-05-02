@@ -18,57 +18,7 @@
             padding-bottom: 10px;
             background: rgba(76,23,43, 0.2);            
         }
-        /*body {
-                font-family: 'Times New Roman';
-                background-color: lightblue;
-            }
-
-
-            label {
-                margin: 10px 0px 10px 0px;
-                background-color: lightgoldenrodyellow;
-            }
-
-            .textbox {
-                float: right;
-            }
-
-            .numberbox {
-                float: right;
-            }
-
-            .comboboxMinutes {
-                float: right;
-            }
-
-            .combobox {
-                float: right;
-            }
-
-            .emailbox {
-                float: right;
-            }
-
-            .checkbox {
-                float: right;
-            }
-
-            .OtherProblems {
-                position: center;
-                border: 1px solid blue;
-                background-color: lightgoldenrodyellow;
-                padding: 20px;
-                font-weight: bold;
-                color: black;
-            }
-
-        input:invalid {
-            box-shadow: 0 0 5px 1px red;
-        }
-
-        input:focus:invalid {
-            outline: none;
-        }*/
+       
     </style>
 
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
@@ -382,7 +332,7 @@
                 @*|(?:[0]{2}[3][0-9]{10}) = for 0031-612345678 numbers*@
                 <div class="form-group">
                     <label asp-for="_resGuest._guestPhone" for="txt_GuestPhoneNumber" class="control-label">Phone number:</label>
-                    <input asp-for="_resGuest._guestPhone" class="form-control textbox" type="text" max="25" name="txt_GuestPhoneNumber" pattern="(?:[+][0-9]{10})|(?:[0][0-9]{9})" tabindex="6" required title="Phone number should consist of 10 numbers" id="username" />
+                    <input asp-for="_resGuest._guestPhone" class="form-control textbox" type="text" max="25" name="txt_GuestPhoneNumber" pattern="(?:[+][0-9]{11})|(?:[0][0-9]{9})|(?:[0-9]{10})" tabindex="6" required title="Phone number should consist of + and 11 numbers or 0 and 9 numbers or 10 numbers" id="username" />
                     <span asp-validation-for="_resGuest._guestPhone" class="text-danger"></span>
                 </div>
 

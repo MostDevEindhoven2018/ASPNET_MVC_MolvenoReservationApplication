@@ -9,51 +9,60 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
+<table class="table" id="reservationtable">
     <thead>
         <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model._resPartySize)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model._resArrivingTime)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model._resLeavingTime)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model._resHidePrices)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model._resComments)
-                </th>
+            <th>
+                @Html.DisplayNameFor(model => model._resPartySize)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model._resArrivingTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model._resLeavingTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model._resHidePrices)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model._resComments)
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item._resPartySize)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item._resArrivingTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item._resLeavingTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item._resHidePrices)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item._resComments)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ReservationID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ReservationID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ReservationID">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item._resPartySize)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item._resArrivingTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item._resLeavingTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item._resHidePrices)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item._resComments)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ReservationID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ReservationID">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ReservationID">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+@section Scripts{ 
+<script>
+    $(document).ready(function () {
+        $('#reservationtable').DataTable();
+    });
+</script>
+}
