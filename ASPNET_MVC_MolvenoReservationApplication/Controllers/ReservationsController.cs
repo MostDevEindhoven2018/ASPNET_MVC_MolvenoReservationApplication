@@ -14,16 +14,14 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
 {
     public class ReservationsController : Controller
     {
-        //private readonly MyDBContext _context;
-        //private CheckTableAvailability _AvailabilityCheck;
-        MyDBContext _context;
-        CheckTableAvailability _AvailabilityCheck;
+        private readonly MyDBContext _context;
+        private CheckTableAvailability _AvailabilityCheck;
 
         public ReservationsController(MyDBContext context)
         {
             _AvailabilityCheck = new CheckTableAvailability(context);
             _context = context;
-            
+
         }
 
         // GET: Reservations
@@ -32,24 +30,23 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
             return View(await _context.Reservations.ToListAsync());
         }
 
-        
-        //// GET: Reservations/Details/5
-        //public async Task<IActionResult> Details(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+        // GET: Reservations/Details/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-        //    var reservation = await _context.Reservations
-        //        .SingleOrDefaultAsync(m => m.ReservationID == id);
-        //    if (reservation == null)
-        //    {
-        //        return NotFound();
-        //    }
+            var reservation = await _context.Reservations
+                .SingleOrDefaultAsync(m => m.ReservationID == id);
+            if (reservation == null)
+            {
+                return NotFound();
+            }
 
-        //    return View(reservation);
-        //}
+            return View(reservation);
+        }
 
         // GET: Reservations/Create
         public IActionResult Create()
@@ -89,32 +86,36 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
 
             List<Table> AvailableTables = _AvailabilityCheck.GetAvailableTables(reservation._resArrivingTime,
                 reservation._resLeavingTime, reservation._resPartySize);
-
-            //if (AvailableTables.Any())
-            if (AvailableTables.Count>0)
+            try
             {
-                reservation._resTable = AvailableTables.First();
-
-
-                if (ModelState.IsValid)
+                if (AvailableTables.Any())
                 {
-                    //_context.Add(reservation);
-                    //_context.SaveChangesAsync();
-                    //return RedirectToAction(nameof(Index));
-                    _context.Reservations.Add(reservation);
-                    _context.SaveChanges();
+                    reservation._resTable = AvailableTables.First();
 
-                    return RedirectToAction("Index");
+                    if (ModelState.IsValid)
+                    {
+                        _context.Reservations.Add(reservation);
+                        _context.SaveChanges();
 
+                        return RedirectToAction("Index");
+                    }
+                    return View(reservation);
                 }
+                else
+                {
+                    //ModelState.AddModelError("No availability",
+                    //    "We are sorry, but there are no tables available for your search. Try reserving a different date.");
+                    //return View(reservation);
+                    return Json(new { status = "failed", message = "No free tables." });
+                }
+            }
+            catch(Exception ex)
+            {
+                ModelState.AddModelError("Error", ex.Message);
                 return View(reservation);
             }
-            return View(reservation);
         }
-
         
-
-
         // GET: Reservations/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
