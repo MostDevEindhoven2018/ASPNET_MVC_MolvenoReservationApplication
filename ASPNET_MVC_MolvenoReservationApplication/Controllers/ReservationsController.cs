@@ -56,6 +56,25 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
             return View();
         }
 
+        //public IActionResult Create(ReservationViewModel viewModel)
+        //{
+
+        //    var guest = new Guest()
+
+        //    {
+        //        _guestName = viewModel.name,
+        //       _guestEmail = viewModel.email,
+        //       _guestPhone = viewModel.phone,
+        //     };
+
+        //    var table = new Table();
+        //    var reservation = new Reservation();
+            
+
+        //    return View("Create");
+
+        //}
+
         // POST: Reservations/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
