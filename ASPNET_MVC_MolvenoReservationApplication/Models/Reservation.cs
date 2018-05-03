@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ASPNET_MVC_MolvenoReservationApplication
+namespace ASPNET_MVC_MolvenoReservationApplication.Models
 {
     public class Reservation
     {

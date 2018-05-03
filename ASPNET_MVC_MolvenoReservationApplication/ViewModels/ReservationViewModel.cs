@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ASPNET_MVC_MolvenoReservationApplication.Models
+namespace ASPNET_MVC_MolvenoReservationApplication.ViewModels
 {
     public class ReservationViewModel
     {

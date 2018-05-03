@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 
-namespace ASPNET_MVC_MolvenoReservationApplication
+namespace ASPNET_MVC_MolvenoReservationApplication.Models
 {
     public class Guest
     {
