@@ -10,8 +10,16 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
 {
     public class HomeController : Controller
     {
+        MyDBContext _context;
+        public HomeController(MyDBContext context)
+        {
+            //_AvailabilityCheck = new CheckTableAvailability(context);
+            _context = context;
+
+        }
         public IActionResult Index()
         {
+            _context.Database.EnsureCreated();
             return View();
         }
 

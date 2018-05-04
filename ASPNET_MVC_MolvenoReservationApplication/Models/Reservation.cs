@@ -12,8 +12,8 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Models
 
         public int ReservationID { get; set; }
 
-        [Display(Name = "Table", AutoGenerateField = false)]
-        public virtual Table _resTable { get; set; }
+        [Display(Name = "ReservationTableCouplings", AutoGenerateField = false)]
+        public virtual ICollection<ReservationTableCoupling> _resReservationTableCouplings { get; set; }
 
         [Display(Name = "Guest", AutoGenerateField = false)]
         public Guest _resGuest { get; set; }
@@ -22,14 +22,15 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Models
         [Required(ErrorMessage = "Please enter the amount of people attending.")]
         public int _resPartySize { get; set; }
 
-        [Display(Name = "Arriving time", AutoGenerateField = true)]
-        [Required(ErrorMessage = "Please enter your date and time of arrival.")]
-        [DataType(DataType.DateTime)]
+
+        [Display(Name = "DateOfReservation", AutoGenerateField = true)]
+        [Required(ErrorMessage = "Please pick a date.")]
         public DateTime _resArrivingTime { get; set; }
 
-        [Display(Name = "Leaving time", AutoGenerateField = true)]
-        [DataType(DataType.DateTime)]
-        public DateTime _resLeavingTime { get; set; }
+    
+        // This now gets hardcoded. This will need to be changed so a config file sets this default.
+        [Display(Name = "DurationOfReservation", AutoGenerateField = false)]
+        public int _resDurationOfReservation { get; set; } = 3;
 
         [Display(Name = "Hide prices", AutoGenerateField = true)]
         public bool _resHidePrices { get; set; }
@@ -43,39 +44,51 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Models
 
         }
 
+
+
         /// <summary>
         /// Reservation constructor. The default leaving time is (arriving time) + 3 hours.
         /// </summary>
-        /// <param name="partySize">int. The number of people attending the event.</param>
-        /// <param name="arrivingDateTime">datetime. The arriving date and time.</param>
-        public Reservation(int partySize, DateTime arrivingDateTime)
+        /// <param name="partySize"></param>
+        /// <param name="date"></param>
+        /// <param name="hour"></param>
+        /// <param name="minute"></param>
+        public Reservation(int partySize, DateTime arrivingTime)
         {
-            this._resPartySize = partySize;
-            this._resArrivingTime = arrivingDateTime;
-            this._resLeavingTime = arrivingDateTime.AddHours(3d);
+            _resPartySize = partySize;
+            _resArrivingTime = arrivingTime;
         }
 
         /// <summary>
-        /// Reservation constructor with custom leaving time as input.
+        /// Reservation constructor with custom duration as input.
         /// </summary>
         /// <param name="partySize">int. The number of people attending the event.</param>
         /// <param name="arrivingDateTime">datetime. The arriving date and time.</param>
         /// <param name="leavingDateTime">datetime. The leaving date and time.</param>
-        public Reservation(int partySize, DateTime arrivingDateTime, DateTime leavingDateTime)
+        public Reservation(int partySize, DateTime arrivingTime, int duration)
         {
-            this._resPartySize = partySize;
-            this._resArrivingTime = arrivingDateTime;
-            this._resLeavingTime = leavingDateTime;
+            _resPartySize = partySize;
+            _resArrivingTime = arrivingTime;
+            _resDurationOfReservation = duration;
         }
 
-        public Reservation(int partySize, DateTime arrivingDatetime,
-            DateTime leavingDatetime, Table table, Guest guest)
+
+        /// <summary>
+        /// Reservation constructor with an added table. Please note that this will be converted to a ReservationTableCoupling and only then added.
+        /// </summary>
+        /// <param name="partySize"></param>
+        /// <param name="date"></param>
+        /// <param name="hour"></param>
+        /// <param name="minute"></param>
+        /// <param name="duration"></param>
+        /// <param name="table">will be converted to a ReservationTableCoupling</param>
+        /// <param name="guest"></param>
+        public Reservation(int partySize, DateTime arrivingTime, int duration,Guest guest)
         {
-            this._resPartySize = partySize;
-            this._resArrivingTime = arrivingDatetime;
-            this._resLeavingTime = leavingDatetime;
-            this._resGuest = guest;
-            this._resTable = table;
+            _resPartySize = partySize;
+            _resArrivingTime = arrivingTime;
+            _resDurationOfReservation = duration;
+            _resGuest = guest;
         }
     }
 }

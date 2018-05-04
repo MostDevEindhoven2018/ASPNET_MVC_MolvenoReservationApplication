@@ -20,7 +20,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Migrations
                 .HasAnnotation("ProductVersion", "2.0.2-rtm-10011")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("ASPNET_MVC_MolvenoReservationApplication.Guest", b =>
+            modelBuilder.Entity("ASPNET_MVC_MolvenoReservationApplication.Models.Guest", b =>
                 {
                     b.Property<int>("GuestID")
                         .ValueGeneratedOnAdd();
@@ -40,35 +40,52 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Migrations
                     b.ToTable("Guests");
                 });
 
-            modelBuilder.Entity("ASPNET_MVC_MolvenoReservationApplication.Reservation", b =>
+            modelBuilder.Entity("ASPNET_MVC_MolvenoReservationApplication.Models.Reservation", b =>
                 {
                     b.Property<int>("ReservationID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("_resArrivingTime");
-
                     b.Property<string>("_resComments");
+
+                    b.Property<string>("_resDateOfReservation")
+                        .IsRequired();
+
+                    b.Property<int>("_resDurationOfReservation");
 
                     b.Property<int?>("_resGuestGuestID");
 
-                    b.Property<bool>("_resHidePrices");
+                    b.Property<int>("_resHourOfReservation");
 
-                    b.Property<DateTime>("_resLeavingTime");
+                    b.Property<int>("_resMinuteOfReservation");
 
                     b.Property<int>("_resPartySize");
-
-                    b.Property<int?>("_resTableTableID");
 
                     b.HasKey("ReservationID");
 
                     b.HasIndex("_resGuestGuestID");
 
-                    b.HasIndex("_resTableTableID");
-
                     b.ToTable("Reservations");
                 });
 
-            modelBuilder.Entity("ASPNET_MVC_MolvenoReservationApplication.Table", b =>
+            modelBuilder.Entity("ASPNET_MVC_MolvenoReservationApplication.Models.ReservationTableCoupling", b =>
+                {
+                    b.Property<int>("ReservationTableCouplingID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("ReservationID");
+
+                    b.Property<int?>("TableID");
+
+                    b.HasKey("ReservationTableCouplingID");
+
+                    b.HasIndex("ReservationID");
+
+                    b.HasIndex("TableID");
+
+                    b.ToTable("ReservationTableCouplings");
+                });
+
+            modelBuilder.Entity("ASPNET_MVC_MolvenoReservationApplication.Models.Table", b =>
                 {
                     b.Property<int>("TableID")
                         .ValueGeneratedOnAdd();
@@ -82,15 +99,22 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Migrations
                     b.ToTable("Tables");
                 });
 
-            modelBuilder.Entity("ASPNET_MVC_MolvenoReservationApplication.Reservation", b =>
+            modelBuilder.Entity("ASPNET_MVC_MolvenoReservationApplication.Models.Reservation", b =>
                 {
-                    b.HasOne("ASPNET_MVC_MolvenoReservationApplication.Guest", "_resGuest")
+                    b.HasOne("ASPNET_MVC_MolvenoReservationApplication.Models.Guest", "_resGuest")
                         .WithMany()
                         .HasForeignKey("_resGuestGuestID");
+                });
 
-                    b.HasOne("ASPNET_MVC_MolvenoReservationApplication.Table", "_resTable")
-                        .WithMany()
-                        .HasForeignKey("_resTableTableID");
+            modelBuilder.Entity("ASPNET_MVC_MolvenoReservationApplication.Models.ReservationTableCoupling", b =>
+                {
+                    b.HasOne("ASPNET_MVC_MolvenoReservationApplication.Models.Reservation", "Reservation")
+                        .WithMany("_resReservationTableCouplings")
+                        .HasForeignKey("ReservationID");
+
+                    b.HasOne("ASPNET_MVC_MolvenoReservationApplication.Models.Table", "Table")
+                        .WithMany("_tableReservationTableCouplings")
+                        .HasForeignKey("TableID");
                 });
 #pragma warning restore 612, 618
         }
