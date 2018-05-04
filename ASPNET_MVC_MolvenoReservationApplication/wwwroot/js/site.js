@@ -172,8 +172,19 @@ var today = new Date();
                                                                                                                                                                         ////+++++++++++++++++++++++++++++++++++++++++++++++++++++
 //SCRIPT TWO ENDS
 
+//SCRIPT THREE STARTS
+ ///jQuery function that inputs the phonenumber and email and changes required to empty/false for one of them when the other one has a value
 
+    jQuery(function ($) {
 
+            var $inputs = $('input[name=txt_GuestPhoneNumber],input[name=e-box_GuestEmail]');
+            $inputs.on('input', function () {
+        $inputs.not(this).prop('required', !$(this).val().length);
+
+    });
+        });
+
+//SCRIPT THREE ENDS
 
 //PERHAPS NECESSARY CODE:
 //@* Use this when inputboxes are aligned to the right *@
