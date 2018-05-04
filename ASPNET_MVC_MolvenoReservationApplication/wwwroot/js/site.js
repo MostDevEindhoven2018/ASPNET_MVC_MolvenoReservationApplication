@@ -1,29 +1,8 @@
 ﻿// Write your JavaScript code.
 
+
+
 //SCRIPT ONE STARTS
-/// This lets the min value of calendat_date go to today so you can make a reservation on a day in the past
-/// First makes a value for today in the same layout as the input from the DateTimePicker
-var today = new Date();
-                        var dd = today.getDate();
-                        var mm = today.getMonth() + 1; // January is 0
-                        var yyyy = today.getFullYear();
-                        if (dd < 10) {
-        dd = '0' + dd
-    }
-    if (mm < 10) {
-        mm = '0' + mm
-    }
-
-    today = yyyy + '-' + mm + '-' + dd;
-                        /// Changes the min attribute of calender_Date to today
-                        /// Needs an Id attribute; getElementByName didn't work
-                        //document.getElementById("calendar_Date").setAttribute("min", today);
-                        document.getElementById("minimumdate").setAttribute("min", today);
-
-//SCRIPT ONE ENDS
-
-
-//SCRIPT TWO STARTS
 // Script to not let you select a time (hour/minutes) in the past when today is selected in the DateTimePicker
 // In calendar_Date input need: onchange="myFunction(),MyFunction2()      /// Changes the hours and minutes when the input value of DateTimePicker changes (e.g. when today is selected reset the comboboxes, cannot reserve in past (hour/minutes))
 // In cmb_Time input need: onchange="MyFunction2()                        /// Changes the minutes when the input value of cmb_Time changes (e.g. for this hour cannot reserve in past (minutes))
@@ -73,7 +52,7 @@ var today = new Date();
         document.getElementById("cmb_Time").options[k].disabled = false;
     }
 
-                        var date = document.getElementById("minimumdate").value;
+                        var date = document.getElementById("date").value;
 
                         // Chech if date in datepicker is the same as today
                         if (date == today2Date) {
@@ -128,7 +107,7 @@ var today = new Date();
         document.getElementById("cmb_Minutes").options[x].disabled = false;
     }
 
-                        var date2 = document.getElementById("minimumdate").value;
+                        var date2 = document.getElementById("date").value;
                         var selectedHour = document.getElementById("cmb_Time").selectedIndex;
 
                         // Cannot make a reservation for later than 21
@@ -184,7 +163,7 @@ var today = new Date();
     });
         });
 
-//SCRIPT THREE ENDS
+//SCRIPT ONE ENDS
 
 //PERHAPS NECESSARY CODE:
 //@* Use this when inputboxes are aligned to the right *@

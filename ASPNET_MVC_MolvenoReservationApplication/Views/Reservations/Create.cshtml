@@ -20,21 +20,16 @@
         }
     </style>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-    <script src="https://code.jquery.com/ui/jquery-ui-git.js"></script>
-    <link href="https://code.jquery.com/ui/1.12.1/themes/sunny/jquery-ui.css" rel="stylesheet" />
 
-    @*This script is included here instead of the site.js because it needs to set the format of the date for this form*@
-    <script>
-        function inPage() {
-            $("#arrivingDate").datepicker(
-                {
-                    dateFormat: "d-m-yy",
-                    changeYear: true
-                }
-            );
+    @*<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+        <script src="https://code.jquery.com/ui/jquery-ui-git.js"></script>*@
 
-    </script>
+    <script src="~/jquery-ui-1.12.1.custom/external/jquery/jquery.js"></script>
+    <script src="~/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+
+    @*<link href="https://code.jquery.com/ui/1.12.1/themes/sunny/jquery-ui.css" rel="stylesheet" />*@
+    <link href="~/jquery-ui-1.12.1.custom/jquery-ui.css" rel="stylesheet">
+    
 
 }
 
@@ -58,8 +53,40 @@
                 @* Input Validation: As a calendar *@
                 <div class="form-group">
                     <label asp-for="_resArrivingTime.Date" for="calendar_Date" class="control-label">Date</label>
-                    <input asp-for="_resArrivingTime.Date" style="width: 250px; height: 35px;" class="form-control textbox" onchange="myFunction(),MyFunction2()" id="minimumdate" type="date" name="calendar_Date" min="2018-04-23" max="2020-04-23" tabindex="1" required />
+                    <input asp-for="_resArrivingTime.Date" style="width: 250px; height: 35px;" class="form-control textbox" onchange="myFunction(),MyFunction2()" id="date" type="text" name="date" min="2018-04-23" max="2020-04-23" tabindex="1" required />
                     <span asp-validation-for="_resArrivingTime.Date" class="text-danger"></span>
+                    @* SCRIPT ONE sets the date format *@
+                    <script>
+
+                        $("#date").datepicker(
+                            {
+                                dateFormat: "d-m-yy",
+                                changeYear: true
+                            }
+                        );
+
+                    </script>
+                    @*//SCRIPT TWO
+                    /// This lets the min value of calendat_date go to today so you can make a reservation on a day in the past
+                    /// First makes a value for today in the same layout as the input from the DateTimePicker*@
+                    <script>
+                        var today = new Date();
+                        var dd = today.getDate();
+                        var mm = today.getMonth() + 1; // January is 0
+                        var yyyy = today.getFullYear();
+                        if (dd < 10) {
+                            dd = '0' + dd
+                        }
+                        if (mm < 10) {
+                            mm = '0' + mm
+                        }
+
+                        today = yyyy + '-' + mm + '-' + dd;
+                        /// Changes the min attribute of calender_Date to today
+                        /// Needs an Id attribute; getElementByName didn't work
+                        //document.getElementById("calendar_Date").setAttribute("min", today);
+                        $('#date').datepicker('option', 'minDate', new Date(today));
+                    </script>
                 </div>
                 <br />
                 <label>Time:</label>
