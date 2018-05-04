@@ -88,7 +88,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
                 reservation._resLeavingTime, reservation._resPartySize);
             try
             {
-                if (AvailableTables.Any())
+                if (AvailableTables.Any()) //if (AvailableTables.Any())
                 {
                     reservation._resTable = AvailableTables.First();
 
@@ -103,10 +103,10 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
                 }
                 else
                 {
-                    //ModelState.AddModelError("No availability",
-                    //    "We are sorry, but there are no tables available for your search. Try reserving a different date.");
-                    //return View(reservation);
-                    return Json(new { status = "failed", message = "No free tables." });
+                    ModelState.AddModelError("No availability",
+                        "We are sorry, but there are no tables available for your search. Try reserving a different date.");
+                    return View(reservation);
+                    //return Json(new { status = "failed", message = "No free tables." });
                 }
             }
             catch(Exception ex)

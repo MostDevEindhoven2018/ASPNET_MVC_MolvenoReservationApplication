@@ -1,4 +1,4 @@
-﻿@model ASPNET_MVC_MolvenoReservationApplication.Reservation
+﻿@model ASPNET_MVC_MolvenoReservationApplication.Models.Reservation
 
 @{
     ViewData["Title"] = "Create";
@@ -16,9 +16,8 @@
             padding-right: 20px;
             padding-top: 10px;
             padding-bottom: 10px;
-            background: rgba(76,23,43, 0.2);            
+            background: rgba(76,23,43, 0.2);
         }
-       
     </style>
 
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
@@ -66,11 +65,18 @@
 
     <h4>Reservation at Molveno Lake Resort Restaurant</h4>
     <hr />
-
+    <div>
+        <label>
+            <span style="color:red">
+                @Html.ValidationMessage("No availability")
+            </span>
+        </label>
+    </div>
     <div class="row">
         <div class="col-md-4">
             <form asp-action="Create" id="form">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div asp-validation-summary="ModelOnly" class="text-danger">
+                </div>
                 @* Input Validation: As a calendar *@
                 <div class="form-group">
                     <label asp-for="_resArrivingTime.Date" for="calendar_Date" class="control-label">Date</label>
@@ -310,7 +316,7 @@
                         }
 
                     }
-                                                                                                                                                                        ////+++++++++++++++++++++++++++++++++++++++++++++++++++++
+                                                                                                                                                                                                            ////+++++++++++++++++++++++++++++++++++++++++++++++++++++
                 </script>
 
                 @* Input Validation: minimum party size = 0; maximum party size=10; it is required *@
