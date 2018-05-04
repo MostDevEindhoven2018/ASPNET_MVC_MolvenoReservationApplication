@@ -14,12 +14,15 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
 {
     public class ReservationsController : Controller
     {
+
+         
+
         private readonly MyDBContext _context;
         private CheckTableAvailability _AvailabilityCheck;
 
         public ReservationsController(MyDBContext context)
         {
-            _AvailabilityCheck = new CheckTableAvailability(context);
+            //_AvailabilityCheck = new CheckTableAvailability(context);
             _context = context;
 
         }
@@ -82,15 +85,26 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
         //public IActionResult Create([Bind("ReservationID,_resPartySize,_resArrivingTime.Date,_resArrivingTime.Hour,_resArrivingTime.Minute,_resLeavingTime,_resHidePrices,_resComments,_resGuest._guestName,_resGuest._guestPhone,_resGuest._guestEmail")] Reservation reservation)
         public IActionResult Create(Reservation reservation)
         {
-            reservation._resLeavingTime = reservation._resArrivingTime.AddHours(3);
+            
 
-            List<Table> AvailableTables = _AvailabilityCheck.GetAvailableTables(reservation._resArrivingTime,
-                reservation._resLeavingTime, reservation._resPartySize);
+            //PLACEHOLDER for the get available tables feature.
+            List<Table> AvailableTables = new List<Table>()
+            {
+                new Table(4, TableAreas.Lake)
+            };
             try
             {
                 if (AvailableTables.Any())
                 {
-                    reservation._resTable = AvailableTables.First();
+                    // Create a new ReservationTableCoupling with the current reservation and add the tables found by the availabilitychecker.
+                    ReservationTableCoupling RTC = new ReservationTableCoupling()
+                    {
+                        Reservation = reservation,
+                        // Here the tables will be added. For now it is just the first free table found by the availabilitycheck.
+                        Table = AvailableTables.First()
+                    };
+
+                    reservation._resReservationTableCouplings.Add(RTC);
 
                     if (ModelState.IsValid)
                     {
