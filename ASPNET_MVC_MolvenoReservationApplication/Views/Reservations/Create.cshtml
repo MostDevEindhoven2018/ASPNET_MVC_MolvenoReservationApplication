@@ -58,6 +58,7 @@
                     <input asp-for="Arrivingdate" style="width: 250px; height: 35px;" class="form-control textbox" onchange="myFunction(),MyFunction3()" id="date" type="text" min="2018-04-23" tabindex="1" required />
                     <span asp-validation-for="Arrivingdate" class="text-danger"></span>
                 </div>
+                @* This has to stay here for the calendar to appear*@
                 <script src="~/js/site.js"></script>
                 <br />
                 <label>Time:</label>
@@ -65,7 +66,7 @@
                 @* Input Validation: The minimum Hour can be 12 and maximum hour can be 21; all minutes are included *@
                 @* Input Validation: The minimum Hour can be 12 and maximum hour can be 21; all minutes are included  if its not 21 hours*@
                 <div class="form-group">
-                    <label asp-for="ArrivingHour" class="control-label"></label>
+                    @*<label asp-for="ArrivingHour" class="control-label"></label>*@
                     <select asp-for="ArrivingHour" class="form-control-static combobox" type="number" max="10" min="0" required tabindex="2" onchange="MyFunction2()" id="cmb_Time">
                         <option disabled selected hidden></option>  @*Added this option so when you start you don't see 12:00, but you cannot select it (hidden)*@
                         <option value="12">12</option>
@@ -81,7 +82,7 @@
                     </select>
                     <span asp-validation-for="ArrivingHour" class="text-danger"></span>
 
-                    <label asp-for="ArrivingMinute" class="control-label"></label>
+                    @*<label asp-for="ArrivingMinute" class="control-label"></label>*@
                     <select asp-for="ArrivingMinute" class="form-control-static comboboxMinutes" type="number" max="10" min="0" required tabindex="3" id="cmb_Minutes">
                         <option disabled selected hidden></option>  @*Added this option so when you start you don't see 12:00, but you cannot select it (hidden)*@
                         <option value="0">00</option>
@@ -125,7 +126,7 @@
                 <br/>
 
                 <div class="form-group">
-                    <label asp-for="Hideprices" class="control-label"> Would you like to hide the prices on the menu card?</label>
+                    <label asp-for="Hideprices" class="control-label"> Would you like to hide the prices <br /> on the menu card?</label>
                     <input asp-for="Hideprices" class="form-control-static checkbox" type="checkbox" tabindex="8" />
                     <span asp-validation-for="Hideprices" class="text-danger"></span>
                 </div>
@@ -133,7 +134,8 @@
                 @* Input Validation: Maximum number of characters accepted is a 100 *@
                 <div class="form-group">
                     <label asp-for="ResComments" class="control-label">Comments:</label>
-                    <input asp-for="ResComments" class="form-control textbox" type="text" style="width: 400px; height: 150px;" tabindex="9" max="100" />
+                   @* <input asp-for="ResComments" class="form-control text" type="text" style="width: 400px; height: 150px;" tabindex="9" max="100" />*@
+                    <textarea asp-for="ResComments" style="width:400px;height:150px;resize:none" tabindex="9" max="100"></textarea>
                     <span asp-validation-for="ResComments" class="text-danger"></span>
                 </div>
 
