@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using ASPNET_MVC_MolvenoReservationApplication;
 using ASPNET_MVC_MolvenoReservationApplication.Models;
 using ASPNET_MVC_MolvenoReservationApplication.Logic;
+using ASPNET_MVC_MolvenoReservationApplication.ViewModels;
 
 
 namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
@@ -80,9 +81,41 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
         [HttpPost]
         //[ValidateAntiForgeryToken]        
         //public IActionResult Create([Bind("ReservationID,_resPartySize,_resArrivingTime.Date,_resArrivingTime.Hour,_resArrivingTime.Minute,_resLeavingTime,_resHidePrices,_resComments,_resGuest._guestName,_resGuest._guestPhone,_resGuest._guestEmail")] Reservation reservation)
-        public IActionResult Create(Reservation reservation)
+        public IActionResult Create(ReservationViewModel reservationInput)
         {
+            DateTime resArrivingDate = new DateTime(reservationInput.Arrivingdate.Year, reservationInput.Arrivingdate.Month, reservationInput.Arrivingdate.Day, reservationInput.ArrivingHour, reservationInput.ArrivingMinute, 0);
+
+            Guest resGuest = new Guest()
+            {
+                _guestName = reservationInput.GuestName,
+                _guestPhone = reservationInput.GuestPhone,
+                _guestEmail= reservationInput.GuestEmail
+            };
+            Table resTable = new Table();           
+
+            Reservation reservation = new Reservation()
+            {
+                _resArrivingTime = resArrivingDate,                
+                _resPartySize = reservationInput.Partysize,
+                _resHidePrices = reservationInput.Hideprices,
+                _resComments = reservationInput.ResComments
+            };
+
+            //// Error: System.NullReferenceException: 'Object reference not set to an instance of an object.'
+            //reservation._resGuest._guestName = reservationInput.GuestName;
+            //reservation._resGuest._guestPhone = reservationInput.GuestPhone;
+            //reservation._resGuest._guestEmail = reservationInput.GuestEmail;
+
+            
+
+
+
+
+            reservation._resHidePrices = reservationInput.Hideprices;
+            reservation._resComments = reservationInput.ResComments;
+
             reservation._resLeavingTime = reservation._resArrivingTime.AddHours(3);
+
 
             List<Table> AvailableTables = _AvailabilityCheck.GetAvailableTables(reservation._resArrivingTime,
                 reservation._resLeavingTime, reservation._resPartySize);
@@ -107,12 +140,13 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
                     //    "We are sorry, but there are no tables available for your search. Try reserving a different date.");
                     //return View(reservation);
                     return Json(new { status = "failed", message = "No free tables." });
+
                 }
             }
             catch(Exception ex)
             {
                 ModelState.AddModelError("Error", ex.Message);
-                return View(reservation);
+                return View(reservationInput);
             }
         }
         

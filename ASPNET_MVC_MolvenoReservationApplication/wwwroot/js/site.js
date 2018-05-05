@@ -78,7 +78,7 @@ function myFunction() {
     var date = document.getElementById("date").value;
 
     // Check if the selected date in datepicker is the same as today
-    if (date == today2Date) {
+    if (date === today2Date) {
 
         // Resets value in box because today was selected or else the combobox could show a value that cannot be selected for today
         document.getElementById("cmb_Time").value = null;
@@ -100,7 +100,7 @@ function myFunction() {
 
             // Checks if you are reserving at 21h. If you are, it will disable all hours
             // Because cannot reserve anymore. Could make a reservation for 21h at 20.59 (if you have an increment of 0.1 to the todayMin2; if 5.1 can till 20.54)
-            if (todayHour2 == 10) {
+            if (todayHour2 === 10) {
                 for (var z = 1; z < 11; z++) {
                     document.getElementById("cmb_Time").options[z].disabled = true;
                 }
@@ -132,7 +132,7 @@ function MyFunction2() {
     // Get the index of the selected hour that is chosen in the combobox
     var selectedHour = document.getElementById("cmb_Time").selectedIndex;
     // If the selected hour is 21h, reset value combobox minutes to 00 and disable other options. Cannot make a reservation for later than 21
-    if (selectedHour == 10) {
+    if (selectedHour === 10) {
 
         // Resets value of combobox value automatically to 00 when 21h was selected
         document.getElementById("cmb_Minutes").value = document.getElementById("cmb_Minutes").options[1].value;
@@ -146,11 +146,11 @@ function MyFunction2() {
     // Get the value of the selected date (calendar input)
     var date2 = document.getElementById("date").value;
 
-    if (date2 == today2Date) {
+    if (date2 === today2Date) {
 
         // For every every index in cmb_Minutes, check if it is lower than index of the minutes now
         // If true, disable the option
-        if (selectedHour == todayHour2) {
+        if (selectedHour === todayHour2) {
 
             for (var j = 1; j < 5; j++) {
 
@@ -161,7 +161,7 @@ function MyFunction2() {
 
                     document.getElementById("cmb_Minutes").options[j].disabled = true;
                 }
-            }
+            }                     
 
         }
     }
@@ -173,10 +173,18 @@ function MyFunction3() {
     // Get the value of the selected date (calendar input)
     var date2 = document.getElementById("date").value;
 
-    if (date2 == today2Date) {
+    if (date2 === today2Date) {
 
         // Resets value in box because today was selected or else the combobox could show a value that cannot be selected for today
         document.getElementById("cmb_Minutes").value = null;
+
+        // Disables combobox minutes after 21h
+        if (todayHour2 > 9) {
+            // Disables 00, 15, 30 and 45 minutes in combobox for minutes
+            for (var b = 1; b < 5; b++) {
+                document.getElementById("cmb_Minutes").options[b].disabled = true;
+            }
+        }
     }
 }
 

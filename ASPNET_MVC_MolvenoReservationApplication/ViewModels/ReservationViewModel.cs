@@ -14,23 +14,29 @@ namespace ASPNET_MVC_MolvenoReservationApplication.ViewModels
 
         public int ReservationID { get; set; }
 
-        public int table { get; set; }
-        
-        public string name { get; set; }
+        //public int TableID { get; set; }
 
-        public string phone { get; set; }
+        //public int GuestID { get; set; }
 
-        public string email { get; set; }
+        public DateTime Arrivingdate { get; set; }
+
+        public int ArrivingHour { get; set; }
+
+        public int ArrivingMinute { get; set; }
+
+        //public DateTime leavingtime { get; set; }
+
+        public int Partysize { get; set; }
+
+        public string GuestName { get; set; }
+
+        public string GuestPhone { get; set; }
+
+        public string GuestEmail { get; set; }
         
-        public int partysize { get; set; }
+        public bool Hideprices { get; set; }
         
-        public DateTime arrivingdate { get; set; }
-        
-        public DateTime leavingtime { get; set; }
-        
-        public bool hideprices { get; set; }
-        
-        public string comments { get; set; }
+        public string ResComments { get; set; }
 
     }
 }
