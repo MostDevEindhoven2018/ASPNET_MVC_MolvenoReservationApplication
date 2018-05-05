@@ -4,6 +4,14 @@
     ViewData["Title"] = "Create";
 }
 
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="https://code.jquery.com/ui/jquery-ui-git.js"></script>
+<link href="https://code.jquery.com/ui/1.12.1/themes/sunny/jquery-ui.css" rel="stylesheet" />
+
+@*<script src="~/jquery-ui-1.12.1.custom/external/jquery/jquery.js"></script>
+<script src="~/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+<link href="~/jquery-ui-1.12.1.custom/jquery-ui.css" rel="stylesheet">*@
+
 @section PageStyles
     {
 
@@ -19,25 +27,9 @@
             background: rgba(255,255,204, 0.2);
         }
     </style>
-
-
-    @*<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-        <script src="https://code.jquery.com/ui/jquery-ui-git.js"></script>*@
-
-    <script src="~/jquery-ui-1.12.1.custom/external/jquery/jquery.js"></script>
-    <script src="~/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
-
-    @*<link href="https://code.jquery.com/ui/1.12.1/themes/sunny/jquery-ui.css" rel="stylesheet" />*@
-    <link href="~/jquery-ui-1.12.1.custom/jquery-ui.css" rel="stylesheet">
-    
-
 }
 
-
-<body background="https://i.pinimg.com/originals/5a/a2/f4/5aa2f4c287849a6b5d3b8de4424e083d.jpg">
-</body>
-
-<body onload="inPage();">
+<body onload="inPage();"background="https://i.pinimg.com/originals/5a/a2/f4/5aa2f4c287849a6b5d3b8de4424e083d.jpg">
 
 
 
@@ -52,82 +44,49 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 @* Input Validation: As a calendar *@
                 <div class="form-group">
-                    <label asp-for="_resArrivingTime.Date" for="calendar_Date" class="control-label">Date</label>
-                    <input asp-for="_resArrivingTime.Date" style="width: 250px; height: 35px;" class="form-control textbox" onchange="myFunction(),MyFunction2()" id="date" type="text" name="date" min="2018-04-23" max="2020-04-23" tabindex="1" required />
+                    <label asp-for="_resArrivingTime.Date" class="control-label">Date</label>
+                    <input asp-for="_resArrivingTime.Date" style="width: 250px; height: 35px;" class="form-control textbox" onchange="myFunction(),MyFunction3()" id="date" type="text" min="2018-04-23" tabindex="1" required />
                     <span asp-validation-for="_resArrivingTime.Date" class="text-danger"></span>
-                    @* SCRIPT ONE sets the date format *@
-                    <script>
-
-                        $("#date").datepicker(
-                            {
-                                dateFormat: "d-m-yy",
-                                changeYear: true
-                            }
-                        );
-
-                    </script>
-                    @*//SCRIPT TWO
-                    /// This lets the min value of calendat_date go to today so you can make a reservation on a day in the past
-                    /// First makes a value for today in the same layout as the input from the DateTimePicker*@
-                    <script>
-                        var today = new Date();
-                        var dd = today.getDate();
-                        var mm = today.getMonth() + 1; // January is 0
-                        var yyyy = today.getFullYear();
-                        if (dd < 10) {
-                            dd = '0' + dd
-                        }
-                        if (mm < 10) {
-                            mm = '0' + mm
-                        }
-
-                        today = yyyy + '-' + mm + '-' + dd;
-                        /// Changes the min attribute of calender_Date to today
-                        /// Needs an Id attribute; getElementByName didn't work
-                        //document.getElementById("calendar_Date").setAttribute("min", today);
-                        $('#date').datepicker('option', 'minDate', new Date(today));
-                    </script>
                 </div>
+                <script src="~/js/site.js"></script>
                 <br />
                 <label>Time:</label>
                 <br />
                 @* Input Validation: The minimum Hour can be 12 and maximum hour can be 21; all minutes are included *@
                 @* Input Validation: The minimum Hour can be 12 and maximum hour can be 21; all minutes are included  if its not 21 hours*@
                 <div class="form-group">
-
-                    <label asp-for="_resArrivingTime.Hour" for="cmb_Time" class="control-label"></label>
-                    <select asp-for="_resArrivingTime.Hour" class="form-control-static combobox" type="number" max="10" min="0" required tabindex="2" onchange="MyFunction2()" id="cmb_Time" name="cmb_Time">
+                    <label asp-for="_resArrivingTime.Hour" class="control-label"></label>
+                    <select asp-for="_resArrivingTime.Hour" class="form-control-static combobox" type="number" max="10" min="0" required tabindex="2" onchange="MyFunction2()" id="cmb_Time">
                         <option disabled selected hidden></option>  @*Added this option so when you start you don't see 12:00, but you cannot select it (hidden)*@
-                        <option value="Hour12">12</option>
-                        <option value="Hour1">13</option>
-                        <option value="Hour2">14</option>
-                        <option value="Hour3">15</option>
-                        <option value="Hour4">16</option>
-                        <option value="Hour5">17</option>
-                        <option value="Hour6">18</option>
-                        <option value="Hour7">19</option>
-                        <option value="Hour8">20</option>
-                        <option value="Hour9">21</option>
+                        <option value="12">12</option>
+                        <option value="13">13</option>
+                        <option value="14">14</option>
+                        <option value="15">15</option>
+                        <option value="16">16</option>
+                        <option value="17">17</option>
+                        <option value="18">18</option>
+                        <option value="19">19</option>
+                        <option value="20">20</option>
+                        <option value="21">21</option>
                     </select>
                     <span asp-validation-for="_resArrivingTime.Hour" class="text-danger"></span>
 
-                    <label asp-for="_resArrivingTime.Minute" for="cmb_Minutes" class="control-label"></label>
-                    <select asp-for="_resArrivingTime.Minute" class="form-control-static comboboxMinutes" type="number" max="10" min="0" required tabindex="3" id="cmb_Minutes" name="cmb_Minutes">
+                    <label asp-for="_resArrivingTime.Minute" class="control-label"></label>
+                    <select asp-for="_resArrivingTime.Minute" class="form-control-static comboboxMinutes" type="number" max="10" min="0" required tabindex="3" id="cmb_Minutes">
                         <option disabled selected hidden></option>  @*Added this option so when you start you don't see 12:00, but you cannot select it (hidden)*@
-                        <option value="Minutes00">00</option>
-                        <option value="Minutes15">15</option>
-                        <option value="Minutes30">30</option>
-                        <option value="Minutes45">45</option>
+                        <option value="0">00</option>
+                        <option value="15">15</option>
+                        <option value="30">30</option>
+                        <option value="45">45</option>
                     </select>
                     <span asp-validation-for="_resArrivingTime.Minute" class="text-danger"></span>
-
                 </div>
 
 
                 @* Input Validation: minimum party size = 0; maximum party size=10; it is required *@
                 <div class="form-group">
-                    <label asp-for="_resPartySize" for="num_NumberofGuests" class="control-label">Party size:</label>
-                    <input asp-for="_resPartySize" class="form-control numberbox" type="number" name="num_NumberofGuests" max="10" min="1" style="width: 80px; height: 35px;" required tabindex="4" />
+                    <label asp-for="_resPartySize" class="control-label">Party size:</label>
+                    <input asp-for="_resPartySize" class="form-control numberbox" type="number" max="10" min="1" style="width: 80px; height: 35px;" required tabindex="4" />
                     <span asp-validation-for="_resPartySize" class="text-danger"></span>
                 </div>
 
@@ -138,34 +97,34 @@
                     <span asp-validation-for="_resGuest._guestName" class="text-danger"></span>
                 </div>
 
-                @* Input Validation: It only accepts numbers; It expects 10 numbers; not required;  *@
                 @* Input Validation: It only accepts numbers; It expects 10 numbers; is required unless email has a value;  *@
                 @*|(?:[0]{2}[3][0-9]{10}) = for 0031-612345678 numbers*@
                 <div class="form-group">
-                    <label asp-for="_resGuest._guestPhone" for="txt_GuestPhoneNumber" class="control-label">Phone number:</label>
-                    <input asp-for="_resGuest._guestPhone" class="form-control textbox" type="text" max="25" name="txt_GuestPhoneNumber" style="width: 250px; height: 35px;" pattern="(?:[+][0-9]{11})|(?:[0][0-9]{9})|(?:[0-9]{10})" tabindex="6" required title="Phone number should consist of + and 11 numbers or 0 and 9 numbers or 10 numbers" id="username" />
+                    <label asp-for="_resGuest._guestPhone" class="control-label">Phone number:</label>
+                    <input asp-for="_resGuest._guestPhone" class="form-control textbox" id="phone" type="text" max="25" style="width: 250px; height: 35px;" pattern="(?:[+][0-9]{11})|(?:[0][0-9]{9})|(?:[0-9]{10})" tabindex="6" required title="Phone number should consist of + and 11 numbers or 0 and 9 numbers or 10 numbers"/>
                     <span asp-validation-for="_resGuest._guestPhone" class="text-danger"></span>
                 </div>
 
-                @* Input Validation: As an email box it checks if @ is included; not required *@
                 @* Input Validation: It only accepts numbers; It expects 10 numbers; is required unless phone number has a value;  *@
                 <div class="form-group">
-                    <label asp-for="_resGuest._guestEmail" for="e-box_GuestEmail" class="control-label">Email:</label>
-                    <input asp-for="_resGuest._guestEmail" class="form-control emailbox" type="email" name="e-box_GuestEmail" style="width: 250px; height: 35px;" tabindex="7" required />
+                    <label asp-for="_resGuest._guestEmail" class="control-label">Email:</label>
+                    <input asp-for="_resGuest._guestEmail" class="form-control emailbox" id="email" type="email" style="width: 250px; height: 35px;" tabindex="7" required />
                     <span asp-validation-for="_resGuest._guestEmail" class="text-danger"></span>
                 </div>
+
                 <div class="form-group">
-                    <label asp-for="_resHidePrices" for="chk_HidePrices" class="control-label">Hide Prices:</label>
-                    <input asp-for="_resHidePrices" class="form-control-static checkbox" type="checkbox" name="chk_HidePrices" tabindex="8" />
+                    <label asp-for="_resHidePrices" class="control-label">Hide Prices:</label>
+                    <input asp-for="_resHidePrices" class="form-control-static checkbox" type="checkbox" tabindex="8" />
                     <span asp-validation-for="_resHidePrices" class="text-danger"></span>
                 </div>
 
                 @* Input Validation: Maximum number of characters accepted is a 100 *@
                 <div class="form-group">
-                    <label asp-for="_resComments" class="control-label" for="txt_Comments">Comments:</label>
-                    <input asp-for="_resComments" class="form-control textbox" type="text" style="width: 400px; height: 150px;" name="txt_Comments" tabindex="9" max="100" />
+                    <label asp-for="_resComments" class="control-label">Comments:</label>
+                    <input asp-for="_resComments" class="form-control textbox" type="text" style="width: 400px; height: 150px;" tabindex="9" max="100" />
                     <span asp-validation-for="_resComments" class="text-danger"></span>
                 </div>
+
                 <br />
                 <br />
                 <div class="form-group">
