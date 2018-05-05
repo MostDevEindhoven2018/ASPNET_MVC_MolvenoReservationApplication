@@ -16,6 +16,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication
     {
         public static void Main(string[] args)
         {
+
             var host = BuildWebHost(args);
 
             using (var scope = host.Services.CreateScope())

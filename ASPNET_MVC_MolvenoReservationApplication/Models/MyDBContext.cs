@@ -13,6 +13,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Models
         public DbSet<Reservation> Reservations { get; set; }
         public DbSet<Guest> Guests { get; set; }
         public DbSet<Table> Tables { get; set; }
+        public DbSet<ReservationTableCoupling> ReservationTableCouplings { get; set; }
 
         /// <summary>
         /// Creating the constructor for the class MyDBContext

@@ -31,13 +31,26 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Data
 
             var Reservations = new Reservation[]
             {
-                new Reservation(4,new DateTime(2019,1,1,20,0,0), new DateTime(2019,1,1,23,0,0), Tables[2], Guests[0]),//a
-                new Reservation(4,new DateTime(2019,1,1,13,0,0), new DateTime(2019,1,1,16,0,0), Tables[3], Guests[1]),//b
-                new Reservation(4,new DateTime(2019,1,1,15,0,0), new DateTime(2019,1,1,18,0,0), Tables[2], Guests[2]),//c
-                new Reservation(4,new DateTime(2019,1,1,18,0,0), new DateTime(2019,1,1,21,0,0), Tables[0], Guests[3]),//d
-                new Reservation(4,new DateTime(2019,1,1,14,0,0), new DateTime(2019,1,1,17,0,0), Tables[1], Guests[0]),//e
-                new Reservation(4,new DateTime(2019,1,1,12,0,0), new DateTime(2019,1,1,15,0,0), Tables[0], Guests[1]),//f
-                new Reservation(4,new DateTime(2019,1,1,18,0,0), new DateTime(2019,1,1,21,0,0), Tables[1], Guests[2])//g
+                new Reservation(4, new DateTime(2018,5,4,18,45,00), 3, Guests[0]),//0
+                new Reservation(8, new DateTime(2018,5,4,14,30,00), 3, Guests[1] ),//1
+                new Reservation(6, new DateTime(2018,5,4,15,15,00), 3, Guests[2] ),//2
+                new Reservation(12, new DateTime(2018,5,4,20,30,00), 3, Guests[3]),//3
+                new Reservation(20, new DateTime(2018,5,4,12,15,00), 3, Guests[1]),//4
+                new Reservation(2, new DateTime(2018,5,4,13,45,00), 3, Guests[2]),//5
+                new Reservation(2, new DateTime(2018,5,4,17,30,00), 3, Guests[1]) //6
+                
+            };
+
+            var ReservationTableCouplings = new ReservationTableCoupling[]
+            {
+                new ReservationTableCoupling(Reservations[0],Tables[0]),
+                new ReservationTableCoupling(Reservations[1],Tables[1]),
+                new ReservationTableCoupling(Reservations[2],Tables[2]),
+                new ReservationTableCoupling(Reservations[3],Tables[3]),
+                new ReservationTableCoupling(Reservations[4],Tables[4]),
+                new ReservationTableCoupling(Reservations[5],Tables[0]),
+                new ReservationTableCoupling(Reservations[6],Tables[1]),
+
             };
 
             if (!context.Tables.Any())
@@ -65,6 +78,16 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Data
                 foreach (Reservation r in Reservations)
                 {
                     context.Reservations.Add(r);
+                }
+
+                context.SaveChanges();
+            }
+
+            if (!context.ReservationTableCouplings.Any())
+            {
+                foreach (ReservationTableCoupling rtc in ReservationTableCouplings)
+                {
+                    context.ReservationTableCouplings.Add(rtc);
                 }
 
                 context.SaveChanges();
