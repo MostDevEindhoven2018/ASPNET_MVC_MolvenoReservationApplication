@@ -104,22 +104,18 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
             //// Error: System.NullReferenceException: 'Object reference not set to an instance of an object.'
             //reservation._resGuest._guestName = reservationInput.GuestName;
             //reservation._resGuest._guestPhone = reservationInput.GuestPhone;
-            //reservation._resGuest._guestEmail = reservationInput.GuestEmail;
-
-            
-
-
+            //reservation._resGuest._guestEmail = reservationInput.GuestEmail;   
 
 
             reservation._resHidePrices = reservationInput.Hideprices;
             reservation._resComments = reservationInput.ResComments;
 
-            reservation._resLeavingTime = reservation._resArrivingTime.AddHours(3);
 
             // Commeted out in MASTER
+            //reservation._resLeavingTime = reservation._resArrivingTime.AddHours(3);
             //List<Table> AvailableTables = _AvailabilityCheck.GetAvailableTables(reservation._resArrivingTime,
             //    reservation._resLeavingTime, reservation._resPartySize);
-            
+
 
             //PLACEHOLDER for the get available tables feature.
             List<Table> AvailableTables = new List<Table>()
@@ -140,7 +136,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
 
                     reservation._resReservationTableCouplings.Add(RTC);
 
-                    if (ModelState.IsValid)
+                s    if (ModelState.IsValid)
                     {
                         _context.Reservations.Add(reservation);
                         _context.SaveChanges();
