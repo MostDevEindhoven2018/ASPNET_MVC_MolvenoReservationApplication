@@ -106,11 +106,6 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
             //reservation._resGuest._guestPhone = reservationInput.GuestPhone;
             //reservation._resGuest._guestEmail = reservationInput.GuestEmail;   
 
-
-            reservation._resHidePrices = reservationInput.Hideprices;
-            reservation._resComments = reservationInput.ResComments;
-
-
             // Commeted out in MASTER
             //reservation._resLeavingTime = reservation._resArrivingTime.AddHours(3);
             //List<Table> AvailableTables = _AvailabilityCheck.GetAvailableTables(reservation._resArrivingTime,
@@ -118,46 +113,58 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
 
 
             //PLACEHOLDER for the get available tables feature.
-            List<Table> AvailableTables = new List<Table>()
+            ////List<Table> AvailableTables = new List<Table>()
+            ////{
+            ////    new Table(4, TableAreas.Lake)
+            ////};
+            ////try
+            ////{
+            ////    if (AvailableTables.Any()) //if (AvailableTables.Any())
+            ////    {
+            ////        // Create a new ReservationTableCoupling with the current reservation and add the tables found by the availabilitychecker.
+            ////        ReservationTableCoupling RTC = new ReservationTableCoupling()
+            ////        {
+            ////            Reservation = reservation,
+            ////            // Here the tables will be added. For now it is just the first free table found by the availabilitycheck.
+            ////            Table = AvailableTables.First()
+            ////        };
+
+            ////        reservation._resReservationTableCouplings.Add(RTC);
+
+            ////        // Commented this from MASTER
+            ////        //s    if (ModelState.IsValid)
+            ////        if (ModelState.IsValid)
+            ////        {
+            ////            _context.Reservations.Add(reservation);
+            ////            _context.SaveChanges();
+
+            ////            return RedirectToAction("Index");
+            ////        }
+            ////        return View(reservation);
+            ////    }
+            ////    else
+            ////    {
+            ////        ModelState.AddModelError("No availability",
+            ////            "We are sorry, but there are no tables available for your search. Try reserving a different date.");
+            ////        return View(reservationInput);
+            ////        //return Json(new { status = "failed", message = "No free tables." });
+            ////    }
+            ////}
+            ////catch(Exception ex)
+            ////{
+            ////    ModelState.AddModelError("Error", ex.Message);
+            ////    return View(reservationInput);
+            ////}
+
+
+            if (ModelState.IsValid)
             {
-                new Table(4, TableAreas.Lake)
-            };
-            try
-            {
-                if (AvailableTables.Any()) //if (AvailableTables.Any())
-                {
-                    // Create a new ReservationTableCoupling with the current reservation and add the tables found by the availabilitychecker.
-                    ReservationTableCoupling RTC = new ReservationTableCoupling()
-                    {
-                        Reservation = reservation,
-                        // Here the tables will be added. For now it is just the first free table found by the availabilitycheck.
-                        Table = AvailableTables.First()
-                    };
+                _context.Reservations.Add(reservation);
+                _context.SaveChanges();
 
-                    reservation._resReservationTableCouplings.Add(RTC);
-
-                s    if (ModelState.IsValid)
-                    {
-                        _context.Reservations.Add(reservation);
-                        _context.SaveChanges();
-
-                        return RedirectToAction("Index");
-                    }
-                    return View(reservation);
-                }
-                else
-                {
-                    ModelState.AddModelError("No availability",
-                        "We are sorry, but there are no tables available for your search. Try reserving a different date.");
-                    return View(reservation);
-                    //return Json(new { status = "failed", message = "No free tables." });
-                }
+                return RedirectToAction("Index");
             }
-            catch(Exception ex)
-            {
-                ModelState.AddModelError("Error", ex.Message);
-                return View(reservationInput);
-            }
+            return View(reservation);
         }
         
         // GET: Reservations/Edit/5
