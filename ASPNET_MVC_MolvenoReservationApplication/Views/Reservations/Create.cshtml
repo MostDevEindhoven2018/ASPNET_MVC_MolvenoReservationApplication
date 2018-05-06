@@ -52,9 +52,9 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 @* Input Validation: As a calendar *@
                 <div class="form-group">
-                    <label asp-for="_resArrivingTime.Date" for="calendar_Date" class="control-label">Date</label>
-                    <input asp-for="_resArrivingTime.Date" style="width: 250px; height: 35px;" class="form-control textbox" onchange="myFunction(),MyFunction2()" id="date" type="text" name="date" min="2018-04-23" max="2020-04-23" tabindex="1" required />
-                    <span asp-validation-for="_resArrivingTime.Date" class="text-danger"></span>
+                    <label asp-for="_resArrivingTime"  class="control-label">Date</label>
+                    <input asp-for="_resArrivingTime" style="width: 250px; height: 35px;" class="form-control textbox" onchange="myFunction(),MyFunction2()" id="date" type="text"  min="2018-04-23" max="2020-04-23" tabindex="1" required />
+                    <span asp-validation-for="_resArrivingTime" class="text-danger"></span>
                     @* SCRIPT ONE sets the date format *@
                     <script>
 
@@ -95,7 +95,7 @@
                 @* Input Validation: The minimum Hour can be 12 and maximum hour can be 21; all minutes are included  if its not 21 hours*@
                 <div class="form-group">
 
-                    <label asp-for="_resArrivingTime.Hour" for="cmb_Time" class="control-label"></label>
+                    <label asp-for="_resArrivingTime.Hour" class="control-label"></label>
                     <select asp-for="_resArrivingTime.Hour" class="form-control-static combobox" type="number" max="10" min="0" required tabindex="2" onchange="MyFunction2()" id="cmb_Time" name="cmb_Time">
                         <option disabled selected hidden></option>  @*Added this option so when you start you don't see 12:00, but you cannot select it (hidden)*@
                         <option value="Hour12">12</option>
@@ -111,7 +111,7 @@
                     </select>
                     <span asp-validation-for="_resArrivingTime.Hour" class="text-danger"></span>
 
-                    <label asp-for="_resArrivingTime.Minute" for="cmb_Minutes" class="control-label"></label>
+                    <label asp-for="_resArrivingTime.Minute" class="control-label"></label>
                     <select asp-for="_resArrivingTime.Minute" class="form-control-static comboboxMinutes" type="number" max="10" min="0" required tabindex="3" id="cmb_Minutes" name="cmb_Minutes">
                         <option disabled selected hidden></option>  @*Added this option so when you start you don't see 12:00, but you cannot select it (hidden)*@
                         <option value="Minutes00">00</option>
@@ -126,15 +126,15 @@
 
                 @* Input Validation: minimum party size = 0; maximum party size=10; it is required *@
                 <div class="form-group">
-                    <label asp-for="_resPartySize" for="num_NumberofGuests" class="control-label">Party size:</label>
-                    <input asp-for="_resPartySize" class="form-control numberbox" type="number" name="num_NumberofGuests" max="10" min="1" style="width: 80px; height: 35px;" required tabindex="4" />
+                    <label asp-for="_resPartySize"  class="control-label">Party size:</label>
+                    <input asp-for="_resPartySize" class="form-control numberbox" type="number"  max="10" min="1" style="width: 80px; height: 35px;" required tabindex="4" />
                     <span asp-validation-for="_resPartySize" class="text-danger"></span>
                 </div>
 
                 @* Input Validation: It only accepts letters; it accepts a maximum of 25 characters; it is required;  *@
                 <div class="form-group">
-                    <label asp-for="_resGuest._guestName" for="txt_GuestName" class="control-label">Name:</label>
-                    <input asp-for="_resGuest._guestName" class="form-control textbox" type="text" name="txt_GuestName" style="width: 250px; height: 35px;" pattern="^[A-Za-z][A-Za-z ,.'-]{0,23}[A-Za-z]$" max="25" required tabindex="5" title="The name should only consist of letters with a maximum of 25 characters." />
+                    <label asp-for="_resGuest._guestName"  class="control-label">Name:</label>
+                    <input asp-for="_resGuest._guestName" class="form-control textbox" type="text"  style="width: 250px; height: 35px;" pattern="^[A-Za-z][A-Za-z ,.'-]{0,23}[A-Za-z]$" max="25" required tabindex="5" title="The name should only consist of letters with a maximum of 25 characters." />
                     <span asp-validation-for="_resGuest._guestName" class="text-danger"></span>
                 </div>
 
@@ -142,28 +142,28 @@
                 @* Input Validation: It only accepts numbers; It expects 10 numbers; is required unless email has a value;  *@
                 @*|(?:[0]{2}[3][0-9]{10}) = for 0031-612345678 numbers*@
                 <div class="form-group">
-                    <label asp-for="_resGuest._guestPhone" for="txt_GuestPhoneNumber" class="control-label">Phone number:</label>
-                    <input asp-for="_resGuest._guestPhone" class="form-control textbox" type="text" max="25" name="txt_GuestPhoneNumber" style="width: 250px; height: 35px;" pattern="(?:[+][0-9]{11})|(?:[0][0-9]{9})|(?:[0-9]{10})" tabindex="6" required title="Phone number should consist of + and 11 numbers or 0 and 9 numbers or 10 numbers" id="username" />
+                    <label asp-for="_resGuest._guestPhone"  class="control-label">Phone number:</label>
+                    <input asp-for="_resGuest._guestPhone" class="form-control textbox" type="text" max="25"  style="width: 250px; height: 35px;" pattern="(?:[+][0-9]{11})|(?:[0][0-9]{9})|(?:[0-9]{10})" tabindex="6" required title="Phone number should consist of + and 11 numbers or 0 and 9 numbers or 10 numbers" id="username" />
                     <span asp-validation-for="_resGuest._guestPhone" class="text-danger"></span>
                 </div>
 
                 @* Input Validation: As an email box it checks if @ is included; not required *@
                 @* Input Validation: It only accepts numbers; It expects 10 numbers; is required unless phone number has a value;  *@
                 <div class="form-group">
-                    <label asp-for="_resGuest._guestEmail" for="e-box_GuestEmail" class="control-label">Email:</label>
-                    <input asp-for="_resGuest._guestEmail" class="form-control emailbox" type="email" name="e-box_GuestEmail" style="width: 250px; height: 35px;" tabindex="7" required />
+                    <label asp-for="_resGuest._guestEmail"  class="control-label">Email:</label>
+                    <input asp-for="_resGuest._guestEmail" class="form-control emailbox" type="email"  style="width: 250px; height: 35px;" tabindex="7" required />
                     <span asp-validation-for="_resGuest._guestEmail" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="_resHidePrices" for="chk_HidePrices" class="control-label">Hide Prices:</label>
-                    <input asp-for="_resHidePrices" class="form-control-static checkbox" type="checkbox" name="chk_HidePrices" tabindex="8" />
+                    <label asp-for="_resHidePrices"  class="control-label">Hide Prices:</label>
+                    <input asp-for="_resHidePrices" class="form-control-static checkbox" type="checkbox"  tabindex="8" />
                     <span asp-validation-for="_resHidePrices" class="text-danger"></span>
                 </div>
 
                 @* Input Validation: Maximum number of characters accepted is a 100 *@
                 <div class="form-group">
-                    <label asp-for="_resComments" class="control-label" for="txt_Comments">Comments:</label>
-                    <input asp-for="_resComments" class="form-control textbox" type="text" style="width: 400px; height: 150px;" name="txt_Comments" tabindex="9" max="100" />
+                    <label asp-for="_resComments" class="control-label" >Comments:</label>
+                    <input asp-for="_resComments" class="form-control textbox" type="text" style="width: 400px; height: 150px;"  tabindex="9" max="100" />
                     <span asp-validation-for="_resComments" class="text-danger"></span>
                 </div>
                 <br />
