@@ -28,7 +28,10 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
         // GET: Reservations
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Reservations.ToListAsync());
+            return View(await _context.Reservations.Include("_resGuest").ToListAsync());
+            //return View(await _context.Reservations.Include("_resGuest").Include("_resReservationTableCouplings").ToListAsync());
+
+
         }
 
         // GET: Reservations/Details/5
@@ -91,14 +94,15 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
                 _guestPhone = reservationInput.GuestPhone,
                 _guestEmail= reservationInput.GuestEmail
             };
-            Table resTable = new Table();           
+            Table resTable = new Table();
 
             Reservation reservation = new Reservation()
             {
-                _resArrivingTime = resArrivingDate,                
+                _resArrivingTime = resArrivingDate,
                 _resPartySize = reservationInput.Partysize,
                 _resHidePrices = reservationInput.Hideprices,
-                _resComments = reservationInput.ResComments
+                _resComments = reservationInput.ResComments,
+                _resGuest = resGuest
             };
 
             //// Error: System.NullReferenceException: 'Object reference not set to an instance of an object.'
@@ -159,6 +163,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
 
             if (ModelState.IsValid)
             {
+                _context.Guests.Add(resGuest);                
                 _context.Reservations.Add(reservation);
                 _context.SaveChanges();
 
