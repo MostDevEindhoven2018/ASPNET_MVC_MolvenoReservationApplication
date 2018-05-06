@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using ASPNET_MVC_MolvenoReservationApplication;
 using ASPNET_MVC_MolvenoReservationApplication.Models;
 using ASPNET_MVC_MolvenoReservationApplication.Logic;
+using ASPNET_MVC_MolvenoReservationApplication.ViewModels;
 
 
 namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
@@ -19,7 +20,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
 
         public ReservationsController(MyDBContext context)
         {
-            _AvailabilityCheck = new CheckTableAvailability(context);
+            //_AvailabilityCheck = new CheckTableAvailability(context);
             _context = context;
 
         }
@@ -27,7 +28,10 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
         // GET: Reservations
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Reservations.ToListAsync());
+            return View(await _context.Reservations.Include("_resGuest").ToListAsync());
+            //return View(await _context.Reservations.Include("_resGuest").Include("_resReservationTableCouplings").ToListAsync());
+
+
         }
 
         // GET: Reservations/Details/5
@@ -80,40 +84,92 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
         [HttpPost]
         //[ValidateAntiForgeryToken]        
         //public IActionResult Create([Bind("ReservationID,_resPartySize,_resArrivingTime.Date,_resArrivingTime.Hour,_resArrivingTime.Minute,_resLeavingTime,_resHidePrices,_resComments,_resGuest._guestName,_resGuest._guestPhone,_resGuest._guestEmail")] Reservation reservation)
-        public IActionResult Create(Reservation reservation)
+        public IActionResult Create(ReservationViewModel reservationInput)
         {
-            reservation._resLeavingTime = reservation._resArrivingTime.AddHours(3);
+            DateTime resArrivingDate = new DateTime(reservationInput.Arrivingdate.Year, reservationInput.Arrivingdate.Month, reservationInput.Arrivingdate.Day, reservationInput.ArrivingHour, reservationInput.ArrivingMinute, 0);
 
-            List<Table> AvailableTables = _AvailabilityCheck.GetAvailableTables(reservation._resArrivingTime,
-                reservation._resLeavingTime, reservation._resPartySize);
-            try
+            Guest resGuest = new Guest()
             {
-                if (AvailableTables.Any())
-                {
-                    reservation._resTable = AvailableTables.First();
+                _guestName = reservationInput.GuestName,
+                _guestPhone = reservationInput.GuestPhone,
+                _guestEmail= reservationInput.GuestEmail
+            };
+            Table resTable = new Table();
 
-                    if (ModelState.IsValid)
-                    {
-                        _context.Reservations.Add(reservation);
-                        _context.SaveChanges();
-
-                        return RedirectToAction("Index");
-                    }
-                    return View(reservation);
-                }
-                else
-                {
-                    //ModelState.AddModelError("No availability",
-                    //    "We are sorry, but there are no tables available for your search. Try reserving a different date.");
-                    //return View(reservation);
-                    return Json(new { status = "failed", message = "No free tables." });
-                }
-            }
-            catch(Exception ex)
+            Reservation reservation = new Reservation()
             {
-                ModelState.AddModelError("Error", ex.Message);
-                return View(reservation);
+                _resArrivingTime = resArrivingDate,
+                _resPartySize = reservationInput.Partysize,
+                _resHidePrices = reservationInput.Hideprices,
+                _resComments = reservationInput.ResComments,
+                _resGuest = resGuest
+            };
+
+            //// Error: System.NullReferenceException: 'Object reference not set to an instance of an object.'
+            //reservation._resGuest._guestName = reservationInput.GuestName;
+            //reservation._resGuest._guestPhone = reservationInput.GuestPhone;
+            //reservation._resGuest._guestEmail = reservationInput.GuestEmail;   
+
+            // Commeted out in MASTER
+            //reservation._resLeavingTime = reservation._resArrivingTime.AddHours(3);
+            //List<Table> AvailableTables = _AvailabilityCheck.GetAvailableTables(reservation._resArrivingTime,
+            //    reservation._resLeavingTime, reservation._resPartySize);
+
+
+            //PLACEHOLDER for the get available tables feature.
+            ////List<Table> AvailableTables = new List<Table>()
+            ////{
+            ////    new Table(4, TableAreas.Lake)
+            ////};
+            ////try
+            ////{
+            ////    if (AvailableTables.Any()) //if (AvailableTables.Any())
+            ////    {
+            ////        // Create a new ReservationTableCoupling with the current reservation and add the tables found by the availabilitychecker.
+            ////        ReservationTableCoupling RTC = new ReservationTableCoupling()
+            ////        {
+            ////            Reservation = reservation,
+            ////            // Here the tables will be added. For now it is just the first free table found by the availabilitycheck.
+            ////            Table = AvailableTables.First()
+            ////        };
+
+            ////        reservation._resReservationTableCouplings.Add(RTC);
+
+            ////        // Commented this from MASTER
+            ////        //s    if (ModelState.IsValid)
+            ////        if (ModelState.IsValid)
+            ////        {
+            ////            _context.Reservations.Add(reservation);
+            ////            _context.SaveChanges();
+
+            ////            return RedirectToAction("Index");
+            ////        }
+            ////        return View(reservation);
+            ////    }
+            ////    else
+            ////    {
+            ////        ModelState.AddModelError("No availability",
+            ////            "We are sorry, but there are no tables available for your search. Try reserving a different date.");
+            ////        return View(reservationInput);
+            ////        //return Json(new { status = "failed", message = "No free tables." });
+            ////    }
+            ////}
+            ////catch(Exception ex)
+            ////{
+            ////    ModelState.AddModelError("Error", ex.Message);
+            ////    return View(reservationInput);
+            ////}
+
+
+            if (ModelState.IsValid)
+            {
+                _context.Guests.Add(resGuest);                
+                _context.Reservations.Add(reservation);
+                _context.SaveChanges();
+
+                return RedirectToAction("Index");
             }
+            return View(reservation);
         }
         
         // GET: Reservations/Edit/5
