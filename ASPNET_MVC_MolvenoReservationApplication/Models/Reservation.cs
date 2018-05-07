@@ -27,10 +27,19 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Models
         [Required(ErrorMessage = "Please pick a date.")]
         public DateTime _resArrivingTime { get; set; }
 
-    
+
         // This now gets hardcoded. This will need to be changed so a config file sets this default.
         [Display(Name = "DurationOfReservation", AutoGenerateField = false)]
         public int _resDurationOfReservation { get; set; } = 3;
+
+
+        public DateTime _resLeavingTime
+        {
+            get
+            {
+                return _resArrivingTime.AddHours(_resDurationOfReservation);
+            }
+        }
 
         [Display(Name = "Hide prices", AutoGenerateField = true)]
         public bool _resHidePrices { get; set; }
@@ -83,7 +92,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Models
         /// <param name="duration"></param>
         /// <param name="table">will be converted to a ReservationTableCoupling</param>
         /// <param name="guest"></param>
-        public Reservation(int partySize, DateTime arrivingTime, int duration,Guest guest)
+        public Reservation(int partySize, DateTime arrivingTime, int duration, Guest guest)
         {
             _resPartySize = partySize;
             _resArrivingTime = arrivingTime;
