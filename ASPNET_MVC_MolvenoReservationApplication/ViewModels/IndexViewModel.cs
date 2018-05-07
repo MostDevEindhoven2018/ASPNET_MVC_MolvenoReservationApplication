@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ASPNET_MVC_MolvenoReservationApplication.ViewModels
 {
-    public class ReservationViewModel
+    public class IndexViewModel
     {
 
         //Each property from each object should be included in the ViewModel
@@ -19,6 +19,11 @@ namespace ASPNET_MVC_MolvenoReservationApplication.ViewModels
         //public int GuestID { get; set; }
 
         public DateTime Arrivingdate { get; set; }
+
+        public string dtpart { get; set; }
+            
+
+        public string tpart { get; set; }
 
         public int ArrivingHour { get; set; }
 
@@ -33,10 +38,12 @@ namespace ASPNET_MVC_MolvenoReservationApplication.ViewModels
         public string GuestPhone { get; set; }
 
         public string GuestEmail { get; set; }
-        
+
         public bool Hideprices { get; set; }
-        
+
         public string ResComments { get; set; }
+
+        public int tableID { get; set; }
 
     }
 }

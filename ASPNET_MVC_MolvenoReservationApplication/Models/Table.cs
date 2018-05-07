@@ -27,6 +27,10 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Models
         [Display(Name = "Area", AutoGenerateField = true)]
         public TableAreas _tableArea { get; set; }
 
+
+        [Display(Name = "Reservations", AutoGenerateField = false)]
+        public virtual ICollection<ReservationTableCoupling> _tableReservationTableCouplings { get; set; }
+
         public Table() { }
 
         /// <summary>
