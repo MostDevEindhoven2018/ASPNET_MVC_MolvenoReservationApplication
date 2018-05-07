@@ -101,7 +101,7 @@
 
                 @* Input Validation: It only accepts letters; it accepts a maximum of 25 characters; it is required;  *@
                 <div class="form-group">
-                    <label asp-for="GuestName" for="txt_GuestName" class="control-label">Name:</label>
+                    <label asp-for="GuestName" class="control-label">Name:</label>
                     <input asp-for="GuestName" class="form-control textbox" type="text" style="width: 250px; height: 35px;" pattern="^[A-Za-z][A-Za-z ,.'-]{0,23}[A-Za-z]$" max="25" required tabindex="5" title="The name should only consist of letters with a maximum of 25 characters." />
                     <span asp-validation-for="GuestName" class="text-danger"></span>
                 </div>
