@@ -27,7 +27,10 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Models
         [Required(ErrorMessage = "Please pick a date.")]
         public DateTime _resArrivingTime { get; set; }
 
-    
+        public string Date { get; set; }
+
+        public string Time { get; set; }
+
         // This now gets hardcoded. This will need to be changed so a config file sets this default.
         [Display(Name = "DurationOfReservation", AutoGenerateField = false)]
         public int _resDurationOfReservation { get; set; } = 3;

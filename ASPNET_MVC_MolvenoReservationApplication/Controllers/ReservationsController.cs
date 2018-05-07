@@ -30,12 +30,45 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
         {
             return View(await _context.Reservations.Include("_resGuest").ToListAsync());
             //return View(await _context.Reservations.Include("_resGuest").Include("_resReservationTableCouplings").ToListAsync());
-
+            
 
         }
 
-        // GET: Reservations/Details/5
-        public async Task<IActionResult> Details(int? id)
+
+        [HttpPost]
+        public IActionResult Index(IndexViewModel IndexViewModelInput)
+        {
+            DateTime resArrivingDate = new DateTime(IndexViewModelInput.Arrivingdate.Year, IndexViewModelInput.Arrivingdate.Month, IndexViewModelInput.Arrivingdate.Day, IndexViewModelInput.ArrivingHour, IndexViewModelInput.ArrivingMinute, 0);
+
+             string dtpart = resArrivingDate.ToShortDateString();
+             string tpart = resArrivingDate.ToShortTimeString();
+
+            Guest resGuest = new Guest()
+            {
+                _guestName = IndexViewModelInput.GuestName,
+                _guestPhone = IndexViewModelInput.GuestPhone,
+                _guestEmail = IndexViewModelInput.GuestEmail
+            };
+            Table resTable = new Table();
+
+            Reservation reservation = new Reservation()
+            {
+
+                Date = IndexViewModelInput.dtpart,
+                Time = IndexViewModelInput.tpart,
+                _resPartySize = IndexViewModelInput.Partysize,
+                _resHidePrices = IndexViewModelInput.Hideprices,
+                _resComments = IndexViewModelInput.ResComments,
+                _resGuest = resGuest
+            };
+
+           
+
+            return View();
+        }
+
+            // GET: Reservations/Details/5
+            public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
@@ -88,6 +121,9 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
         {
             DateTime resArrivingDate = new DateTime(reservationInput.Arrivingdate.Year, reservationInput.Arrivingdate.Month, reservationInput.Arrivingdate.Day, reservationInput.ArrivingHour, reservationInput.ArrivingMinute, 0);
 
+            string dtpart = resArrivingDate.ToShortDateString();
+            string tpart = resArrivingDate.ToShortTimeString();
+
             Guest resGuest = new Guest()
             {
                 _guestName = reservationInput.GuestName,
@@ -98,6 +134,9 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
 
             Reservation reservation = new Reservation()
             {
+
+                Date = dtpart,
+                Time = tpart,
                 _resArrivingTime = resArrivingDate,
                 _resPartySize = reservationInput.Partysize,
                 _resHidePrices = reservationInput.Hideprices,

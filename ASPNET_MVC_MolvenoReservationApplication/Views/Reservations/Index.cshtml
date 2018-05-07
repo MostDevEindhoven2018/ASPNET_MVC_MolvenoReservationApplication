@@ -30,8 +30,14 @@
     <table class="table" id="reservationtable">
         <thead>
             <tr>
-                <th>
+                @*<th>
                     @Html.DisplayNameFor(model => model._resArrivingTime)
+                </th>*@
+                <th>
+                    @Html.DisplayNameFor(model => model.Date)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Time)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model._resPartySize)
@@ -57,34 +63,41 @@
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item._resArrivingTime)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item._resPartySize)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item._resGuest._guestName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item._resGuest._guestPhone)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item._resGuest._guestEmail)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item._resHidePrices)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item._resComments)
-                    </td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.ReservationID">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.ReservationID">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.ReservationID">Delete</a>
-                    </td>
-                </tr>
+            <tr>
+                @*<td>
+                    @Html.DisplayFor(modelItem => item._resArrivingTime)
+                </td>*@
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Time)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item._resPartySize)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item._resGuest._guestName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item._resGuest._guestPhone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item._resGuest._guestEmail)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item._resHidePrices)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item._resComments)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ReservationID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ReservationID">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ReservationID">Delete</a>
+                </td>
+            </tr>
             }
         </tbody>
     </table>
