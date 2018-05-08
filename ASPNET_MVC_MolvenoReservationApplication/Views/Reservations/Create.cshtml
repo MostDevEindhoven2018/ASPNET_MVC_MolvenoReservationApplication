@@ -28,10 +28,17 @@
         }
     </style>
             @*if ((document.getElementById("date").value != "") && (document.getElementById("partysize").value != 0) && ) {*@
-
-
     <script>
         function HideCheckAvailabilityFields() {
+
+            //Creating a variable date and making it the current in order to be able to compare if the inputed date
+            //belongs in the past
+            var today = new Date();
+            var dd = today.getDate();
+            var mm = today.getMonth() + 1; // January is 0
+            var yyyy = today.getFullYear();
+
+            today = yyyy + '-' + mm + '-' + dd;
 
             //User Input Validation client side:
             if ((document.getElementById("date").value == "") && ((document.getElementById('cmb_Time').value == "") && (document.getElementById('cmb_Minutes').value == "")) && (document.getElementById("partysize").value == 0)) {
@@ -46,10 +53,21 @@
                 alert("Please select a time");
                 return;
             }
-            else if (document.getElementById("partysize").value == 0) {
+            else if (document.getElementById("partysize").value == 0){
                 alert("Please enter your party size");
                 return;
             }
+
+            if (document.getElementById("date").value < today) {
+                alert("Please select the current or a future day");
+                return;
+
+            }
+            else if (document.getElementById("partysize").value > 10) {
+                alert("Maximum party size is 10");
+                return;
+            }
+            
 
             //Hiding Date,Time and Party Size and activating Name,Phone,Email,Hide Prices,Comments,Block of text (if you need more info please call us)
             //and the submit button
@@ -66,15 +84,8 @@
             document.getElementById("commentsblock").style.display = "";
             document.getElementById("submitbutton").style.display = "";
 
-            //if (document.getElementById("date").value == "") {
-
-            //    window.alert("Please enter a date");
-
-            //}
-            
         }
     </script>
-
 
 }
 
