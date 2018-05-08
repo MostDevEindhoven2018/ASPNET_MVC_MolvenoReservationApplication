@@ -27,12 +27,34 @@
             background: rgba(255,255,204, 0.2);
         }
     </style>
+            @*if ((document.getElementById("date").value != "") && (document.getElementById("partysize").value != 0) && ) {*@
 
 
     <script>
-
         function HideCheckAvailabilityFields() {
-            document.getElementById("dateblock").style.display = "None";
+
+            //User Input Validation client side:
+            if ((document.getElementById("date").value == "") && ((document.getElementById('cmb_Time').value == "") && (document.getElementById('cmb_Minutes').value == "")) && (document.getElementById("partysize").value == 0)) {
+                alert("Please enter all data.")
+                return;
+            }
+            else if (document.getElementById("date").value == "") {
+                alert("Please select a date");
+                return;
+            }
+            else if ((document.getElementById('cmb_Time').value == "") || (document.getElementById('cmb_Minutes').value == "")) {
+                alert("Please select a time");
+                return;
+            }
+            else if (document.getElementById("partysize").value == 0) {
+                alert("Please enter your party size");
+                return;
+            }
+
+            //Hiding Date,Time and Party Size and activating Name,Phone,Email,Hide Prices,Comments,Block of text (if you need more info please call us)
+            //and the submit button
+            document.getElementById("date").style.display = "None";
+            document.getElementById("datelabel").style.display = "None";
             document.getElementById("timeblock").style.display = "None";
             document.getElementById("partysizeblock").style.display = "None";
             document.getElementById("btnChkAvail").style.display = "None";
@@ -43,8 +65,16 @@
             document.getElementById("hidepricesblock").style.display = "";
             document.getElementById("commentsblock").style.display = "";
             document.getElementById("submitbutton").style.display = "";
+
+            //if (document.getElementById("date").value == "") {
+
+            //    window.alert("Please enter a date");
+
+            //}
+            
         }
-            </script>
+    </script>
+
 
 }
 
@@ -178,9 +208,9 @@
 
                 <br />
                 <br />
-
-                <input type="button" value="Check Availability" onclick="HideCheckAvailabilityFields();" id="btnChkAvail" />
-
+                <div id="ChkAvail">
+                    <input type="button" value="Check Availability" onclick="HideCheckAvailabilityFields();" id="btnChkAvail" />
+                </div>
                 <div class="form-group">
 
                     <div id="submitbutton" style="display: none;">
