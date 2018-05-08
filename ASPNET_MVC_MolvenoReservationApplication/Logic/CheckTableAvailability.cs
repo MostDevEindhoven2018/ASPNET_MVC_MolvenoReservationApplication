@@ -32,14 +32,21 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Logic
             List<Table> OccupiedTables;
             List<ReservationTableCoupling> ReservationTableCouplingsInTimeslot;
 
-            // Get all ReservationTableCouplings with Reservations in our timeslot
-            ReservationTableCouplingsInTimeslot = _context.ReservationTableCouplings.Where(RTC => RTC.Reservation._resLeavingTime <= start || RTC.Reservation._resArrivingTime >= end).ToList();
+            // Get all ReservationTableCouplings with Reservations in our timeslot.
+            // Get all reservations where the arriving time is between our start and end times
+            // OR the leaving time is between our start/end times.
+            // TODO: check the <= and the >= to see where we need a '=' and where not.
+            ReservationTableCouplingsInTimeslot = _context.ReservationTableCouplings.
+                Where(RTC => (RTC.Reservation._resArrivingTime >= start && RTC.Reservation._resArrivingTime <= end)
+                || (RTC.Reservation._resLeavingTime >= start && RTC.Reservation._resLeavingTime <= end)).ToList();
             // Then get all occupied Tables.
             OccupiedTables = ReservationTableCouplingsInTimeslot.Select(RTC => RTC.Table).ToList();
             // Get all tables and subtract all tables from the Couplings in the list above. 
 
-            FreeTables = _context.Tables.Where(TableFromAllTables => !OccupiedTables.Any(TableFromOccupiedTables => TableFromOccupiedTables.TableID == TableFromAllTables.TableID)).ToList();
-                
+            FreeTables = _context.Tables.
+                Where(TableFromAllTables => !OccupiedTables.Any(
+                    TableFromOccupiedTables => TableFromOccupiedTables.TableID == TableFromAllTables.TableID)).ToList();
+
             return FreeTables;
         }
     }
@@ -48,98 +55,98 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Logic
 
 // Earlier attempt. Just.. lol
 
-        //// Connect to database that was opened by the ReservationController
-        //// Make a new object of type DBContext to use for this class
-        //private MyDBContext _DbContext;
+//// Connect to database that was opened by the ReservationController
+//// Make a new object of type DBContext to use for this class
+//private MyDBContext _DbContext;
 
-        //// Make a constructor of the CheckTableAvailability with as parameter the DBContext(here can you input the context that was opnened in the ReservationController)
-        //public CheckTableAvailability(MyDBContext dbContext)
-        //{
-        //    this._DbContext = dbContext;
-        //}
-        
-        //public List<Table> GetAvailableTables(DateTime start, DateTime end, int partySize)
-        //{
-        //    List<Reservation> ReservationsInOurTimeSlot = new List<Reservation>();
-        //    List<Table> ReservedTables = new List<Table>();             //  Step 1
+//// Make a constructor of the CheckTableAvailability with as parameter the DBContext(here can you input the context that was opnened in the ReservationController)
+//public CheckTableAvailability(MyDBContext dbContext)
+//{
+//    this._DbContext = dbContext;
+//}
 
-        //    List<Table> AllTables = new List<Table>();                  //  Step 2
-        //    List<Table> FreeTables = new List<Table>();                 //  Step 3
-        //    List<Table> FreeTablesWithCorrectSize = new List<Table>();  //  Step 4
+//public List<Table> GetAvailableTables(DateTime start, DateTime end, int partySize)
+//{
+//    List<Reservation> ReservationsInOurTimeSlot = new List<Reservation>();
+//    List<Table> ReservedTables = new List<Table>();             //  Step 1
 
-        //    // Step 1
-        //    // First get all reservation in our time slot by using these four rules.
+//    List<Table> AllTables = new List<Table>();                  //  Step 2
+//    List<Table> FreeTables = new List<Table>();                 //  Step 3
+//    List<Table> FreeTablesWithCorrectSize = new List<Table>();  //  Step 4
 
-        //    ReservationsInOurTimeSlot = _DbContext.Reservations.Where(reservation =>
+//    // Step 1
+//    // First get all reservation in our time slot by using these four rules.
 
-        //    //Rule 1:
-        //    // If the start time is between the two times... WRONG!
-        //    (reservation._resArrivingTime > start && reservation._resArrivingTime < end)    ||
-        //    // If the end time is between the two times... WRONG!
-        //    (reservation._resLeavingTime > start && reservation._resLeavingTime < end)      ||
-        //    // If the start time is before the first time and the end time is after the second time... WRONG!
-        //    (reservation._resArrivingTime < start && reservation._resLeavingTime > end)     ||
-        //    // If both the start and end times are exactly the same... WRONG!
-        //    (reservation._resArrivingTime == start && reservation._resLeavingTime == end)
+//    ReservationsInOurTimeSlot = _DbContext.Reservations.Where(reservation =>
 
-        //    ).Include("_resTable").ToList();
+//    //Rule 1:
+//    // If the start time is between the two times... WRONG!
+//    (reservation._resArrivingTime > start && reservation._resArrivingTime < end)    ||
+//    // If the end time is between the two times... WRONG!
+//    (reservation._resLeavingTime > start && reservation._resLeavingTime < end)      ||
+//    // If the start time is before the first time and the end time is after the second time... WRONG!
+//    (reservation._resArrivingTime < start && reservation._resLeavingTime > end)     ||
+//    // If both the start and end times are exactly the same... WRONG!
+//    (reservation._resArrivingTime == start && reservation._resLeavingTime == end)
 
-        //    ReservedTables = ReservationsInOurTimeSlot.Select(reservation => reservation._resTable).ToList();
+//    ).Include("_resTable").ToList();
 
-        //    ////////// Is it also possible to exclude these two conditions instead of including the four rules above?
-        //    ////////// Step 1
-        //    ////////// First get database/excisting reservations that overlap with the current/new reservation by excluding the database reservations that do not overlap with the current reservation
-        //    ////////ReservationsInOurTimeSlot = _DbContext.Reservations.Where(reservation =>
-        //    ////////// Exclude if one of the two conditions is true
-        //    ////////!(
-        //    //////////Condition 1:
-        //    ////////// No overlap of database/excisting reservation on right side of current/new reservation
-        //    ////////(reservation._resArrivingTime < start && reservation._resLeavingTime <= start) ||   // SAME (start > reservation._resArrivingTime && start >= reservation._resLeavingTime) ||
-        //    ////////// Condition 2:
-        //    ////////// No overlap of database/excisting reservation on left side of current/new reservation
-        //    ////////(reservation._resArrivingTime >= end && reservation._resLeavingTime > end)          // SAME (end <= reservation._resArrivingTime && end < reservation._resLeavingTime)
+//    ReservedTables = ReservationsInOurTimeSlot.Select(reservation => reservation._resTable).ToList();
 
-        //    ////////)).ToList();
-                        
-        //    ////////ReservedTables = ReservationsInOurTimeSlot.Select(reservation => reservation._resTable).ToList();
+//    ////////// Is it also possible to exclude these two conditions instead of including the four rules above?
+//    ////////// Step 1
+//    ////////// First get database/excisting reservations that overlap with the current/new reservation by excluding the database reservations that do not overlap with the current reservation
+//    ////////ReservationsInOurTimeSlot = _DbContext.Reservations.Where(reservation =>
+//    ////////// Exclude if one of the two conditions is true
+//    ////////!(
+//    //////////Condition 1:
+//    ////////// No overlap of database/excisting reservation on right side of current/new reservation
+//    ////////(reservation._resArrivingTime < start && reservation._resLeavingTime <= start) ||   // SAME (start > reservation._resArrivingTime && start >= reservation._resLeavingTime) ||
+//    ////////// Condition 2:
+//    ////////// No overlap of database/excisting reservation on left side of current/new reservation
+//    ////////(reservation._resArrivingTime >= end && reservation._resLeavingTime > end)          // SAME (end <= reservation._resArrivingTime && end < reservation._resLeavingTime)
 
+//    ////////)).ToList();
 
-        //    // Step 2
-
-        //    AllTables = _DbContext.Tables.Select(table => table).ToList();
+//    ////////ReservedTables = ReservationsInOurTimeSlot.Select(reservation => reservation._resTable).ToList();
 
 
-        //    // Step 3
-        //    FreeTables = AllTables.Where(TableFromAllTables => 
+//    // Step 2
 
-        //    !ReservedTables.Any(TableFromReservedTables => 
-        //    TableFromReservedTables.TableID == TableFromAllTables.TableID)
-            
-        //    ).ToList();
-
-        //    // The Linq Above is basically the same as this:
-
-        //    //foreach(Table TableFromAllTables in AllTables)
-        //    //{
-        //    //    foreach(Table TableFromReservedTables in ReservedTables)
-        //    //    {
-        //    //        if(!(TableFromReservedTables.TableID == TableFromAllTables.TableID))
-        //    //        {
-        //    //            FreeTables.Add(TableFromAllTables);
-        //    //        }
-        //    //    }
-        //    //}
-
-        //    // Step 4
-
-        //    FreeTablesWithCorrectSize = FreeTables.Where(table => table._tableCapacity >= partySize).ToList();
-
-        //    // Step 5 
-
-        //    FreeTablesWithCorrectSize.OrderBy(table => table._tableCapacity).ToList();
+//    AllTables = _DbContext.Tables.Select(table => table).ToList();
 
 
+//    // Step 3
+//    FreeTables = AllTables.Where(TableFromAllTables => 
 
-        //    // Happy days
-        //    return FreeTablesWithCorrectSize;
-        //     }
+//    !ReservedTables.Any(TableFromReservedTables => 
+//    TableFromReservedTables.TableID == TableFromAllTables.TableID)
+
+//    ).ToList();
+
+//    // The Linq Above is basically the same as this:
+
+//    //foreach(Table TableFromAllTables in AllTables)
+//    //{
+//    //    foreach(Table TableFromReservedTables in ReservedTables)
+//    //    {
+//    //        if(!(TableFromReservedTables.TableID == TableFromAllTables.TableID))
+//    //        {
+//    //            FreeTables.Add(TableFromAllTables);
+//    //        }
+//    //    }
+//    //}
+
+//    // Step 4
+
+//    FreeTablesWithCorrectSize = FreeTables.Where(table => table._tableCapacity >= partySize).ToList();
+
+//    // Step 5 
+
+//    FreeTablesWithCorrectSize.OrderBy(table => table._tableCapacity).ToList();
+
+
+
+//    // Happy days
+//    return FreeTablesWithCorrectSize;
+//     }
