@@ -23,7 +23,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Logic
             List<ReservationTableCoupling> ReservationTableCouplingsInTimeslot;
 
             // Get all ReservationTableCouplings with Reservations in our timeslot
-            ReservationTableCouplingsInTimeslot = _context.ReservationTableCouplings.Where(RTC => RTC.Reservation._resLeavingTime <= start || RTC.Reservation._resArrivingTime >= end).ToList();
+            ReservationTableCouplingsInTimeslot = _context.ReservationTableCouplings.Where(RTC => !(RTC.Reservation._resLeavingTime <= start || RTC.Reservation._resArrivingTime >= end)).ToList();
             // Then get all occupied Tables.
             OccupiedTables = ReservationTableCouplingsInTimeslot.Select(RTC => RTC.Table).ToList();
             // Get all tables and subtract all tables from the Couplings in the list above. 
