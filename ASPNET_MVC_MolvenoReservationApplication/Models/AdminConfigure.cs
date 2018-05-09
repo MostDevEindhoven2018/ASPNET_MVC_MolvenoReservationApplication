@@ -19,7 +19,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Models
         // Need this for form: when is the last possible reservation on a day
         // Need this for _resDurationOfReservation (Reservation class), this will be used for CheckTableAvailability
         // Need to store this in database
-        [Display(Name = "Closing Hours", AutoGenerateField = true)
+        [Display(Name = "Closing Hours", AutoGenerateField = true)]
         [Range(0, 23)]
         public int ClosingHours { get; set; }
 

@@ -17,6 +17,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
     {
         private readonly MyDBContext _context;
         private CheckTableAvailability _AvailabilityCheck;
+        private AdminConfigure adminConfigure;
 
         public ReservationsController(MyDBContext context)
         {
@@ -141,7 +142,8 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
                 _resPartySize = reservationInput.Partysize,
                 _resHidePrices = reservationInput.Hideprices,
                 _resComments = reservationInput.ResComments,
-                _resGuest = resGuest
+                _resGuest = resGuest,
+                _resDurationOfReservation = adminConfigure._resDurationHour
             };
 
             //// Error: System.NullReferenceException: 'Object reference not set to an instance of an object.'
