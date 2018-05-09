@@ -16,11 +16,11 @@ using Microsoft.Data.Sqlite;
 namespace ASPNET_MVC_MolvenoReservationApplication.Logic
 {
 
-    public class TableConfigurationFinder : ITableConfigurationFinder
+    public class TableConfigurationFinderVersion1 : ITableConfigurationFinder
     {
         MyDBContext _context;
 
-        public TableConfigurationFinder(MyDBContext context)
+        public TableConfigurationFinderVersion1(MyDBContext context)
         {
             _context = context;
         }

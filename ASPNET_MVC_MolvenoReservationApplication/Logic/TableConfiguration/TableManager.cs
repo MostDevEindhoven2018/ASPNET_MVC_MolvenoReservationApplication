@@ -18,17 +18,17 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Logic
 
     public class TableManager
     {
-        MyDBContext _context { get; set; }
+        DbContext _context { get; set; }
         IFreeTableFinder _freeTableFinder { get; set; }
         ITableConfigurationFinder _tableConfigurationFinder { get; set; }
 
-        public TableManager(MyDBContext context, IFreeTableFinder ftf, ITableConfigurationFinder tcf)
+        public TableManager(DbContext context, IFreeTableFinder ftf, ITableConfigurationFinder tcf)
         {
             _context = context;
             _freeTableFinder = ftf;
             _tableConfigurationFinder = tcf;
         }
-        
+       
         
     }
 }
