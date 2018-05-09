@@ -27,8 +27,13 @@
             background: rgba(255,255,204, 0.2);
         }
     </style>
-            @*if ((document.getElementById("date").value != "") && (document.getElementById("partysize").value != 0) && ) {*@
-    <script>
+       
+       @*Creating a script that contains a method HideCheckAvailability Fields().This method performs all the user input validation
+         for the fields date,time,party size.The checks occur when the check availability button is pushed (it is prevented)
+         from proceeding due to the return statement in every check which obliges the user to remain in the first page until all fields
+         comply to the user input validation rules.When all fields of the first form are correctly filled, they get hidden
+           and the fields of form 2 appear(name,phone,email,hide prices,comments,label: if you need help...)*@
+       <script>
         function HideCheckAvailabilityFields() {
 
             //Creating a variable date and making it the current in order to be able to compare if the inputed date
@@ -41,28 +46,36 @@
             today = yyyy + '-' + mm + '-' + dd;
 
             //User Input Validation client side:
+
+            //Checks if all fields are null
             if ((document.getElementById("date").value == "") && ((document.getElementById('cmb_Time').value == "") && (document.getElementById('cmb_Minutes').value == "")) && (document.getElementById("partysize").value == 0)) {
                 alert("Please enter all data.")
                 return;
             }
+            //checks if the date field is null       
             else if (document.getElementById("date").value == "") {
                 alert("Please select a date");
                 return;
             }
+            //checks if the Hour and Minute boxes are empty
             else if ((document.getElementById('cmb_Time').value == "") || (document.getElementById('cmb_Minutes').value == "")) {
                 alert("Please select a time");
                 return;
             }
-            else if (document.getElementById("partysize").value == 0){
+            //checks if the party size is 0 or less than 0 (- minus)
+            else if ((document.getElementById("partysize").value == 0) || (document.getElementById("partysize").value < 0)){
                 alert("Please enter your party size");
                 return;
             }
 
+            //checks if date belongs to the past -NOT really necessary at this point because the textbox is readonly and therefore the guest cannot type
             if (document.getElementById("date").value < today) {
                 alert("Please select the current or a future day");
                 return;
 
             }
+
+            //checks if the partysize is bigger than 10
             else if (document.getElementById("partysize").value > 10) {
                 alert("Maximum party size is 10");
                 return;
