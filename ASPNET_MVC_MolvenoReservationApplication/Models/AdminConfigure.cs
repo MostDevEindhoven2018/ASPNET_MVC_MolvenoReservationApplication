@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,13 +11,21 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Models
     public class AdminConfigure
     {
         // Need this for form: when to start the reservation time
+        // Need to store this in database
+        [Range(0, 23)]
         public int OpeningHour { get; set; }
+        [Range(0, 59)]
         public int OpeningMinutes { get; set; }
 
         // Need this for form: when is the last possible reservation on a day
         // Need this for _resDurationOfReservation (Reservation class), this will be used for CheckTableAvailability
+        // Need to store this in database
+        [Range(0, 23)]
         public int ClosingHours { get; set; }
+        [Range(0, 59)]
         public int ClosingMinutes { get; set; }
+
+        // Need to store this in database?
         public int LastPossibleReservationHour
         {
             get
@@ -47,6 +56,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Models
             }
         }
 
+        // Need to store this in database?
         public int LastPossibleReservationMinutes
         {
             get
@@ -63,10 +73,15 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Models
         }
 
         // Need to set the Duration of Reservation by Admin
+        // Need to store this in database
+        [Range(0, 23)]
         public int _resDurationHour { get; set; }
+        [Range(0, 59)]
         public int _resDurationMinutes { get; set; }
         // This will be used for CheckTableAvailability
         // This weil set the _resDurationReservation
+
+        // Need to store this in database?
         public TimeSpan _resDurationOfReservation
         {
             get
@@ -76,6 +91,8 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Models
         }
 
         // Percentage that of max capacity of restaurant that can be reserved
+        // Need to store this in database
+        [Range(0, 100)]
         public int PercentageMaxCapacity { get; set; }
 
 
@@ -87,6 +104,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Models
         //}
 
         // Get the maximum number of tables that can be reserved for the day
+        // Need to store this in database?
         public int MaxNumberOfTablesAllowedRes
         {
             get
