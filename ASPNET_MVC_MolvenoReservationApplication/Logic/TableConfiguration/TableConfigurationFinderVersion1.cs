@@ -18,13 +18,6 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Logic
 
     public class TableConfigurationFinderVersion1 : ITableConfigurationFinder
     {
-        MyDBContext _context;
-
-        public TableConfigurationFinderVersion1(MyDBContext context)
-        {
-            _context = context;
-        }
-
         public List<Table> GetTableConfiguration(List<Table> FreeTables, int partySize)
         {
             List<Table> TableConfiguration = new List<Table>();
