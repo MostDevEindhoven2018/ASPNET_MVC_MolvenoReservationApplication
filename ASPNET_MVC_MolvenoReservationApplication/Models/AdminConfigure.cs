@@ -14,21 +14,21 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Models
         // Need to store this in database
         [Display(Name = "Opening Hours", AutoGenerateField = true)]
         [Range(0, 23)]
-        public int OpeningHour { get; set; }
+        public int OpeningHour { get; set; } = 12;
 
         // Need this for form: when is the last possible reservation on a day
         // Need this for _resDurationOfReservation (Reservation class), this will be used for CheckTableAvailability
         // Need to store this in database
         [Display(Name = "Closing Hours", AutoGenerateField = true)]
         [Range(0, 23)]
-        public int ClosingHours { get; set; }
+        public int ClosingHours { get; set; } = 3;
 
-        // Need to store this in database?
+        //// Need to store this in database?
         public int LastPossibleReservationHour
         {
             get
             {
-                if (ClosingHours - _resDurationHour - 1 < 0)
+                if (ClosingHours - _resDurationHour < 0)
                 {
                     return ClosingHours - _resDurationHour + 24;
                 }
@@ -38,7 +38,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Models
                 }
             }
         }
-       
+
         [Display(Name = "Duration reservation in Hours", AutoGenerateField = true)]
         [Range(0, 23)]
         public int _resDurationHour { get; private set;} = 3;
@@ -78,5 +78,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Models
                 return number3;
             }
         }
+
+        public AdminConfigure() { }
     }
 }

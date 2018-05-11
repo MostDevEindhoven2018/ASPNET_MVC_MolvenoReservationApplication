@@ -206,6 +206,54 @@ jQuery(function ($) {
 
 //SCRIPT FOUR ENDS
 
+
+   
+
+
+                
+
+///// SCRIPT FIVE STARTS
+select = document.getElementById('cmb_Time');
+
+for (var i = min; i <= max; i++) {
+
+    if (i >= 24) {
+        var j = i - 24;
+        if (j < 10) {
+            var opt = document.createElement('option');
+            opt.value = j;
+            opt.innerHTML = "0" + j;
+            select.appendChild(opt);
+        }
+        else {
+            var opt = document.createElement('option');
+            opt.value = j;
+            opt.innerHTML = j;
+            select.appendChild(opt);
+        }
+
+    }
+    else {
+        if (i < 10) {
+            var opt = document.createElement('option');
+            opt.value = i;
+            opt.innerHTML = "0" + i;
+            select.appendChild(opt);
+
+        }
+        else {
+            var opt = document.createElement('option');
+            opt.value = i;
+            opt.innerHTML = i;
+            select.appendChild(opt);
+        }
+
+    }
+}
+///////// FIVE ENDS
+
+
+
 //PERHAPS NECESSARY CODE:
 //@* Use this when inputboxes are aligned to the right *@
 //                @* <div class="form-group">

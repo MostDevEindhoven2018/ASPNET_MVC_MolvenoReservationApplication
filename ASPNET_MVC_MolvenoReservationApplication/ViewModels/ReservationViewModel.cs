@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace ASPNET_MVC_MolvenoReservationApplication.ViewModels
 {
@@ -38,5 +39,9 @@ namespace ASPNET_MVC_MolvenoReservationApplication.ViewModels
         
         public string ResComments { get; set; }
 
+        //public int PossibleReservationHoursID { get; set; }
+        //public IEnumerable<SelectListItem> PossibleReservationHours { get; set; }
+
+        public List<int> PossibleReservationHours { get; set; }
     }
 }

@@ -17,7 +17,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
     {
         private readonly MyDBContext _context;
         private CheckTableAvailability _AvailabilityCheck;
-        private AdminConfigure adminConfigure;
+        private AdminConfigure adminConfigure =new AdminConfigure();
 
         public ReservationsController(MyDBContext context)
         {
@@ -88,8 +88,46 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
 
         // GET: Reservations/Create
         public IActionResult Create()
-        {
-            return View();
+        {                     
+
+            ReservationViewModel resVM = new ReservationViewModel();
+
+            int a = adminConfigure.OpeningHour;
+
+            int b;
+            if (adminConfigure.ClosingHours - adminConfigure._resDurationHour <= 0)
+            {
+                b = adminConfigure.LastPossibleReservationHour + 24;
+
+            }
+            else
+            {
+                b = adminConfigure.LastPossibleReservationHour;
+
+            }
+
+
+            List<int> c = new List<int>();
+
+            for (var i = a; i <= b; i++)
+            {
+                //if (i>=24)
+                //{
+                //    int j = i - 24;
+                //    c.Add(j);
+                //}
+                //else
+                //{
+                    c.Add(i);
+                //}
+                
+            }
+
+
+
+            resVM.PossibleReservationHours = c;
+
+            return View(resVM);
         }
 
         //public IActionResult Create(ReservationViewModel viewModel)
