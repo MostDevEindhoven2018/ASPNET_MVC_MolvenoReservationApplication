@@ -41,16 +41,7 @@
     <div class="row">
         <div class="col-md-4">
             <form asp-action="Create" id="form">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                @*<div>
-            <input asp-for="ReservationID" class="form-control textbox" type="number" hidden />
-        </div>
-        <div>
-            <input asp-for="TableID" class="form-control textbox" type="number" hidden />
-        </div>
-        <div>
-            <input asp-for="GuestID" class="form-control textbox" type="number" hidden />
-        </div>*@
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>               
 
                 @* Input Validation: As a calendar *@
                 <div class="form-group">
@@ -67,18 +58,9 @@
                     @*<label asp-for="ArrivingHour" class="control-label"></label>*@
                     <select asp-for="ArrivingHour" class="form-control-static combobox" type="number" max="10" min="0" required tabindex="2" onchange="MyFunction2()" id="cmb_Time">
                         <option disabled selected hidden></option>  @*Added this option so when you start you don't see 12:00, but you cannot select it (hidden)*@
-                        @*<option value="12">12</option>
-                <option value="13">13</option>
-                <option value="14">14</option>
-                <option value="15">15</option>
-                <option value="16">16</option>
-                <option value="17">17</option>
-                <option value="18">18</option>
-                <option value="19">19</option>
-                <option value="20">20</option>
-                <option value="21">21</option>*@
                     </select>
                     <span asp-validation-for="ArrivingHour" class="text-danger"></span>
+                    
                     @*<label asp-for="ArrivingMinute" class="control-label"></label>*@
                     <select asp-for="ArrivingMinute" class="form-control-static comboboxMinutes" type="number" max="10" min="0" required tabindex="3" id="cmb_Minutes">
                         <option disabled selected hidden></option>  @*Added this option so when you start you don't see 12:00, but you cannot select it (hidden)*@
@@ -93,6 +75,8 @@
                 <script>
                     var min = @Model.PossibleReservationHours.Min()
                         max = @Model.PossibleReservationHours.Max();
+
+                    var lengthList = @Model.PossibleReservationHours.Count();
                 </script>
 
                 @* Input Validation: minimum party size = 0; maximum party size=10; it is required *@
@@ -151,11 +135,9 @@
             </form>
         </div>
     </div>
-
-    <div>
+    @*<div>
         <a asp-action="Index">Back to List</a>
-    </div>
-
+    </div>*@
 </body>
 
 

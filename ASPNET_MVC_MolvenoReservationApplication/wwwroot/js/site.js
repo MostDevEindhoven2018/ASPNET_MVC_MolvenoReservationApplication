@@ -1,5 +1,10 @@
 ﻿// Write your JavaScript code.
 
+// To delete date of today in the textBox and the times in comboboxes at start
+document.getElementById("date").value = null;
+document.getElementById("cmb_Time").selectedIndex = "0";
+document.getElementById("cmb_Minutes").selectedIndex = "0";
+
 ///// SCRIPT ONE STARTS
 $("#date").datepicker(
     {
@@ -23,6 +28,53 @@ today = yyyy + '-' + mm + '-' + dd;
 $('#date').datepicker('option', 'minDate', new Date(today));
 
 //SCRIPT TWO ENDS
+
+
+///// SCRIPT FIVE STARTS
+// The selectbox into variable select, used to later append an option to the selectbox
+var select = document.getElementById('cmb_Time');
+
+// Set lowest value of the list of possible reservation hours to min variable
+//var min = @Model.PossibleReservationHours.Min()
+// Set highest value of the list of possible reservation hours to max variable
+//var max = @Model.PossibleReservationHours.Max();
+// Adds every value in the list to the selectbox options
+for (var i = min; i <= max; i++) {
+
+    // If the value in the list is higher than 24, then substract the 24, add a "0" if it has a value lower than 10, and add it to the selectbox options
+    if (i >= 24) {
+        var j = i - 24;
+        if (j < 10) {
+            var opt = document.createElement('option');
+            opt.value = j;
+            opt.innerHTML = "0" + j;
+            select.appendChild(opt);
+        }       
+        else {
+            var opt = document.createElement('option');
+            opt.value = j;
+            opt.innerHTML = j;
+            select.appendChild(opt);
+        }
+    }
+    // If the value in the list is lower than 24, add a "0" if it has a value lower than 10, and add it to the selectbox options
+    else {
+        if (i < 10) {
+            var opt = document.createElement('option');
+            opt.value = i;
+            opt.innerHTML = "0" + i;
+            select.appendChild(opt);
+
+        }
+        else {
+            var opt = document.createElement('option');
+            opt.value = i;
+            opt.innerHTML = i;
+            select.appendChild(opt);
+        }
+    }
+}
+///////// FIVE ENDS
 
 //SCRIPT THREE STARTS
 // Script to not let you select a time (hour/minutes) in the past when today is selected in the DateTimePicker
@@ -48,16 +100,17 @@ var todayMin2 = today2.getMinutes();
 ////var todayHour2 = 16;
 ////var todayHour3 = 16;
 ////var todayMin2 = 40;
-////// TEST ///
-
+////// TEST /// 
 
 // 12=[1]; 13=[2];...21=[10]
+// 12=[1];....00=[13]
+var diff = max - lengthList;
+
 // Have to make number the same as the index of cmb_Time
-todayHour2 = (todayHour2 - 11);
+todayHour2 = (todayHour2 - diff);
 
 // Have to make the index one index higher because the hour is almost over; can only choose future hours
-todayHour3 = (todayHour3 - 11) + 1;
-
+todayHour3 = (todayHour3 - diff) + 1;
 
 // 00=[1]; 15=[2]; 30=[3]; 45=[4]
 // Have to number the same as in the index of cmb_Minutes + 1, should only be able to choose future minutes
@@ -70,7 +123,7 @@ todayMin2 = Math.ceil((todayMin2 + 0.1) / 15) + 1;
 function myFunction() {
 
     // Reset first the disabled attributes of the comboboxes hour to false when the selected date is changed
-    for (var k = 1; k < 11; k++) {
+    for (var k = 1; k < (lengthList+1); k++) {
         document.getElementById("cmb_Time").options[k].disabled = false;
     }
 
@@ -89,7 +142,7 @@ function myFunction() {
             // For every index in cmb_Time, check if hour value is lower than the hour of the time now
             // If true, then disable the option for that hour
             // Don't have to disable the minutes because can only choose future hours
-            for (var y = 1; y < 11; y++) {
+            for (var y = 1; y < (lengthList+1); y++) {
                 if (y < todayHour3) {
                     document.getElementById("cmb_Time").options[y].disabled = true;
                 }
@@ -100,8 +153,8 @@ function myFunction() {
 
             // Checks if you are reserving at 21h. If you are, it will disable all hours
             // Because cannot reserve anymore. Could make a reservation for 21h at 20.59 (if you have an increment of 0.1 to the todayMin2; if 5.1 can till 20.54)
-            if (todayHour2 === 10) {
-                for (var z = 1; z < 11; z++) {
+            if (todayHour2 === lengthList) {
+                for (var z = 1; z < (lengthList+1); z++) {
                     document.getElementById("cmb_Time").options[z].disabled = true;
                 }
 
@@ -111,7 +164,7 @@ function myFunction() {
             // uses todayHour2 = (todayHour2 - 11);
             // For every hour (index) in the cmb_Time, check if it is lower than the hour of the time now
             // If true, then disable the option
-            for (var i = 1; i < 11; i++) {
+            for (var i = 1; i < (lengthList+1); i++) {
                 if (i < todayHour2) {
 
                     document.getElementById("cmb_Time").options[i].disabled = true;
@@ -132,7 +185,7 @@ function MyFunction2() {
     // Get the index of the selected hour that is chosen in the combobox
     var selectedHour = document.getElementById("cmb_Time").selectedIndex;
     // If the selected hour is 21h, reset value combobox minutes to 00 and disable other options. Cannot make a reservation for later than 21
-    if (selectedHour === 10) {
+    if (selectedHour === lengthList) {
 
         // Resets value of combobox value automatically to 00 when 21h was selected
         document.getElementById("cmb_Minutes").value = document.getElementById("cmb_Minutes").options[1].value;
@@ -179,7 +232,7 @@ function MyFunction3() {
         document.getElementById("cmb_Minutes").value = null;
 
         // Disables combobox minutes after 21h
-        if (todayHour2 > 9) {
+        if (todayHour2 >= lengthList) {
             // Disables 00, 15, 30 and 45 minutes in combobox for minutes
             for (var b = 1; b < 5; b++) {
                 document.getElementById("cmb_Minutes").options[b].disabled = true;
@@ -212,45 +265,7 @@ jQuery(function ($) {
 
                 
 
-///// SCRIPT FIVE STARTS
-select = document.getElementById('cmb_Time');
 
-for (var i = min; i <= max; i++) {
-
-    if (i >= 24) {
-        var j = i - 24;
-        if (j < 10) {
-            var opt = document.createElement('option');
-            opt.value = j;
-            opt.innerHTML = "0" + j;
-            select.appendChild(opt);
-        }
-        else {
-            var opt = document.createElement('option');
-            opt.value = j;
-            opt.innerHTML = j;
-            select.appendChild(opt);
-        }
-
-    }
-    else {
-        if (i < 10) {
-            var opt = document.createElement('option');
-            opt.value = i;
-            opt.innerHTML = "0" + i;
-            select.appendChild(opt);
-
-        }
-        else {
-            var opt = document.createElement('option');
-            opt.value = i;
-            opt.innerHTML = i;
-            select.appendChild(opt);
-        }
-
-    }
-}
-///////// FIVE ENDS
 
 
 

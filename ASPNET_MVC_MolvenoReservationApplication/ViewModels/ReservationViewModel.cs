@@ -15,10 +15,6 @@ namespace ASPNET_MVC_MolvenoReservationApplication.ViewModels
 
         public int ReservationID { get; set; }
 
-        //public int TableID { get; set; }
-
-        //public int GuestID { get; set; }
-
         public DateTime Arrivingdate { get; set; }
 
         public int ArrivingHour { get; set; }
@@ -38,9 +34,6 @@ namespace ASPNET_MVC_MolvenoReservationApplication.ViewModels
         public bool Hideprices { get; set; }
         
         public string ResComments { get; set; }
-
-        //public int PossibleReservationHoursID { get; set; }
-        //public IEnumerable<SelectListItem> PossibleReservationHours { get; set; }
 
         public List<int> PossibleReservationHours { get; set; }
     }

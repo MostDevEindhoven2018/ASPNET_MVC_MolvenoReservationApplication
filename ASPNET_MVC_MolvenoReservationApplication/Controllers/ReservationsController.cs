@@ -89,13 +89,16 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
         // GET: Reservations/Create
         public IActionResult Create()
         {                     
-
+            // Make an instance of the ReservationViewModel and later send it to the view
             ReservationViewModel resVM = new ReservationViewModel();
 
+            // Set the Openinghour to the variable "a"
             int a = adminConfigure.OpeningHour;
 
+            // Set the LastPossibleReservationHour to variable "b"
             int b;
-            if (adminConfigure.ClosingHours - adminConfigure._resDurationHour <= 0)
+            // If Closinghour minus OpeningHour results in a negative number or zero, add 24 to the hour
+            if (adminConfigure.ClosingHours - a <= 0)
             {
                 b = adminConfigure.LastPossibleReservationHour + 24;
 
@@ -103,30 +106,20 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
             else
             {
                 b = adminConfigure.LastPossibleReservationHour;
-
             }
 
-
+            // Add all the hours from opening till closinghour in list
             List<int> c = new List<int>();
 
             for (var i = a; i <= b; i++)
             {
-                //if (i>=24)
-                //{
-                //    int j = i - 24;
-                //    c.Add(j);
-                //}
-                //else
-                //{
                     c.Add(i);
-                //}
-                
             }
 
+            // Save this list in the list PossibleReservationHours
+            resVM.PossibleReservationHours = c; 
 
-
-            resVM.PossibleReservationHours = c;
-
+            // Send the instance of ReservationViewModel to the view
             return View(resVM);
         }
 
