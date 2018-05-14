@@ -1,0 +1,141 @@
+﻿@model ASPNET_MVC_MolvenoReservationApplication.Models.AdminConfigure
+
+@{
+    ViewData["Title"] = "ReservationSettings";
+}
+
+<h2>Reservation Settings</h2>
+
+<h4>Reservation</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="ReservationSettingsEdit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>           
+            <input type="hidden" asp-for="AdminID" />
+            <div class="form-group">
+                <label asp-for="OpeningHour" class="control-label">Opening hour</label>
+                <select asp-for="OpeningHour" class="form-control-static combobox" type="number" id="OpeningHour">
+                    <option disabled selected hidden></option>  @*Added this option so when you start you don't see 12:00, but you cannot select it (hidden)*@
+                    <option value="0">0</option>
+                    <option value="1">01</option>
+                    <option value="2">02</option>
+                    <option value="3">03</option>
+                    <option value="4">04</option>
+                    <option value="5">05</option>
+                    <option value="6">06</option>
+                    <option value="7">07</option>
+                    <option value="8">08</option>
+                    <option value="9">09</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                    <option value="13">13</option>
+                    <option value="14">14</option>
+                    <option value="15">15</option>
+                    <option value="16">16</option>
+                    <option value="17">17</option>
+                    <option value="18">18</option>
+                    <option value="19">19</option>
+                    <option value="20">20</option>
+                    <option value="21">21</option>
+                    <option value="22">22</option>
+                    <option value="23">23</option>
+                </select>
+                <span asp-validation-for="OpeningHour" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ClosingHours" class="control-label">Closing hour</label>
+                <select asp-for="ClosingHours" class="form-control-static combobox" type="number" id="ClosingHours">
+                    <option disabled selected hidden></option>  @*Added this option so when you start you don't see 12:00, but you cannot select it (hidden)*@
+                    <option value="0">0</option>
+                    <option value="1">01</option>
+                    <option value="2">02</option>
+                    <option value="3">03</option>
+                    <option value="4">04</option>
+                    <option value="5">05</option>
+                    <option value="6">06</option>
+                    <option value="7">07</option>
+                    <option value="8">08</option>
+                    <option value="9">09</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                    <option value="13">13</option>
+                    <option value="14">14</option>
+                    <option value="15">15</option>
+                    <option value="16">16</option>
+                    <option value="17">17</option>
+                    <option value="18">18</option>
+                    <option value="19">19</option>
+                    <option value="20">20</option>
+                    <option value="21">21</option>
+                    <option value="22">22</option>
+                    <option value="23">23</option>
+                </select>
+                <span asp-validation-for="ClosingHours" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="_resDurationHour" class="control-label">Duration of reservations</label>
+                <select asp-for="_resDurationHour" class="form-control-static combobox" type="number">
+                    <option disabled selected hidden></option>  @*Added this option so when you start you don't see 12:00, but you cannot select it (hidden)*@
+                    <option value="0">0</option>
+                    <option value="1">01</option>
+                    <option value="2">02</option>
+                    <option value="3">03</option>
+                    <option value="4">04</option>
+                    <option value="5">05</option>
+                    <option value="6">06</option>
+                    <option value="7">07</option>
+                    <option value="8">08</option>
+                    <option value="9">09</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                    <option value="13">13</option>
+                    <option value="14">14</option>
+                    <option value="15">15</option>
+                    <option value="16">16</option>
+                    <option value="17">17</option>
+                    <option value="18">18</option>
+                    <option value="19">19</option>
+                    <option value="20">20</option>
+                    <option value="21">21</option>
+                    <option value="22">22</option>
+                    <option value="23">23</option>
+                </select>
+                <span asp-validation-for="_resDurationHour" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PercentageMaxCapacity" class="control-label">Percentage possible to reserve of max capacity tables</label>
+                <select asp-for="PercentageMaxCapacity" class="form-control-static combobox" type="number">
+                    <option disabled selected hidden></option>  @*Added this option so when you start you don't see 12:00, but you cannot select it (hidden)*@
+                    <option value="0">00</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option value="40">40</option>
+                    <option value="50">50</option>
+                    <option value="60">60</option>
+                    <option value="70">70</option>
+                    <option value="80">80</option>
+                    <option value="90">90</option>
+                    <option value="100">100</option>
+                </select>
+                <span asp-validation-for="PercentageMaxCapacity" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="ReservationOverview">Back to List</a>
+</div>
+<div>
+    <a asp-action="Index">Back to Admin homepage</a>
+</div>
+

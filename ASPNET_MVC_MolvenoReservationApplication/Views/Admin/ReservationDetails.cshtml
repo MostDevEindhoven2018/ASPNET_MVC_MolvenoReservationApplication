@@ -1,7 +1,7 @@
 ﻿@model ASPNET_MVC_MolvenoReservationApplication.Models.Reservation
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "ReservationDetails";
 }
 
 <h2>Details</h2>
@@ -37,6 +37,9 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.ReservationID">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="ReservationEdit" asp-route-id="@Model.ReservationID">Edit</a> |
+    <a asp-action="ReservationOverview">Back to List</a>
+</div>
+<div>
+    <a asp-action="Index">Back to Admin homepage</a>
 </div>

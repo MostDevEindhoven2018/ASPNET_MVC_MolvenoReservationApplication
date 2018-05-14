@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<ASPNET_MVC_MolvenoReservationApplication.Models.Reservation>
 
 @{
-    ViewData["Title"] = "OverviewReservations";
+    ViewData["Title"] = "ReservationOverview";
 }
 
 <h2>Overview Reservations</h2>
@@ -20,7 +20,11 @@
 </style>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Index">Admin homepage</a>
+</p>
+
+<p>
+    <a asp-action="ReservationCreate">Make a reservation</a>
 </p>
 
 @*Added the columns Name,phone,email*@
@@ -94,9 +98,9 @@
                     @Html.DisplayFor(modelItem => item._resComments)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.ReservationID">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.ReservationID">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.ReservationID">Delete</a>
+                    <a asp-action="ReservationEdit" asp-route-id="@item.ReservationID">Edit</a> |
+                    <a asp-action="ReservationDetails" asp-route-id="@item.ReservationID">Details</a> |
+                    <a asp-action="ReservationDelete" asp-route-id="@item.ReservationID">Delete</a>
                 </td>
             </tr>
         }

@@ -1,7 +1,7 @@
 ﻿@model ASPNET_MVC_MolvenoReservationApplication.Models.Reservation
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "ReservationDelete";
 }
 
 <h2>Delete</h2>
@@ -37,9 +37,15 @@
         </dd>
     </dl>
 
-    <form asp-action="Delete">
+    <form asp-action="ReservationDelete">
         <input type="hidden" asp-for="ReservationID" />
-        <input type="submit" value="Delete" class="btn btn-default" /> |
-        <a asp-action="Index">Back to List</a>
+        <input type="submit" value="Delete" class="btn btn-default" />
     </form>
+</div>
+<br/>
+<div>
+    <a asp-action="ReservationOverview">Back to List</a>
+</div>
+<div>
+    <a asp-action="Index">Back to Admin homepage</a>
 </div>

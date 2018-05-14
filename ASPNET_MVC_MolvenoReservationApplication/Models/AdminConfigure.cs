@@ -10,6 +10,9 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Models
 {
     public class AdminConfigure
     {
+        [Key]
+        public int AdminID { get; set; }
+
         // Need this for form: when to start the reservation time
         // Need to store this in database
         [Display(Name = "Opening Hours", AutoGenerateField = true)]
@@ -41,16 +44,16 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Models
 
         [Display(Name = "Duration reservation in Hours", AutoGenerateField = true)]
         [Range(0, 23)]
-        public int _resDurationHour { get; private set;} = 3;
+        public int _resDurationHour { get; set;} = 3;
 
-        /// <summary>
-        /// Method to update the duration of a reservation in hours (when it is set to private set;)
-        /// </summary>
-        /// <param name="i">The new duration of a reservaton</param>
-        public void update(int i)
-        {
-            _resDurationHour = i;
-        }
+        ///// <summary>
+        ///// Method to update the duration of a reservation in hours (when it is set to private set;)
+        ///// </summary>
+        ///// <param name="i">The new duration of a reservaton</param>
+        //public void update(int i)
+        //{
+        //    _resDurationHour = i;
+        //}
 
         // Percentage that of max capacity of restaurant that can be reserved
         // Need to store this in database
@@ -58,26 +61,30 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Models
         [Range(0, 100)]
         public int PercentageMaxCapacity { get; set; }
 
+        public int MaxNumberOfTablesAllowedRes { get; set; }
 
-        MyDBContext _context;
+        ///////System.NullReferenceException: 'Object reference not set to an instance of an object.'
+        ////private readonly MyDBContext _context;
+        ////public AdminConfigure(MyDBContext context)
+        ////{            
+        ////    _context = context;
+        ////}        
+        ////List<Table> AllTables;
+        ////// Get the maximum number of tables that can be reserved for the day
+        ////// Need to store this in database?
+        ////public int MaxNumberOfTablesAllowedRes
+        ////{
+        ////    get
+        ////    {
+        ////        AllTables = _context.Tables.Select(t => t).ToList();
+        ////        decimal number2 = AllTables.Count() * (PercentageMaxCapacity / 100);
+        ////        int  number3= Convert.ToInt32(Math.Floor(number2));
+        ////        return number3;
+        ////    }
+        ////}
 
-        //public AdminConfigure(MyDBContext context)
-        //{
-        //    _context = context;
-        //}
 
-        // Get the maximum number of tables that can be reserved for the day
-        // Need to store this in database?
-        public int MaxNumberOfTablesAllowedRes
-        {
-            get
-            {
-                var AllTables = _context.Tables.Select(t => t).ToList();
-                decimal number2 = AllTables.Count() * (PercentageMaxCapacity / 100);
-                int  number3= Convert.ToInt32(Math.Floor(number2));
-                return number3;
-            }
-        }
+
 
         public AdminConfigure() { }
     }

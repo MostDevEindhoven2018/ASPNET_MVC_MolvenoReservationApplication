@@ -1,7 +1,52 @@
-﻿
+﻿@model IEnumerable<ASPNET_MVC_MolvenoReservationApplication.Models.AdminConfigure>
+
 @{
     ViewData["Title"] = "ReservationSettings";
 }
 
-<h2>ReservationSettings</h2>
+<h2>Reservation Settings</h2>
 
+<p>
+    <a asp-action="Index">Admin homepage</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.OpeningHour)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClosingHours)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model._resDurationHour)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PercentageMaxCapacity)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.OpeningHour)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClosingHours)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item._resDurationHour)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PercentageMaxCapacity)
+            </td>
+            <td>
+                <a asp-action="ReservationSettingsEdit" asp-route-id="@item.AdminID">Edit</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
