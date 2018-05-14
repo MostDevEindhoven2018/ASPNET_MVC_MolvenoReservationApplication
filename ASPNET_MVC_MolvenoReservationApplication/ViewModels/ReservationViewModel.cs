@@ -11,20 +11,11 @@ namespace ASPNET_MVC_MolvenoReservationApplication.ViewModels
 
         //Each property from each object should be included in the ViewModel
         //No need for data annotations
-
-        public int ReservationID { get; set; }
-
-        //public int TableID { get; set; }
-
-        //public int GuestID { get; set; }
-
-        public DateTime Arrivingdate { get; set; }
-
+        public string ArrivingDate { get; set; }
+        
         public int ArrivingHour { get; set; }
 
         public int ArrivingMinute { get; set; }
-
-        //public DateTime leavingtime { get; set; }
 
         public int Partysize { get; set; }
 
