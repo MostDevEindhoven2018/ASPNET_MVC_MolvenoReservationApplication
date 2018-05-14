@@ -149,12 +149,14 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
                         {
                             guest = new Guest(reservationInput.GuestName, reservationInput.GuestEmail);
                             res = new Reservation(reservationInput.Partysize, resArrivingDate, 3, guest);
+
+                
                         }
                     }
                 }
             }
-
-            // DOTO: check for available tables and return them
+            return View();
+            // TODO: check for available tables and return them
             // if (CheckTableAvailability > 0)
             // then go on with guest input details
             // else return to the begining of the form

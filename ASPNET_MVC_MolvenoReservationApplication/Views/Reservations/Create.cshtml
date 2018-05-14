@@ -27,14 +27,25 @@
             background: rgba(255,255,204, 0.2);
         }
     </style>
-       
-       @*Creating a script that contains a method HideCheckAvailability Fields().This method performs all the user input validation
-         for the fields date,time,party size.The checks occur when the check availability button is pushed (it is prevented)
-         from proceeding due to the return statement in every check which obliges the user to remain in the first page until all fields
-         comply to the user input validation rules.When all fields of the first form are correctly filled, they get hidden
-           and the fields of form 2 appear(name,phone,email,hide prices,comments,label: if you need help...)*@
-       <script>
-        function SendDatatoController() {
+
+    @*Creating a script that contains a method HideCheckAvailability Fields().This method performs all the user input validation
+        for the fields date,time,party size.The checks occur when the check availability button is pushed (it is prevented)
+        from proceeding due to the return statement in every check which obliges the user to remain in the first page until all fields
+        comply to the user input validation rules.When all fields of the first form are correctly filled, they get hidden
+          and the fields of form 2 appear(name,phone,email,hide prices,comments,label: if you need help...)*@
+    <script>
+
+        function SendDatatoController(date, cmb_Time, cmb_Minutes, partysize) {
+
+            console.log({ date: date, hours: cmb_Time, minutes: cmb_Minutes, partysize: partysize })
+
+            var reservationInput = { ArrivingDate: date, ArrivingHour: cmb_Time, ArrivingMinute: cmb_Minutes, Partysize: partysize }
+
+            $(document).ready(function () {
+                $.post("http://localhost:49688/Reservations/Create", reservationInput, function (data, status) {
+                    alert("Data: " + data + "\nStatus: " + status);
+                });
+            });
 
             //Creating a variable date and making it the current in order to be able to compare if the inputed date
             //belongs in the past
@@ -44,14 +55,14 @@
             var yyyy = today.getFullYear();
 
             today = yyyy + '-' + mm + '-' + dd;
-            
+
             //USER INPUT VALIDATION CLIENT SIDE:
             //Checks if all fields are null
             if ((document.getElementById("date").value == "") && ((document.getElementById('cmb_Time').value == "") && (document.getElementById('cmb_Minutes').value == "")) && (document.getElementById("partysize").value == 0)) {
                 alert("Please enter all data.")
                 return;
             }
-            //checks if the date field is null       
+            //checks if the date field is null
             else if (document.getElementById("date").value == "") {
                 alert("Please select a date");
                 return;
@@ -62,7 +73,7 @@
                 return;
             }
             //checks if the party size is 0 or less than 0 (- minus)
-            else if ((document.getElementById("partysize").value == 0) || (document.getElementById("partysize").value < 0)){
+            else if ((document.getElementById("partysize").value == 0) || (document.getElementById("partysize").value < 0)) {
                 alert("Please enter your party size");
                 return;
             }
@@ -103,7 +114,7 @@
                 <div class="form-group">
                     <div id="dateblock">
                         <label asp-for="ArrivingDate" id="datelabel" class="control-label">Date:</label>
-                        <input asp-for="ArrivingDate" style="width: 250px; height: 35px;" class="form-control textbox" onchange="myFunction(),MyFunction3()" id="date" type="text" min="2018-04-23" tabindex="1" required  readonly/>
+                        <input asp-for="ArrivingDate" style="width: 250px; height: 35px;" class="form-control textbox" onchange="myFunction(),MyFunction3()" id="date" type="text" min="2018-04-23" tabindex="1" required readonly />
                         <span asp-validation-for="ArrivingDate" class="text-danger"></span>
                     </div>
                 </div>
@@ -208,7 +219,7 @@
                 <br />
                 <br />
                 <div id="SendData">
-                    <input type="submit" value="Check Availability" />@* onclick="SendDatatoController();" id="btnChkAvail" />*@
+                    <input type="button" value="Check Availability" onclick="SendDatatoController(document.getElementById('date').value, document.getElementById('cmb_Time').value, document.getElementById('cmb_Minutes').value, document.getElementById('partysize').value);" id="btnChkAvail" />
                 </div>
                 <div class="form-group">
 
