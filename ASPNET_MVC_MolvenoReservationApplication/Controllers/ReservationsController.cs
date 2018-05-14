@@ -137,7 +137,6 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
             // else return to the begining of the form
 
 
-
             Guest resGuest = new Guest()
             {
                 _guestName = reservationInput.GuestName,
@@ -149,9 +148,9 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
             Reservation reservation = new Reservation()
             {
 
-                Date = dtpart,
-                Time = tpart,
-                _resArrivingTime = resArrivingDate,
+                //Date = dtpart,
+                //Time = tpart,
+                //_resArrivingTime = resArrivingDate,
                 _resPartySize = reservationInput.Partysize,
                 _resHidePrices = reservationInput.Hideprices,
                 _resComments = reservationInput.ResComments,

@@ -34,7 +34,7 @@
          comply to the user input validation rules.When all fields of the first form are correctly filled, they get hidden
            and the fields of form 2 appear(name,phone,email,hide prices,comments,label: if you need help...)*@
        <script>
-        function HideCheckAvailabilityFields() {
+        function SendDatatoController() {
 
             //Creating a variable date and making it the current in order to be able to compare if the inputed date
             //belongs in the past
@@ -67,42 +67,11 @@
                 return;
             }
 
-            //checks if date belongs to the past -NOT really necessary at this point because the textbox is readonly and therefore the guest cannot type
-            //if (document.getElementById("date").value < today) {
-            //    alert("Please select the current or a future day");
-            //    return;
-
-            //}
-
             //checks if the partysize is bigger than 10
             else if (document.getElementById("partysize").value > 10) {
                 alert("Maximum party size is 10");
                 return;
             }
-            
-
-            //TO DO: var List<tables> = checkTableAvailability();
-            //if List<tables>.Count >0 
-            //then HIDING THE FIELDS
-            //else return;
-
-
-            //HIDING THE FIELDS:
-            //Hiding Date,Time and Party Size and activating Name,Phone,Email,Hide Prices,Comments,Block of text (if you need more info please call us)
-            //and the submit button
-            document.getElementById("date").style.display = "None";
-            document.getElementById("datelabel").style.display = "None";
-            document.getElementById("timeblock").style.display = "None";
-            document.getElementById("partysizeblock").style.display = "None";
-            document.getElementById("btnChkAvail").style.display = "None";
-            document.getElementById("timelabel").style.display = "None";
-            document.getElementById("nameblock").style.display = "";
-            document.getElementById("phoneblock").style.display = "";
-            document.getElementById("emailblock").style.display = "";
-            document.getElementById("hidepricesblock").style.display = "";
-            document.getElementById("commentsblock").style.display = "";
-            document.getElementById("submitbutton").style.display = "";
-
         }
     </script>
 
@@ -133,9 +102,9 @@
                 @* Input Validation: As a calendar *@
                 <div class="form-group">
                     <div id="dateblock">
-                        <label asp-for="Arrivingdate" id="datelabel" class="control-label">Date:</label>
-                        <input asp-for="Arrivingdate" style="width: 250px; height: 35px;" class="form-control textbox" onchange="myFunction(),MyFunction3()" id="date" type="text" min="2018-04-23" tabindex="1" required  readonly/>
-                        <span asp-validation-for="Arrivingdate" class="text-danger"></span>
+                        <label asp-for="ArrivingDate" id="datelabel" class="control-label">Date:</label>
+                        <input asp-for="ArrivingDate" style="width: 250px; height: 35px;" class="form-control textbox" onchange="myFunction(),MyFunction3()" id="date" type="text" min="2018-04-23" tabindex="1" required  readonly/>
+                        <span asp-validation-for="ArrivingDate" class="text-danger"></span>
                     </div>
                 </div>
                 <br />
@@ -238,8 +207,8 @@
 
                 <br />
                 <br />
-                <div id="ChkAvail">
-                    <input type="button" value="Check Availability" onclick="HideCheckAvailabilityFields();" id="btnChkAvail" />
+                <div id="SendData">
+                    <input type="button" value="Check Availability" onclick="SendDatatoController();" id="btnChkAvail" />
                 </div>
                 <div class="form-group">
 
