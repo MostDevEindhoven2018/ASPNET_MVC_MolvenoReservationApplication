@@ -75,7 +75,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
                 return NotFound();
             }
 
-            var reservation = await _context.Reservations
+            var reservation = await _context.Reservations.Include("_guest").
                 .SingleOrDefaultAsync(m => m.ReservationID == id);
             if (reservation == null)
             {
@@ -135,28 +135,6 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
             // if (CheckTableAvailability > 0)
             // then go on with guest input details
             // else return to the begining of the form
-
-
-
-            Guest resGuest = new Guest()
-            {
-                _guestName = reservationInput.GuestName,
-                _guestPhone = reservationInput.GuestPhone,
-                _guestEmail = reservationInput.GuestEmail
-            };
-            Table resTable = new Table();
-
-            Reservation reservation = new Reservation()
-            {
-
-                Date = dtpart,
-                Time = tpart,
-                _resArrivingTime = resArrivingDate,
-                _resPartySize = reservationInput.Partysize,
-                _resHidePrices = reservationInput.Hideprices,
-                _resComments = reservationInput.ResComments,
-                _resGuest = resGuest
-            };
 
             if (ModelState.IsValid)
             {
