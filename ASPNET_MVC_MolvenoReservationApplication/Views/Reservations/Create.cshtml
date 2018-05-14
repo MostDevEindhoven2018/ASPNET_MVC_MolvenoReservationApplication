@@ -9,8 +9,8 @@
 <link href="https://code.jquery.com/ui/1.12.1/themes/sunny/jquery-ui.css" rel="stylesheet" />
 
 @*<script src="~/jquery-ui-1.12.1.custom/external/jquery/jquery.js"></script>
-<script src="~/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
-<link href="~/jquery-ui-1.12.1.custom/jquery-ui.css" rel="stylesheet">*@
+    <script src="~/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+    <link href="~/jquery-ui-1.12.1.custom/jquery-ui.css" rel="stylesheet">*@
 
 @section PageStyles
     {
@@ -27,10 +27,88 @@
             background: rgba(255,255,204, 0.2);
         }
     </style>
+       
+       @*Creating a script that contains a method HideCheckAvailability Fields().This method performs all the user input validation
+         for the fields date,time,party size.The checks occur when the check availability button is pushed (it is prevented)
+         from proceeding due to the return statement in every check which obliges the user to remain in the first page until all fields
+         comply to the user input validation rules.When all fields of the first form are correctly filled, they get hidden
+           and the fields of form 2 appear(name,phone,email,hide prices,comments,label: if you need help...)*@
+       <script>
+        function HideCheckAvailabilityFields() {
+
+            //Creating a variable date and making it the current in order to be able to compare if the inputed date
+            //belongs in the past
+            var today = new Date();
+            var dd = today.getDate();
+            var mm = today.getMonth() + 1; // January is 0
+            var yyyy = today.getFullYear();
+
+            today = yyyy + '-' + mm + '-' + dd;
+            
+            //USER INPUT VALIDATION CLIENT SIDE:
+            //Checks if all fields are null
+            if ((document.getElementById("date").value == "") && ((document.getElementById('cmb_Time').value == "") && (document.getElementById('cmb_Minutes').value == "")) && (document.getElementById("partysize").value == 0)) {
+                alert("Please enter all data.")
+                return;
+            }
+            //checks if the date field is null       
+            else if (document.getElementById("date").value == "") {
+                alert("Please select a date");
+                return;
+            }
+            //checks if the Hour and Minute boxes are empty
+            else if ((document.getElementById('cmb_Time').value == "") || (document.getElementById('cmb_Minutes').value == "")) {
+                alert("Please select a time");
+                return;
+            }
+            //checks if the party size is 0 or less than 0 (- minus)
+            else if ((document.getElementById("partysize").value == 0) || (document.getElementById("partysize").value < 0)){
+                alert("Please enter your party size");
+                return;
+            }
+
+            //checks if date belongs to the past -NOT really necessary at this point because the textbox is readonly and therefore the guest cannot type
+            //if (document.getElementById("date").value < today) {
+            //    alert("Please select the current or a future day");
+            //    return;
+
+            //}
+
+            //checks if the partysize is bigger than 10
+            else if (document.getElementById("partysize").value > 10) {
+                alert("Maximum party size is 10");
+                return;
+            }
+            
+
+            //TO DO: var List<tables> = checkTableAvailability();
+            //if List<tables>.Count >0 
+            //then HIDING THE FIELDS
+            //else return;
+
+
+            //HIDING THE FIELDS:
+            //Hiding Date,Time and Party Size and activating Name,Phone,Email,Hide Prices,Comments,Block of text (if you need more info please call us)
+            //and the submit button
+            document.getElementById("date").style.display = "None";
+            document.getElementById("datelabel").style.display = "None";
+            document.getElementById("timeblock").style.display = "None";
+            document.getElementById("partysizeblock").style.display = "None";
+            document.getElementById("btnChkAvail").style.display = "None";
+            document.getElementById("timelabel").style.display = "None";
+            document.getElementById("nameblock").style.display = "";
+            document.getElementById("phoneblock").style.display = "";
+            document.getElementById("emailblock").style.display = "";
+            document.getElementById("hidepricesblock").style.display = "";
+            document.getElementById("commentsblock").style.display = "";
+            document.getElementById("submitbutton").style.display = "";
+
+        }
+    </script>
+
 }
 
-<body onload="inPage();"background="https://i.pinimg.com/originals/5a/a2/f4/5aa2f4c287849a6b5d3b8de4424e083d.jpg">
-
+<body background="https://i.pinimg.com/originals/5a/a2/f4/5aa2f4c287849a6b5d3b8de4424e083d.jpg">
 
 
     <h2>Reservation</h2>
@@ -43,104 +121,132 @@
             <form asp-action="Create" id="form">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 @*<div>
-                    <input asp-for="ReservationID" class="form-control textbox" type="number" hidden />
-                </div>
-                <div>
-                    <input asp-for="TableID" class="form-control textbox" type="number" hidden />
-                </div>
-                <div>
-                    <input asp-for="GuestID" class="form-control textbox" type="number" hidden />
-                </div>*@
+                        <input asp-for="ReservationID" class="form-control textbox" type="number" hidden />
+                    </div>
+                    <div>
+                        <input asp-for="TableID" class="form-control textbox" type="number" hidden />
+                    </div>
+                    <div>
+                        <input asp-for="GuestID" class="form-control textbox" type="number" hidden />
+                    </div>*@
 
                 @* Input Validation: As a calendar *@
                 <div class="form-group">
-                    <label asp-for="Arrivingdate" class="control-label">Date:</label>
-                    <input asp-for="Arrivingdate" style="width: 250px; height: 35px;" class="form-control textbox" onchange="myFunction(),MyFunction3()" id="date" type="text" min="2018-04-23" tabindex="1" required />
-                    <span asp-validation-for="Arrivingdate" class="text-danger"></span>
+                    <div id="dateblock">
+                        <label asp-for="Arrivingdate" id="datelabel" class="control-label">Date:</label>
+                        <input asp-for="Arrivingdate" style="width: 250px; height: 35px;" class="form-control textbox" onchange="myFunction(),MyFunction3()" id="date" type="text" min="2018-04-23" tabindex="1" required  readonly/>
+                        <span asp-validation-for="Arrivingdate" class="text-danger"></span>
+                    </div>
                 </div>
                 <br />
-                <label>Time:</label>
+                <label id="timelabel">Time:</label>
                 <br />
                 @* Input Validation: The minimum Hour can be 12 and maximum hour can be 21; all minutes are included *@
                 @* Input Validation: The minimum Hour can be 12 and maximum hour can be 21; all minutes are included  if its not 21 hours*@
                 <div class="form-group">
                     @*<label asp-for="ArrivingHour" class="control-label"></label>*@
-                    <select asp-for="ArrivingHour" class="form-control-static combobox" type="number" max="10" min="0" required tabindex="2" onchange="MyFunction2()" id="cmb_Time">
-                        <option disabled selected hidden></option>  @*Added this option so when you start you don't see 12:00, but you cannot select it (hidden)*@
-                        <option value="12">12</option>
-                        <option value="13">13</option>
-                        <option value="14">14</option>
-                        <option value="15">15</option>
-                        <option value="16">16</option>
-                        <option value="17">17</option>
-                        <option value="18">18</option>
-                        <option value="19">19</option>
-                        <option value="20">20</option>
-                        <option value="21">21</option>
-                    </select>
-                    <span asp-validation-for="ArrivingHour" class="text-danger"></span>
+                    <div id="timeblock">
+                        <select asp-for="ArrivingHour" class="form-control-static combobox" type="number" max="10" min="0" required tabindex="2" onchange="MyFunction2()" id="cmb_Time">
+                            <option disabled selected hidden></option>  @*Added this option so when you start you don't see 12:00, but you cannot select it (hidden)*@
+                            <option value="12">12</option>
+                            <option value="13">13</option>
+                            <option value="14">14</option>
+                            <option value="15">15</option>
+                            <option value="16">16</option>
+                            <option value="17">17</option>
+                            <option value="18">18</option>
+                            <option value="19">19</option>
+                            <option value="20">20</option>
+                            <option value="21">21</option>
+                        </select>
+                        <span asp-validation-for="ArrivingHour" class="text-danger"></span>
 
-                    @*<label asp-for="ArrivingMinute" class="control-label"></label>*@
-                    <select asp-for="ArrivingMinute" class="form-control-static comboboxMinutes" type="number" max="10" min="0" required tabindex="3" id="cmb_Minutes">
-                        <option disabled selected hidden></option>  @*Added this option so when you start you don't see 12:00, but you cannot select it (hidden)*@
-                        <option value="0">00</option>
-                        <option value="15">15</option>
-                        <option value="30">30</option>
-                        <option value="45">45</option>
-                    </select>
-                    <span asp-validation-for="ArrivingMinute" class="text-danger"></span>
+                        @*<label asp-for="ArrivingMinute" class="control-label"></label>*@
+                        <select asp-for="ArrivingMinute" class="form-control-static comboboxMinutes" type="number" max="10" min="0" required tabindex="3" id="cmb_Minutes">
+                            <option disabled selected hidden></option>  @*Added this option so when you start you don't see 12:00, but you cannot select it (hidden)*@
+                            <option value="0">00</option>
+                            <option value="15">15</option>
+                            <option value="30">30</option>
+                            <option value="45">45</option>
+                        </select>
+                        <span asp-validation-for="ArrivingMinute" class="text-danger"></span>
+                    </div>
                 </div>
 
 
                 @* Input Validation: minimum party size = 0; maximum party size=10; it is required *@
                 <div class="form-group">
-                    <label asp-for="Partysize" class="control-label">Party size:</label>
-                    <input asp-for="Partysize" class="form-control numberbox" type="number" max="10" min="1" style="width: 80px; height: 35px;" required tabindex="4" />
-                    <span asp-validation-for="Partysize" class="text-danger"></span>
+                    <div id="partysizeblock">
+                        <label asp-for="Partysize" id="partysizelabel" class="control-label">Party size:</label>
+                        <input asp-for="Partysize" class="form-control numberbox" id="partysize" type="number" max="10" min="1" style="width: 80px; height: 35px;" required tabindex="4" />
+                        <span asp-validation-for="Partysize" class="text-danger"></span>
+                    </div>
                 </div>
 
                 @* Input Validation: It only accepts letters; it accepts a maximum of 25 characters; it is required;  *@
                 <div class="form-group">
-                    <label asp-for="GuestName" class="control-label">Name:</label>
-                    <input asp-for="GuestName" class="form-control textbox" type="text" style="width: 250px; height: 35px;" pattern="^[A-Za-z][A-Za-z ,.'-]{0,23}[A-Za-z]$" max="25" required tabindex="5" title="The name should only consist of letters with a maximum of 25 characters." />
-                    <span asp-validation-for="GuestName" class="text-danger"></span>
+                    <div id="nameblock" style="display: none;">
+                        <label asp-for="GuestName" id="namelabel" class="control-label">Name:</label>
+                        <input asp-for="GuestName" id="name" class="form-control textbox" type="text" style="width: 250px; height: 35px;" pattern="^[A-Za-z][A-Za-z ,.'-]{0,23}[A-Za-z]$" max="25" required tabindex="5" title="The name should only consist of letters with a maximum of 25 characters." />
+                        <span asp-validation-for="GuestName" class="text-danger"></span>
+                    </div>
                 </div>
 
                 @* Input Validation: It only accepts numbers; It expects 10 numbers; is required unless email has a value;  *@
                 @*|(?:[0]{2}[3][0-9]{10}) = for 0031-612345678 numbers*@
                 <div class="form-group">
-                    <label asp-for="GuestPhone" class="control-label">Phone number:</label>
-                    <input asp-for="GuestPhone" class="form-control textbox" id="phone" type="text" max="25" style="width: 250px; height: 35px;" pattern="(?:[+][0-9]{11})|(?:[0][0-9]{9})|(?:[0-9]{10})" tabindex="6" required title="Phone number should consist of + and 11 numbers or 0 and 9 numbers or 10 numbers" />
-                    <span asp-validation-for="GuestPhone" class="text-danger"></span>
+                    <div id="phoneblock" style="display: none;">
+                        <label asp-for="GuestPhone" id="phonelabel" class="control-label">Phone number:</label>
+                        <input asp-for="GuestPhone" class="form-control textbox" id="phone" type="text" max="25" style="width: 250px; height: 35px;" pattern="(?:[+][0-9]{11})|(?:[0][0-9]{9})|(?:[0-9]{10})" tabindex="6" required title="Phone number should consist of + and 11 numbers or 0 and 9 numbers or 10 numbers" />
+                        <span asp-validation-for="GuestPhone" class="text-danger"></span>
+                    </div>
                 </div>
 
                 @* Input Validation: It only accepts numbers; It expects 10 numbers; is required unless phone number has a value;  *@
                 <div class="form-group">
-                    <label asp-for="GuestEmail" class="control-label">Email:</label>
-                    <input asp-for="GuestEmail" class="form-control emailbox" id="email" type="email" style="width: 250px; height: 35px;" tabindex="7" required />
-                    <span asp-validation-for="GuestEmail" class="text-danger"></span>
+                    <div id="emailblock" style="display: none;">
+                        <label asp-for="GuestEmail" id="emaillabel" class="control-label">Email:</label>
+                        <input asp-for="GuestEmail" class="form-control emailbox" id="email" type="email" style="width: 250px; height: 35px;" tabindex="7" required />
+                        <span asp-validation-for="GuestEmail" class="text-danger"></span>
+                    </div>
                 </div>
 
-                <br/>
+                <br />
 
                 <div class="form-group">
-                    <label asp-for="Hideprices" class="control-label"> Would you like to hide the prices <br /> on the menu card?</label>
-                    <input asp-for="Hideprices" class="form-control-static checkbox" type="checkbox" tabindex="8" />
-                    <span asp-validation-for="Hideprices" class="text-danger"></span>
+                    <div id="hidepricesblock" style="display: none;">
+                        <label asp-for="Hideprices" id="hidepriceslabel" class="control-label"> Would you like to hide the prices <br /> on the menu card?</label>
+                        <input asp-for="Hideprices" class="form-control-static checkbox" type="checkbox" tabindex="8" />
+                        <span asp-validation-for="Hideprices" class="text-danger"></span>
+                    </div>
                 </div>
 
                 @* Input Validation: Maximum number of characters accepted is a 100 *@
                 <div class="form-group">
-                    <label asp-for="ResComments" class="control-label">Comments:</label>
-                   @* <input asp-for="ResComments" class="form-control text" type="text" style="width: 400px; height: 150px;" tabindex="9" max="100" />*@
-                    <textarea asp-for="ResComments" style="width:400px;height:150px;resize:none" tabindex="9" max="100"></textarea>
-                    <span asp-validation-for="ResComments" class="text-danger"></span>
+                    <div id="commentsblock" style="display: none;">
+                        <label asp-for="ResComments" id="commentslabel" class="control-label">Comments:</label>
+                        @* <input asp-for="ResComments" class="form-control text" type="text" style="width: 400px; height: 150px;" tabindex="9" max="100" />*@
+                        <textarea asp-for="ResComments" style="width:400px;height:150px;resize:none" tabindex="9" max="100"></textarea>
+                        <span asp-validation-for="ResComments" class="text-danger"></span>
+                    </div>
                 </div>
 
                 <br />
                 <br />
+
+
+
+                <br />
+                <br />
+                <div id="ChkAvail">
+                    <input type="button" value="Check Availability" onclick="HideCheckAvailabilityFields();" id="btnChkAvail" />
+                </div>
                 <div class="form-group">
-                    <input type="submit" value="Confirm Reservation" class="btn btn-default" tabindex="10" />
+
+                    <div id="submitbutton" style="display: none;">
+
+                        <input type="submit" value="Confirm Reservation" id="submit" class="btn btn-default" tabindex="10" />
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for:"AnyotherProblem" class="OtherProblems">Feel free to contact us on 0000000000 if you experience any problems.</label>

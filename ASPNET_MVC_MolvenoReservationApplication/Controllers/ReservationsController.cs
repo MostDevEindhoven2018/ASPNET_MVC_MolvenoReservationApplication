@@ -235,8 +235,10 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ReservationID,_resPartySize,_resArrivingTime,_resLeavingTime,_resHidePrices,_resComments")] Reservation reservation)
+        public async Task<IActionResult> Edit(int id, [Bind("ReservationID,_resPartySize,_resArrivingTime,_resLeavingTime,_resHidePrices,_resComments,_resGuest._guestName")] Reservation reservation)
         {
+
+            
             if (id != reservation.ReservationID)
             {
                 return NotFound();
@@ -246,6 +248,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
             {
                 try
                 {
+                    //_context.Reservations.Include("_resGuest");
                     _context.Update(reservation);
                     await _context.SaveChangesAsync();
                 }
