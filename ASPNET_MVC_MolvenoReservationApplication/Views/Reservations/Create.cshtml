@@ -44,9 +44,8 @@
             var yyyy = today.getFullYear();
 
             today = yyyy + '-' + mm + '-' + dd;
-
-            //User Input Validation client side:
-
+            
+            //USER INPUT VALIDATION CLIENT SIDE:
             //Checks if all fields are null
             if ((document.getElementById("date").value == "") && ((document.getElementById('cmb_Time').value == "") && (document.getElementById('cmb_Minutes').value == "")) && (document.getElementById("partysize").value == 0)) {
                 alert("Please enter all data.")
@@ -82,6 +81,13 @@
             }
             
 
+            //TO DO: var List<tables> = checkTableAvailability();
+            //if List<tables>.Count >0 
+            //then HIDING THE FIELDS
+            //else return;
+
+
+            //HIDING THE FIELDS:
             //Hiding Date,Time and Party Size and activating Name,Phone,Email,Hide Prices,Comments,Block of text (if you need more info please call us)
             //and the submit button
             document.getElementById("date").style.display = "None";

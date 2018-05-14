@@ -14,31 +14,40 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="ReservationID" />
             <div class="form-group">
-                <label asp-for="_resPartySize" class="control-label"></label>
+                <label asp-for="_resPartySize" class="control-label">Party Size:</label>
                 <input asp-for="_resPartySize" class="form-control" />
                 <span asp-validation-for="_resPartySize" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="_resArrivingTime" class="control-label"></label>
-                <input asp-for="_resArrivingTime" class="form-control" />
-                <span asp-validation-for="_resArrivingTime" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="_resArrivingTime" class="control-label"></label>
+                <label asp-for="_resArrivingTime" class="control-label">Reservation Date and Time:</label>
                 <input asp-for="_resArrivingTime" class="form-control" />
                 <span asp-validation-for="_resArrivingTime" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <div class="checkbox">
-                    <label>
-                        <input asp-for="_resHidePrices" /> @Html.DisplayNameFor(model => model._resHidePrices)
-                    </label>
+                    <input asp-for="_resHidePrices" /> @*@Html.DisplayNameFor(model => model._resHidePrices)*@
+                    <label asp-for="_resHidePrices" class="control-label">Hide Prices:</label>
                 </div>
             </div>
             <div class="form-group">
                 <label asp-for="_resComments" class="control-label"></label>
                 <input asp-for="_resComments" class="form-control" />
                 <span asp-validation-for="_resComments" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="_resGuest._guestName" class="control-label">Name:</label>
+                <input asp-for="_resGuest._guestName" class="form-control" />
+                <span asp-validation-for="_resGuest._guestName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="_resGuest._guestPhone" class="control-label">Phone:</label>
+                <input asp-for="_resGuest._guestPhone" class="form-control" />
+                <span asp-validation-for="_resGuest._guestPhone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="_resGuest._guestEmail" class="control-label">Email:</label>
+                <input asp-for="_resGuest._guestEmail" class="form-control" />
+                <span asp-validation-for="_resGuest._guestEmail" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />
