@@ -6,27 +6,14 @@ using ASPNET_MVC_MolvenoReservationApplication.Models;
 
 namespace ASPNET_MVC_MolvenoReservationApplication.Logic
 {
-    public class TableConfigurationFinderVersion2 : ITableConfigurationFinder
+    public class TableConfigurationFinderVersion1 : ITableConfigurationFinder
     {
-        //public List<Table> GetBestTableConfiguration(List<Table> freeTables, int partySize)
-        //{
-        //    List<int> TableCaps = GetDescendingTableCapacities(freeTables);
-        //    List<List<int>> AllSolutions = GetSolutions(TableCaps, partySize);
-
-
-        //    return 
-        //}
-
-
         private List<int> GetDescendingTableCapacities(List<Table> freeTables)
         {
             return freeTables.Select(table => table._tableCapacity).Distinct().OrderByDescending(x => x).ToList();
         }
 
-
-
-
-        public List<List<int>> GetViableSolutions(List<List<int>> AllSolutions, List<Table> freeTables)
+        private List<List<int>> GetViableSolutions(List<List<int>> AllSolutions, List<Table> freeTables)
         {
             List<int> TableCaps = GetDescendingTableCapacities(freeTables);
             Dictionary<int, int> TableCapAmounts = new Dictionary<int, int>();

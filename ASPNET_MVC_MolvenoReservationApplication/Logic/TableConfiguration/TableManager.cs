@@ -25,7 +25,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Logic
             _context = context;
             _freeTableFinder = new FreeTableFinder(_context);
             _solutionFinder = new SolutionFinderVersion1();
-            _tableConfigurationFinder = new TableConfigurationFinderVersion2();
+            _tableConfigurationFinder = new TableConfigurationFinderVersion1();
         }
 
         public TableManager(MyDBContext context, IFreeTableFinder ftf, ISolutionFinder sf, ITableConfigurationFinder tcf)

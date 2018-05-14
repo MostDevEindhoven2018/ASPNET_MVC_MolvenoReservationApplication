@@ -10,9 +10,6 @@ using Microsoft.EntityFrameworkCore;
 using System.Data;
 using Microsoft.Data.Sqlite;
 
-
-
-
 namespace ASPNET_MVC_MolvenoReservationApplication.Logic
 {
 
@@ -72,13 +69,6 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Logic
                     // If we found a table with this 
 
                 }
-
-
-
-
-
-
-
             }
             // If the total capacity is not sufficient to host the party size, we need not to search anymore
             // as it will be impossible anyway. Return a empty list indicating we failed to find sufficient room.
@@ -186,7 +176,6 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Logic
                     // If it for some reason didnt work out, try again with a updated divider
                     Divider++;
                 }
-
                 return TableConfiguration;
             }
             else
@@ -197,5 +186,4 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Logic
             }
         }
     }
-
 }
