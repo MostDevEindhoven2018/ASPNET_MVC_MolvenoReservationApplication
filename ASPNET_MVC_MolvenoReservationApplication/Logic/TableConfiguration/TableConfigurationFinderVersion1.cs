@@ -16,7 +16,7 @@ using Microsoft.Data.Sqlite;
 namespace ASPNET_MVC_MolvenoReservationApplication.Logic
 {
 
-    public class TableConfigurationFinderVersion1 : ITableConfigurationFinder
+    public class TableConfigurationFinderVersion1 //: ITableConfigurationFinder
     {
         public List<Table> GetTableConfiguration(List<Table> FreeTables, int partySize)
         {

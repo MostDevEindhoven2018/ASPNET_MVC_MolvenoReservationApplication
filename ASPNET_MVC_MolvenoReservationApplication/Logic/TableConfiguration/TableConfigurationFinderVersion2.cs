@@ -6,24 +6,70 @@ using ASPNET_MVC_MolvenoReservationApplication.Models;
 
 namespace ASPNET_MVC_MolvenoReservationApplication.Logic
 {
-    public class TableConfigurationFinderVersion2 : ITableConfigurationFinder
+    public class TableConfigurationFinderVersion2
     {
-        
+        //public List<Table> GetBestTableConfiguration(List<Table> freeTables, int partySize)
+        //{
+        //    List<int> TableCaps = GetDescendingTableCapacities(freeTables);
+        //    List<List<int>> AllSolutions = GetSolutions(TableCaps, partySize);
 
-        public List<Table> GetTableConfiguration(List<Table> freeTables, int partySize)
+
+        //    return 
+        //}
+
+
+        public List<int> GetDescendingTableCapacities(List<Table> freeTables)
         {
-            List<Table> TableConfiguration = new List<Table>();
+            return freeTables.Select(table => table._tableCapacity).Distinct().OrderByDescending(x => x).ToList();
+        }
 
 
-            // In this version we at first do not care about the actual tables we have. Only take the capacities
-            // and act as if we have unlimited tables of that size. So a solution for a partysize of 8 might be 2,2,2,2
-            // even though we only have 3 tables of cap 2.
 
-            
 
-            
+        public List<List<int>> GetViableSolutions(List<List<int>> AllSolutions, List<Table> freeTables)
+        {
+            List<int> TableCaps = GetDescendingTableCapacities(freeTables);
+            Dictionary<int, int> TableCapAmounts = new Dictionary<int, int>();
 
-            return TableConfiguration;
+            List<List<int>> SolutionsUsingCapacities = new List<List<int>>();
+
+            // Fill the dictionary with Keys TableCapacities and Values How many free tables of that capacity
+            // are present.
+
+            foreach (int cap in TableCaps)
+            {
+                TableCapAmounts.Add(cap, freeTables.Where(table => table._tableCapacity == cap).Count());
+            }
+
+
+            // get a list of all solutions with instead of the indexes in the tablecaps list, the actual table 
+            // themselves.
+            foreach (List<int> Solution in AllSolutions)
+            {
+                List<int> SolutionUsingCapacities = new List<int>();
+
+                for (int i = 0; i < Solution.Count; i++)
+                {
+                    SolutionUsingCapacities.Add(TableCaps[Solution[i]]);
+                }
+            }
+
+            // now check every solution for the amount of tables they use and whether or not that is more 
+            // than we have. Create a dict for each solution and 
+            foreach (List<int> SolutionUsingCapacities in SolutionsUsingCapacities)
+            {
+
+                List<int> UsedCapacities = SolutionUsingCapacities.Select(x => x).Distinct().OrderByDescending(x => x).ToList();
+
+                foreach (int key in UsedCapacities)
+                {
+                    if (TableCapAmounts[key] < SolutionUsingCapacities.Where(x => x == key).Count())
+                    {
+                        SolutionsUsingCapacities.Remove(SolutionUsingCapacities);
+                    }
+                }
+            }
+            return SolutionsUsingCapacities;
         }
     }
 }

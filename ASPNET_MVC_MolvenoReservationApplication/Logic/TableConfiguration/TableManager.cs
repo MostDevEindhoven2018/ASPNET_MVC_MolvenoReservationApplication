@@ -20,16 +20,16 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Logic
     {
         DbContext _context { get; set; }
         IFreeTableFinder _freeTableFinder { get; set; }
+        ISolutionFinder _solutionFinder { get; set; }
         ITableConfigurationFinder _tableConfigurationFinder { get; set; }
 
-        public TableManager(DbContext context, IFreeTableFinder ftf, ITableConfigurationFinder tcf)
+        public TableManager(DbContext context, IFreeTableFinder ftf, ISolutionFinder sf, ITableConfigurationFinder tcf)
         {
             _context = context;
             _freeTableFinder = ftf;
+            _solutionFinder = sf;
             _tableConfigurationFinder = tcf;
         }
-       
-        
     }
 }
 
