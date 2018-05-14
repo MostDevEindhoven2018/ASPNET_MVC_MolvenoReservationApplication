@@ -108,27 +108,51 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
         //public IActionResult Create([Bind("ReservationID,_resPartySize,_resArrivingTime.Date,_resArrivingTime.Hour,_resArrivingTime.Minute,_resLeavingTime,_resHidePrices,_resComments,_resGuest._guestName,_resGuest._guestPhone,_resGuest._guestEmail")] Reservation reservation)
         public IActionResult Create(ReservationViewModel reservationInput)
         {
-            // random if statement to simulate in which form we are
-            //if (ViewData["FormNr"] == (object)1)
-            //{
-            string[] _arrDate = reservationInput.ArrivingDate.Split("-");
+            // TODO: get date, time and party size for all our iterations
+            DateTime resArrivingDate = new DateTime();
 
-            DateTime resArrivingDate = new DateTime(ParseIntToString(_arrDate[2]), ParseIntToString(_arrDate[1]),
-                ParseIntToString(_arrDate[0]), reservationInput.ArrivingHour, reservationInput.ArrivingMinute, 0);
-
-            // random if statement to simulate the check table availability
-            if (Equals(typeof(CheckTableAvailability)))
+            // if statement to check if this form is posted before or after checking for tables
+            if (String.IsNullOrEmpty(reservationInput.GuestName))
             {
-                ViewData["TableFound"] = true;
-                return View(reservationInput);
+                string[] _arrDate = reservationInput.ArrivingDate.Split("-");
+
+                resArrivingDate = new DateTime(ParseIntToString(_arrDate[2]), ParseIntToString(_arrDate[1]),
+                    ParseIntToString(_arrDate[0]), reservationInput.ArrivingHour, reservationInput.ArrivingMinute, 0);
+
+                // random if statement to simulate the check table availability
+                if (Equals(typeof(CheckTableAvailability)))
+                {
+                    ViewData["TableFound"] = true;
+                    return View(reservationInput);
+                }
+                else
+                {
+                    ModelState.AddModelError("No availability",
+                        "We are sorry, but there are no tables available for your search. Try reserving a different date.");
+                    return View(reservationInput);
+                }
             }
+            // if a guest name is provided it means that we are expecting his details
             else
             {
-                ModelState.AddModelError("No availability",
-                    "We are sorry, but there are no tables available for your search. Try reserving a different date.");
-                return View(reservationInput);
+                if (ModelState.IsValid)
+                {
+                    Guest guest;
+                    Reservation res;
+                    try
+                    {
+                        guest = new Guest(reservationInput.GuestName, reservationInput.GuestEmail, reservationInput.GuestPhone);
+                    }
+                    catch
+                    {
+                        if (String.IsNullOrEmpty(reservationInput.GuestPhone) || String.IsNullOrWhiteSpace(reservationInput.GuestPhone))
+                        {
+                            guest = new Guest(reservationInput.GuestName, reservationInput.GuestEmail);
+                            res = new Reservation(reservationInput.Partysize, resArrivingDate, 3, guest);
+                        }
+                    }
+                }
             }
-            //}
 
             // DOTO: check for available tables and return them
             // if (CheckTableAvailability > 0)
