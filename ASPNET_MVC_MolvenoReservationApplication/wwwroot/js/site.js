@@ -5,59 +5,36 @@ document.getElementById("date").value = null;
 document.getElementById("cmb_Time").selectedIndex = "0";
 document.getElementById("cmb_Minutes").selectedIndex = "0";
 
-/////// SCRIPT ONE STARTS
-//$("#date").datepicker(
-//    {
-//        dateFormat: "d-m-yy",
-//        changeYear: true
-//    }
-//);
-////SCRIPT ONE ENDS
+//SCRIPT ONE STARTS
+/// Adds minimum date in datePicker of JQuery
+/// Adds format of the date
+/// Disables dates that are defined in an array (disableddates)
 
-/////// SCRIPT TWO STARTS
-/////// This lets the min value of calendar_date go to today so you cannot make a reservation on a day in the past
-/////// First makes a value for today in the same layout as the input for the DateTimePicker
-//var today = new Date();
-//var dd = today.getDate();
-//var mm = today.getMonth() + 1; // January is 0
-//var yyyy = today.getFullYear();
-
-//today = yyyy + '-' + mm + '-' + dd;
-
-///// Changes the min attribute of calendar_Date to today
-//$('#date').datepicker('option', 'minDate', new Date(today));
-
-
-////SCRIPT TWO ENDS
-
-//SCRIPT SIX STARTS
 $("#date").datepicker({
     dateFormat: 'd-m-yy',
     changeYear: true,
     minDate: new Date(),
     beforeShowDay: function (d) {
         var dmy = (d.getMonth() + 1);
-        if (d.getMonth() < 9)
-            dmy = "0" + dmy;
-        dmy += "-";
-
-        if (d.getDate() < 10) dmy += "0";
+        dmy += "-";        
         dmy += d.getDate() + "-" + d.getFullYear();
 
         console.log(dmy + ' : ' + ($.inArray(dmy, disableddates)));
 
         if ($.inArray(dmy, disableddates) != -1) {
-            return [false, "", "unAvailable"];
+            return [false, "", "unAvailable"];            
         } else {
-            return [true, "", "Available"];
+            return [true, "", "Available"];            
         }
     }
 });
 
-//SCRIPT SIX ENDS
+//SCRIPT ONE ENDS
 
 
-///// SCRIPT FIVE STARTS
+///// SCRIPT TWO STARTS
+//// To adjust the selectboxes depending on closing/openinghours and duration reservation
+
 // The selectbox into variable select, used to later append an option to the selectbox
 var select = document.getElementById('cmb_Time');
 
@@ -101,7 +78,7 @@ for (var i = min; i <= max; i++) {
         }
     }
 }
-///////// FIVE ENDS
+///////// TWO ENDS
 
 //SCRIPT THREE STARTS
 // Script to not let you select a time (hour/minutes) in the past when today is selected in the DateTimePicker

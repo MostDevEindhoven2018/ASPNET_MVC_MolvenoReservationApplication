@@ -47,14 +47,17 @@
                 @* Input Validation: As a calendar *@
                 <div class="form-group">
                     <label asp-for="Arrivingdate" class="control-label">Date:</label>
-                    <input asp-for="Arrivingdate" style="width: 250px; height: 35px;" class="form-control textbox" onchange="myFunction(),MyFunction3()" id="date" type="text" min="2018-04-23" tabindex="1" required />
+                    <input asp-for="Arrivingdate" style="width: 250px; height: 35px;" readonly="readonly" class="form-control textbox" onchange="myFunction(),MyFunction3()" id="date" type="text" min="2018-04-23" tabindex="1" required/>
                     <span asp-validation-for="Arrivingdate" class="text-danger"></span>
                 </div>
 
                 <script>
                     /** Days to be disabled as an array */
-                    var disableddates = ["20-05-2018", "28-05-2018", "29-06-2018", "31-05-2018"];
+                    //var disableddates = ["20-05-2018", "28-05-2018", "29-06-2018", "31-05-2018"];
+                    //var disableddates = ["20-5-2018", "28-5-2018", "29-6-2018", "31-5-2018"];
                     //var disableddates = ["2018-5-20", "2018-5-28", "2018-5-29", "2018-5-31"];
+                    //var disableddates = ["2018-05-20", "2018-05-28", "2018-05-29", "2018-05-31"];
+                    var disableddates = ["5-20-2018", "5-28-2018", "5-29-2018", "5-31-2018", "6-15-2018"];
 
                     //function DisableSpecificDates(date) {
 
@@ -69,7 +72,7 @@
                     //    // We will now check if the date belongs to disableddates array
                     //    for (var i = 0; i < disableddates.length; i++) {
 
-                    //        // Now check if the current date is in disabled dates array. 
+                    //        // Now check if the current date is in disabled dates array.
                     //        if ($.inArray(currentdate, disableddates) != -1) {
                     //            return [false];
                     //        }
@@ -84,7 +87,7 @@
                     //    });
                     //});
 
-                    
+
 
                     //$('#date').datepicker({
                     //    beforeShowDay: function (date) {
@@ -92,7 +95,19 @@
                     //        return [disableddates.indexOf(string) == -1]
                     //    }
                     //});
-                    
+
+                </script>
+
+                <button onclick="myTest()">Try it</button>
+                <div>
+                    <p id="demo"></p>
+
+                </div>
+
+
+                <script>
+                   
+
                 </script>
 
                 <br />
