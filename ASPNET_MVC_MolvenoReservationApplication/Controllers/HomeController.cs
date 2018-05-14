@@ -19,7 +19,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
         }
         public IActionResult Index()
         {
-            _context.Database.EnsureCreated();
+            //_context.Database.EnsureCreated();
             return View();
         }
 

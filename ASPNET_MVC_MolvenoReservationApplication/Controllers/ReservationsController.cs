@@ -31,7 +31,6 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
             return View(await _context.Reservations.Include("_resGuest").ToListAsync());
             //return View(await _context.Reservations.Include("_resGuest").Include("_resReservationTableCouplings").ToListAsync());
 
-
         }
 
 
@@ -109,63 +108,41 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
         //public IActionResult Create([Bind("ReservationID,_resPartySize,_resArrivingTime.Date,_resArrivingTime.Hour,_resArrivingTime.Minute,_resLeavingTime,_resHidePrices,_resComments,_resGuest._guestName,_resGuest._guestPhone,_resGuest._guestEmail")] Reservation reservation)
         public IActionResult Create(ReservationViewModel reservationInput)
         {
-            // random if statement to simulate the check table availability and which form we are
-            if (ViewData["FormNr"] == (object)1)
+            // random if statement to simulate in which form we are
+            //if (ViewData["FormNr"] == (object)1)
+            //{
+            string[] _arrDate = reservationInput.ArrivingDate.Split("-");
+
+            DateTime resArrivingDate = new DateTime(ParseIntToString(_arrDate[2]), ParseIntToString(_arrDate[1]),
+                ParseIntToString(_arrDate[0]), reservationInput.ArrivingHour, reservationInput.ArrivingMinute, 0);
+
+            // random if statement to simulate the check table availability
+            if (Equals(typeof(CheckTableAvailability)))
             {
-                string[] _arrDate = reservationInput.ArrivingDate.Split("-");
-
-                DateTime resArrivingDate = new DateTime(ParseIntToString(_arrDate[2]), ParseIntToString(_arrDate[1]),
-                    ParseIntToString(_arrDate[0]), reservationInput.ArrivingHour, reservationInput.ArrivingMinute, 0);
-
-                // random if statement to simulate the check table availability
-                if (Equals(typeof(CheckTableAvailability)))
-                {
-                    ViewData["TableFound"] = true;
-                    return View(new Guest());
-                }
-                else
-                {
-                    ModelState.AddModelError("No availability",
-                        "We are sorry, but there are no tables available for your search. Try reserving a different date.");
-                    return View(reservationInput);
-                }
+                ViewData["TableFound"] = true;
+                return View(reservationInput);
             }
+            else
+            {
+                ModelState.AddModelError("No availability",
+                    "We are sorry, but there are no tables available for your search. Try reserving a different date.");
+                return View(reservationInput);
+            }
+            //}
 
             // DOTO: check for available tables and return them
             // if (CheckTableAvailability > 0)
             // then go on with guest input details
             // else return to the begining of the form
 
+            //if (ModelState.IsValid)
+            //{
+            //    _context.Guests.Add(resGuest);
+            //    _context.Reservations.Add(reservation);
+            //    _context.SaveChanges();
 
-            Guest resGuest = new Guest()
-            {
-                _guestName = reservationInput.GuestName,
-                _guestPhone = reservationInput.GuestPhone,
-                _guestEmail = reservationInput.GuestEmail
-            };
-            Table resTable = new Table();
-
-            Reservation reservation = new Reservation()
-            {
-
-                //Date = dtpart,
-                //Time = tpart,
-                //_resArrivingTime = resArrivingDate,
-                _resPartySize = reservationInput.Partysize,
-                _resHidePrices = reservationInput.Hideprices,
-                _resComments = reservationInput.ResComments,
-                _resGuest = resGuest
-            };
-
-            if (ModelState.IsValid)
-            {
-                _context.Guests.Add(resGuest);
-                _context.Reservations.Add(reservation);
-                _context.SaveChanges();
-
-                return RedirectToAction("Index");
-            }
-            return View(reservation);
+            //    return RedirectToAction("Index");
+            //}
         }
 
         //PLACEHOLDER for the get available tables feature.
@@ -236,8 +213,6 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ReservationID,_resPartySize,_resArrivingTime,_resLeavingTime,_resHidePrices,_resComments,_resGuest._guestName")] Reservation reservation)
         {
-
-            
             if (id != reservation.ReservationID)
             {
                 return NotFound();
@@ -247,7 +222,6 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
             {
                 try
                 {
-                    //_context.Reservations.Include("_resGuest");
                     _context.Update(reservation);
                     await _context.SaveChangesAsync();
                 }
