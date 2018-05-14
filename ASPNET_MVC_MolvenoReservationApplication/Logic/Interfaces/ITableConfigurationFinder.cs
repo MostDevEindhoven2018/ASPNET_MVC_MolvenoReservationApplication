@@ -9,6 +9,6 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Logic
 {
     public interface ITableConfigurationFinder
     {
-        List<Table> GetBestTableConfiguration(List<Table> freeTables, int partySize);
+        List<Table> GetBestTableConfiguration(List<List<Table>> ViableSolutions);
     }
 }

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ASPNET_MVC_MolvenoReservationApplication.Logic.TableConfiguration
+namespace ASPNET_MVC_MolvenoReservationApplication.Logic
 {
-    public class SolutionFinderVersion1
+    public class SolutionFinderVersion1 : ISolutionFinder
     {
         public List<List<int>> GetSolutions(List<int> tableCaps, int partySize)
         {
@@ -19,6 +19,10 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Logic.TableConfiguration
 
         private void Recurse(int N, List<int> tableCaps, int index, List<int> currentSolution, List<List<int>> solutions)
         {
+            // Disclaimer: In this function I often get the last item of the list by using list[list.count -1].
+            // I know this is suboptimal and list.LastOrDefault() is less error prone. I used this syntax
+            // to keep consistency with the list.removeAt(list.count - 1) method that is called mulitple times.
+            // I found it easier to read the code whilst having the suboptimal way. Therefore I stuck with it.
             int result = N;
 
             if (index < tableCaps.Count)
@@ -73,6 +77,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Logic.TableConfiguration
                 }
                 else
                 {
+                    // We are at the root and went over the index maximum. This means we are done.
                     return;
                 }
             }

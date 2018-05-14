@@ -55,7 +55,7 @@ namespace GetFreeTablesTests
         {
 
             List<int> availableCaps = new List<int> { 6, 4, 2 };
-            int N = 1000;
+            int N = 20;
             List<List<int>> result = new List<List<int>>();
 
             var stopwatch = new Stopwatch();
@@ -64,7 +64,7 @@ namespace GetFreeTablesTests
             stopwatch.Stop();
 
 
-            Debug.WriteLine(stopwatch.ElapsedMilliseconds.ToString());
+            Assert.AreEqual(20, result.Count);
 
             
             
