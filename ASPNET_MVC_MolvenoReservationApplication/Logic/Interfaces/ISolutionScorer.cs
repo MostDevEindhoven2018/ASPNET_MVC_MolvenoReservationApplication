@@ -5,6 +5,6 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Logic
 {
     public interface ISolutionScorer
     {
-       List<int> GetBestTableConfiguration(List<List<int>> ViableSolutions);
+       List<int> GetBestTableConfiguration(List<List<int>> ViableSolutions, int PartySize);
     }
 }

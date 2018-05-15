@@ -46,7 +46,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Logic
                 // more solutions by undoing the last step and continuing in a new branch.
                 else
                 {
-                    if (result == 0)
+                    if (result <= 0)
                     {
                         List<int> ValidSolution = new List<int>(currentSolution);
                         solutions.Add(ValidSolution);

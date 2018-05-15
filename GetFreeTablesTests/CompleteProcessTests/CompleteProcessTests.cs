@@ -93,9 +93,22 @@ namespace TableManagerTests
             DateTime CheckStart = new System.DateTime(2018, 2, 1, 21, 00, 00);
             DateTime CheckEnd = new System.DateTime(2018, 2, 1, 23, 00, 00);
 
-            List<Table> result = _tableManager.GetOptimalTableConfig(CheckStart, CheckEnd, 12);
+            List<Table> Result = _tableManager.GetOptimalTableConfig(CheckStart, CheckEnd, 12);
+            List<Table> Expected = new List<Table> { TestTables[12], TestTables[14] };
 
-            Assert.AreEqual(new List<Table>(), result);
+            CollectionAssert.AreEqual(Expected, Result);
+        }
+
+        [TestMethod]
+        public void CompleteProcess2()
+        {
+            DateTime CheckStart = new System.DateTime(2018, 2, 1, 21, 00, 00);
+            DateTime CheckEnd = new System.DateTime(2018, 2, 1, 23, 00, 00);
+
+            List<Table> Result = _tableManager.GetOptimalTableConfig(CheckStart, CheckEnd, 1);
+            List<Table> Expected = new List<Table> { TestTables[0]};
+
+            CollectionAssert.AreEqual(Expected, Result);
         }
     }
 }

@@ -8,22 +8,32 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Logic
 {
     public class SolutionScorerVersion1 : ISolutionScorer
     {
-        public List<int> GetBestTableConfiguration(List<List<int>> ViableSolutions)
+        public List<int> GetBestTableConfiguration(List<List<int>> ViableSolutions, int PartySize)
         {
+            // Overkill is how much room is unoccupied using this solution. It is defined as Overall Capacity (of the solution
+            // as a whole) - Initial Party Size
+            int Overkill;
+
+
             Dictionary<List<int>, double> Scores = new Dictionary<List<int>, double>();
             // Here we need to implement the scoring system with the rules we came up with
             // We want the solution with:
 
             // The least amount of tables
             // the least variability between those tables
+            // the least 'overkill' on summed capacities and partysize
 
             // the scoring weights used here are completely arbitrary.
             double CountWeight = 0.3;
+            double OKWeight = 0.2;
             double SDWeight = 0.1;
             foreach (List<int> config in ViableSolutions)
             {
-                // 
-                double score = CountWeight * (1/config.Count) - SDWeight * StandardDeviation(config);
+                // calculate its Overall Capacity
+                int OC = config.Sum();
+                Overkill = OC - PartySize;
+
+                double score = CountWeight * (1/config.Count) - SDWeight * StandardDeviation(config) - OKWeight * Overkill;
 
 
                 Scores.Add(config, score);

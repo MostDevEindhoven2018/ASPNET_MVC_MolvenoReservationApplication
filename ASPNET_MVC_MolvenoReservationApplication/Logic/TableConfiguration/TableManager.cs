@@ -14,7 +14,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Logic
 {
     /// <summary>
     /// This is main hub where everything for getting the best table configuration is done. The larger methods
-    /// are split up within components. A few smaller helper functions reside in the manager it self 
+    /// are split up within components. A few small helper functions reside in the manager itself 
     /// (stuff like get all table capacities of the free tables and creating the dictionary with the actual number 
     /// of these tables)
     /// </summary>
@@ -47,6 +47,10 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Logic
             _solutionScorer = new SolutionScorerVersion1();
         }
 
+        /// <summary>
+        /// Use this one.
+        /// </summary>
+        /// <param name="context"></param>
         public TableManager(MyDBContext context)
         {
             _context = context;
@@ -82,7 +86,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Logic
             List<List<int>> ViableSolutions = _solutionChecker.GetViableSolutions(PossibleSolutions, TableCapAmounts);
 
             // And get the scores in so we can pick the configuration with the highest score.
-            List<int> BestSolution = _solutionScorer.GetBestTableConfiguration(ViableSolutions);
+            List<int> BestSolution = _solutionScorer.GetBestTableConfiguration(ViableSolutions, partySize);
 
 
             // Now look for the tables with these capacities and return them

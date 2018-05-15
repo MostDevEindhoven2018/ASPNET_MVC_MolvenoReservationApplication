@@ -49,7 +49,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Logic
                 else
                 {
                     // if not, we reached the end of a branch. So we need to get back to the top.
-                    if (result == 0)
+                    if (result <= 0)
                     {
                         // If the result was exactly 0, we found a solution to our problem. So lets
                         // save it.
