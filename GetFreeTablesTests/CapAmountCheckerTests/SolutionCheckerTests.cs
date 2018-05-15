@@ -96,7 +96,6 @@ namespace TableManagerTests
             };
 
             CollectionAssert.AreEqual(Expected, Result);
-
         }
     }
 }

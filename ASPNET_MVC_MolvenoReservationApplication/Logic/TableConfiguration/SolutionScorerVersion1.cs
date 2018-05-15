@@ -37,17 +37,27 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Logic
 
         private double StandardDeviation(List<int> valueList)
         {
-            double M = 0.0;
-            double S = 0.0;
-            int k = 0;
-            foreach (double value in valueList)
+            if (valueList.Count > 1)
             {
-                k++;
-                double tmpM = M;
-                M += (value - tmpM) / k;
-                S += (value - tmpM) * (value - M);
+                double M = 0.0;
+                double S = 0.0;
+                int k = 0;
+                foreach (double value in valueList)
+                {
+                    k++;
+                    double tmpM = M;
+                    M += (value - tmpM) / k;
+                    S += (value - tmpM) * (value - M);
+                }
+                return Math.Sqrt(S / (k - 1));
             }
-            return Math.Sqrt(S / (k - 1));
+            // The standard deviation of a single number is not possible. For our purposes though we want it to be 0 as 
+            // a single number should always be the best solution.
+            else
+            {
+                return 0;
+            }
+
         }
     }
 }
