@@ -28,7 +28,14 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
         // GET: Reservations
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Reservations.Include("_resGuest").ToListAsync());
+            List<Reservation> resList = new List<Reservation>();
+            resList = await _context.Reservations.Include("_resGuest").ToListAsync();
+            foreach (Reservation r in resList)
+            {
+                r.Date = r._resArrivingTime.ToShortDateString();
+                r.Time = r._resArrivingTime.ToShortTimeString();
+            }
+            return View(resList);
             //return View(await _context.Reservations.Include("_resGuest").Include("_resReservationTableCouplings").ToListAsync());
             
 
@@ -36,35 +43,13 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
 
 
         [HttpPost]
-        public IActionResult Index(IndexViewModel IndexViewModelInput)
+        public IActionResult Index(Reservation res)
         {
-            DateTime resArrivingDate = new DateTime(IndexViewModelInput.Arrivingdate.Year, IndexViewModelInput.Arrivingdate.Month, IndexViewModelInput.Arrivingdate.Day, IndexViewModelInput.ArrivingHour, IndexViewModelInput.ArrivingMinute, 0);
+        
+            res.Date = res._resArrivingTime.ToShortDateString();
+            res.Time = res._resArrivingTime.ToShortTimeString();
 
-             string dtpart = resArrivingDate.ToShortDateString();
-             string tpart = resArrivingDate.ToShortTimeString();
-
-            Guest resGuest = new Guest()
-            {
-                _guestName = IndexViewModelInput.GuestName,
-                _guestPhone = IndexViewModelInput.GuestPhone,
-                _guestEmail = IndexViewModelInput.GuestEmail
-            };
-            Table resTable = new Table();
-
-            Reservation reservation = new Reservation()
-            {
-
-                Date = IndexViewModelInput.dtpart,
-                Time = IndexViewModelInput.tpart,
-                _resPartySize = IndexViewModelInput.Partysize,
-                _resHidePrices = IndexViewModelInput.Hideprices,
-                _resComments = IndexViewModelInput.ResComments,
-                _resGuest = resGuest
-            };
-
-           
-
-            return View();
+            return View(res);
         }
 
             // GET: Reservations/Details/5
@@ -219,7 +204,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
                 return NotFound();
             }
 
-            var reservation = await _context.Reservations.SingleOrDefaultAsync(m => m.ReservationID == id);
+            var reservation = await _context.Reservations.Include("_resGuest").SingleOrDefaultAsync(m => m.ReservationID == id);
             if (reservation == null)
             {
                 return NotFound();
@@ -232,7 +217,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ReservationID,_resPartySize,_resArrivingTime,_resLeavingTime,_resHidePrices,_resComments,_resGuest._guestName")] Reservation reservation)
+        public async Task<IActionResult> Edit(int id, [Bind("ReservationID,_resPartySize,_resArrivingTime,_resLeavingTime,_resHidePrices,_resComments,_resGuest._guestName,_resGuest._guestEmail,_resGuest._guestPhone,_resGuest")] Reservation reservation)
         {
 
             
@@ -245,7 +230,9 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
             {
                 try
                 {
-                    //_context.Reservations.Include("_resGuest");
+                    Guest guest = new Guest();
+                    guest = reservation._resGuest;
+                    _context.Update(guest);
                     _context.Update(reservation);
                     await _context.SaveChangesAsync();
                 }
