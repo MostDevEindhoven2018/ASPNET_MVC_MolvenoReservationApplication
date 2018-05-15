@@ -26,6 +26,16 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Logic
         private ISolutionChecker _solutionChecker { get; set; }
         private ISolutionScorer _solutionScorer { get; set; }
 
+        /// <summary>
+        /// This one is basically for testing purposes only as 
+        /// it is not connected to a database. Do not use it outside of testing.
+        /// </summary>
+        public TableManager() {
+            _solutionFinder = new SolutionFinderVersion3();
+            _solutionChecker = new SolutionCheckerVersion1();
+            _solutionScorer = new SolutionScorerVersion1();
+        }
+
         public TableManager(MyDBContext context)
         {
             _context = context;
