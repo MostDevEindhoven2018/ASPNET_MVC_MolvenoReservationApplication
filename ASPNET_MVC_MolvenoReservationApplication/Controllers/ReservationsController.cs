@@ -17,7 +17,31 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
     {
         private readonly MyDBContext _context;
         private CheckTableAvailability _AvailabilityCheck;
-        private AdminConfigure adminConfigure =new AdminConfigure();
+        private AdminConfigure _adminConfigure;
+
+        private AdminConfigure AdminConfigure
+        {
+            get
+            {
+                if (_adminConfigure == null)
+                {
+                    _adminConfigure = _context.Admins.FirstOrDefault(a => a.AdminID == 1);
+                    if (_adminConfigure == null)
+                    {
+                        _adminConfigure = new AdminConfigure();
+                        _adminConfigure.OpeningHour = 12;
+                        _adminConfigure.ClosingHours = 00;
+                        _adminConfigure._resDurationHour = 3;
+                        _adminConfigure.PercentageMaxCapacity = 100;
+                        _context.Admins.Add(_adminConfigure);
+                        _context.SaveChanges();
+                    }
+                }
+
+                return _adminConfigure;
+            }
+            set { throw new InvalidOperationException(); }
+        }
 
         public ReservationsController(MyDBContext context)
         {
@@ -88,24 +112,27 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
 
         // GET: Reservations/Create
         public IActionResult Create()
-        {                     
+        {
+            // Calls get method in case there isn't a record of Admin in Admins database table
+            var x = AdminConfigure;
+
             // Make an instance of the ReservationViewModel and later send it to the view
             ReservationViewModel resVM = new ReservationViewModel();
 
             // Set the Openinghour to the variable "a"
-            int a = adminConfigure.OpeningHour;
+            int a = AdminConfigure.OpeningHour;
 
             // Set the LastPossibleReservationHour to variable "b"
             int b;
             // If Closinghour minus OpeningHour results in a negative number or zero, add 24 to the hour
-            if (adminConfigure.ClosingHours - a <= 0)
+            if (AdminConfigure.ClosingHours - a <= 0)
             {
-                b = adminConfigure.LastPossibleReservationHour + 24;
+                b = AdminConfigure.LastPossibleReservationHour + 24;
 
             }
             else
             {
-                b = adminConfigure.LastPossibleReservationHour;
+                b = AdminConfigure.LastPossibleReservationHour;
             }
 
             // Add all the hours from opening till closinghour in list
@@ -174,7 +201,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
                 _resHidePrices = reservationInput.Hideprices,
                 _resComments = reservationInput.ResComments,
                 _resGuest = resGuest,
-                _resDurationOfReservation = adminConfigure._resDurationHour
+                _resDurationOfReservation = AdminConfigure._resDurationHour
             };
 
             //// Error: System.NullReferenceException: 'Object reference not set to an instance of an object.'
