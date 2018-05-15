@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Create";
+    string info = (string)ViewData["TableFound"];
 }
 
 <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
@@ -41,11 +42,12 @@
 
             var reservationInput = { ArrivingDate: date, ArrivingHour: cmb_Time, ArrivingMinute: cmb_Minutes, Partysize: partysize }
 
-            $(document).ready(function () {
+            ///$(document).ready(function () {
                 $.post("http://localhost:49688/Reservations/Create", reservationInput, function (data, status) {
                     alert("Data: " + data + "\nStatus: " + status);
+                    $("html").html(data);
                 });
-            });
+            //});
 
             //Creating a variable date and making it the current in order to be able to compare if the inputed date
             //belongs in the past
@@ -112,7 +114,15 @@
 
     <h4>Molveno Lake Resort Restaurant</h4>
     <hr />
+    @{
+        string a = "";
+        if (ViewData["TableFound"] != null) {
+            a = ViewData["TableFound"].ToString();
+        }
+    }
 
+    <h2>@Html.Raw(a)</h2>
+    <p>@Html.ValidationSummary(true, "", new { @class = "text-danger" })</p>
     <div class="row">
         <div class="col-md-4">
             <form asp-action="Create" id="form">

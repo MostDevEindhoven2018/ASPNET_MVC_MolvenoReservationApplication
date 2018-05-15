@@ -105,9 +105,12 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
                     ParseIntToString(_arrDate[0]), reservationInput.ArrivingHour, reservationInput.ArrivingMinute, 0);
 
                 // random if statement to simulate the check table availability
-                if (Equals(typeof(CheckTableAvailability)))
+                if (true)//(Equals(typeof(CheckTableAvailability)))
                 {
-                    ViewData["TableFound"] = true;
+                    ModelState.AddModelError("Table", "Found");
+                    ViewBag.TableFound = "true";
+                    ViewData["TableFound"] = "true";
+                    TempData["TableFound"] = "true";
                     return View(reservationInput);
                 }
                 else
