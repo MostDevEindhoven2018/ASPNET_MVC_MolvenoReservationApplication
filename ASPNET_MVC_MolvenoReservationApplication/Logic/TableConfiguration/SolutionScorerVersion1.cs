@@ -51,8 +51,8 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Logic
                 }
                 return Math.Sqrt(S / (k - 1));
             }
-            // The standard deviation of a single number is not possible. For our purposes though we want it to be 0 as 
-            // a single number should always be the best solution.
+            // The standard deviation of a single number is not possible and is set to NaN. 
+            // For our purposes though we want it to be 0 as a single number should always be the best solution.
             else
             {
                 return 0;

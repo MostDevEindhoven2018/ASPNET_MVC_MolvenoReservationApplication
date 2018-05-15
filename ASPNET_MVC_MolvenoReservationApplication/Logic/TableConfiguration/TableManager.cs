@@ -30,7 +30,18 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Logic
         /// This one is basically for testing purposes only as 
         /// it is not connected to a database. Do not use it outside of testing.
         /// </summary>
-        public TableManager() {
+        public TableManager()
+        {
+            _solutionFinder = new SolutionFinderVersion3();
+            _solutionChecker = new SolutionCheckerVersion1();
+            _solutionScorer = new SolutionScorerVersion1();
+        }
+        /// <summary>
+        /// This one is basically for testing purposes only as 
+        /// it is not connected to a database. Do not use it outside of testing.
+        /// </summary>
+        public TableManager(IFreeTableFinder ftf) {
+            _freeTableFinder = ftf;
             _solutionFinder = new SolutionFinderVersion3();
             _solutionChecker = new SolutionCheckerVersion1();
             _solutionScorer = new SolutionScorerVersion1();
@@ -75,8 +86,9 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Logic
 
 
             // Now look for the tables with these capacities and return them
- 
-            return new List<Table>();
+            List<Table> Result = GetActualTablesWithCapacities(freeTables, BestSolution);
+
+            return Result;
         }
         
 
@@ -94,6 +106,19 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Logic
             }
 
             return TableCapAmounts;
+        }
+
+        private List<Table> GetActualTablesWithCapacities(List<Table> freeTables, List<int> solution)
+        {
+            List<Table> Result = new List<Table>();
+            foreach (int cap in solution)
+            {
+                Table currentTable = freeTables.First(t1 => t1._tableCapacity == cap);
+                Result.Add(currentTable);
+                freeTables.Remove(currentTable);
+            }
+
+            return Result;
         }
     }
 }
