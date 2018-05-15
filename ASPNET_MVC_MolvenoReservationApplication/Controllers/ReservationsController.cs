@@ -239,11 +239,17 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
                 _context.Reservations.Add(reservation);
                 _context.SaveChanges();
 
-                return RedirectToAction("Index");
+                return RedirectToAction("CreateDone");
             }
             return View(reservation);
         }
-        
+
+        // GET: Reservations
+        public IActionResult CreateDone()
+        {
+            return View();
+        }
+
         // GET: Reservations/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {

@@ -36,10 +36,18 @@
             @Html.DisplayFor(model => model._resComments)
         </dd>
     </dl>
-    
+
     <form asp-action="Delete">
         <input type="hidden" asp-for="ReservationID" />
-        <input type="submit" value="Delete" class="btn btn-default" /> |
-        <a asp-action="Index">Back to List</a>
+        <input type="submit" value="Delete" class="btn btn-default" />
     </form>
 </div>
+<br />
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+<div>
+    <a asp-controller="Admin" asp-action="Index">Back to Admin homepage</a>
+</div>
+
+

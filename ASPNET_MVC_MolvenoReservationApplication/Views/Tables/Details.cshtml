@@ -1,4 +1,4 @@
-﻿@model ASPNET_MVC_MolvenoReservationApplication.Table
+﻿@model ASPNET_MVC_MolvenoReservationApplication.Models.Table
 
 @{
     ViewData["Title"] = "Details";
@@ -27,4 +27,7 @@
 <div>
     <a asp-action="Edit" asp-route-id="@Model.TableID">Edit</a> |
     <a asp-action="Index">Back to List</a>
+</div>
+<div>
+    <a asp-controller="Admin" asp-action="Index">Back to Admin homepage</a>
 </div>

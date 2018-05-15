@@ -57,34 +57,19 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Models
 
         // Percentage that of max capacity of restaurant that can be reserved
         // Need to store this in database
-        [Display(Name = "Percentage of maxmum capacity that can be reserved", AutoGenerateField = true)]
+        [Display(Name = "Percentage of maximum capacity that can be reserved", AutoGenerateField = true)]
         [Range(0, 100)]
         public int PercentageMaxCapacity { get; set; }
 
-        public int MaxNumberOfTablesAllowedRes { get; set; }
-
-        ///////System.NullReferenceException: 'Object reference not set to an instance of an object.'
-        ////private readonly MyDBContext _context;
-        ////public AdminConfigure(MyDBContext context)
-        ////{            
-        ////    _context = context;
-        ////}        
-        ////List<Table> AllTables;
-        ////// Get the maximum number of tables that can be reserved for the day
-        ////// Need to store this in database?
-        ////public int MaxNumberOfTablesAllowedRes
-        ////{
-        ////    get
-        ////    {
-        ////        AllTables = _context.Tables.Select(t => t).ToList();
-        ////        decimal number2 = AllTables.Count() * (PercentageMaxCapacity / 100);
-        ////        int  number3= Convert.ToInt32(Math.Floor(number2));
-        ////        return number3;
-        ////    }
-        ////}
-
-
-
+        // Get the maximum number of tables that can be reserved for the day
+        // Not stored in database, can calculate when needed. Stored number of tables and maxpercentage in database
+        public int MaxNumberOfTablesAllowedRes (MyDBContext _context)
+        {
+            var AllTables = _context.Tables.Select(t => t).ToList();
+            decimal number2 = AllTables.Count() * (PercentageMaxCapacity / 100);
+            int number3 = Convert.ToInt32(Math.Floor(number2));
+            return number3;
+        }
 
         public AdminConfigure() { }
     }
