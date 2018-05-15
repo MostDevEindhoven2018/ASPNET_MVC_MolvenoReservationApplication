@@ -4,56 +4,88 @@
     ViewData["Title"] = "Details";
 }
 
+<style>
+
+    form {
+        width: 450px;
+        border: 2px solid red;
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        background: rgba(242, 242, 242,0.75);
+    }
+
+    label,dd{
+        font-weight: bold;
+        color : black;
+    }
+
+    h2 {
+        font-weight: bold;
+        color: black;
+        width: 100px;
+        background: rgba(242, 242, 242,0.75);
+    }
+
+</style>
+
 <h2>Details</h2>
 
+<body background="https://assets.marthastewart.com/styles/wmax-1500/d38/msl-kitchen-sponge-cakes-0554-md110059/msl-kitchen-sponge-cakes-0554-md110059_horiz.jpg?itok=Bu4cGnhF"/>
+
 <div>
-    <h4>Reservation</h4>
+    
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model._resPartySize)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model._resPartySize)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model._resArrivingTime)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model._resArrivingTime)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model._resHidePrices)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model._resHidePrices)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model._resComments)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model._resComments)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model._resGuest._guestName)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model._resGuest._guestName)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model._resGuest._guestPhone)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model._resGuest._guestPhone)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model._resGuest._guestEmail)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model._resGuest._guestEmail)
-        </dd>
-    </dl>
+    <form>
+        <dl class="dl-horizontal" id="styleref">
+            <dt>
+                <label>Date & Time:</label>
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model._resArrivingTime)
+            </dd>
+            <dt>
+                @*@Html.DisplayNameFor(model => model._resPartySize)*@
+                <label>Party Size:</label>
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model._resPartySize)
+            </dd>
+            <dt>
+                <label>Name:</label>
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model._resGuest._guestName)
+            </dd>
+            <dt>
+                <label>Phone:</label>
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model._resGuest._guestPhone)
+            </dd>
+            <dt>
+                <label>Email:</label>
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model._resGuest._guestEmail)
+            </dd>
+            <dt>
+                <label>Hide Prices:</label>
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model._resHidePrices)
+            </dd>
+            <dt>
+                <label>Comments:</label>
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model._resComments)
+            </dd>
+
+        </dl>
 </div>
+</form>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.ReservationID">Edit</a> |
     <a asp-action="Index">Back to List</a>

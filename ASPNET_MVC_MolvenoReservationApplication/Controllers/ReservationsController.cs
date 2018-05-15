@@ -60,8 +60,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
                 return NotFound();
             }
 
-            var reservation = await _context.Reservations
-                .SingleOrDefaultAsync(m => m.ReservationID == id);
+            var reservation = await _context.Reservations.Include("_resGuest").SingleOrDefaultAsync(m => m.ReservationID == id);
             if (reservation == null)
             {
                 return NotFound();
