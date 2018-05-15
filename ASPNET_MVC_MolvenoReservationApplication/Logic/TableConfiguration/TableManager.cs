@@ -23,16 +23,16 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Logic
         MyDBContext _context { get; set; }
         private IFreeTableFinder _freeTableFinder { get; set; }
         private ISolutionFinder _solutionFinder { get; set; }
-        private ISolutionChecker _SolutionChecker { get; set; }
-        private ISolutionScorer _SolutionScorer { get; set; }
+        private ISolutionChecker _solutionChecker { get; set; }
+        private ISolutionScorer _solutionScorer { get; set; }
 
         public TableManager(MyDBContext context)
         {
             _context = context;
             _freeTableFinder = new FreeTableFinder(_context);
             _solutionFinder = new SolutionFinderVersion3();
-            _SolutionChecker = new SolutionCheckerVersion1();
-            _SolutionScorer = new SolutionScorerVersion1();
+            _solutionChecker = new SolutionCheckerVersion1();
+            _solutionScorer = new SolutionScorerVersion1();
         }
 
         public TableManager(MyDBContext context, IFreeTableFinder ftf, ISolutionFinder sf, ISolutionChecker sc, ISolutionScorer ss)
@@ -40,8 +40,8 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Logic
             _context = context;
             _freeTableFinder = ftf;
             _solutionFinder = sf;
-            _SolutionChecker = sc;
-            _SolutionScorer = ss;
+            _solutionChecker = sc;
+            _solutionScorer = ss;
         }
 
         public List<Table> GetOptimalTableConfig(DateTime start, DateTime end, int partySize)
@@ -58,10 +58,10 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Logic
 
             // Now using the dictionary, delete all solutions that are using more tables of a particular kind 
             // than we actually have.
-            List<List<int>> ViableSolutions = _tableConfigurationChecker.GetViableSolutions(PossibleSolutions, TableCapAmounts);
+            List<List<int>> ViableSolutions = _solutionChecker.GetViableSolutions(PossibleSolutions, TableCapAmounts);
 
             // And get the scores in so we can pick the configuration with the highest score.
-            List<int> BestSolution = _tableConfigurationScorer.GetBestTableConfiguration(ViableSolutions);
+            List<int> BestSolution = _solutionScorer.GetBestTableConfiguration(ViableSolutions);
 
 
             // Now look for the tables with these capacities and return them

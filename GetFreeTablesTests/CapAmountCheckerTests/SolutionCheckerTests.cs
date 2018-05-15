@@ -42,7 +42,7 @@ namespace TableManagerTests
         [TestMethod]
         public void Test1()
         {
-
+            int o = 0;
         }
     }
 }
