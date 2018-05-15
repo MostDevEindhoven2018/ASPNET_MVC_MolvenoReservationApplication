@@ -12,7 +12,9 @@ using Microsoft.Data.Sqlite;
 
 namespace ASPNET_MVC_MolvenoReservationApplication.Logic
 {
-
+    /// <summary>
+    /// This is unfinished work. Look at it to laugh but do not think anything actually works here.
+    /// </summary>
     public class SolutionFinderVersion2 //: ITableConfigurationFinder
     {
         public List<Table> GetTableConfiguration(List<Table> FreeTables, int partySize)

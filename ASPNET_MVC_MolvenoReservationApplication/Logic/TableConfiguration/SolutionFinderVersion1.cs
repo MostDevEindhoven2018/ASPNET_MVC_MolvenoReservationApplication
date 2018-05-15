@@ -16,13 +16,17 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Logic
 
             return Solutions;
         }
-
+        // Earlier Attempt. This sort of works, but instead of actually recursing, it goes deeper with every step
+        // as we are never returning to the top. Therefore the stack is never cleared and overflows start to arise
+        // at about N = 75 and tablecaps.count = 3. Look at the logic though and try to get why the algorithm  
+        // of version 3 works better.
+        
         private void Recurse(int N, List<int> tableCaps, int index, List<int> currentSolution, List<List<int>> solutions)
         {
-            // Disclaimer: In this function I often get the last item of the list by using list[list.count -1].
-            // I know this is suboptimal and list.LastOrDefault() is less error prone. I used this syntax
-            // to keep consistency with the list.removeAt(list.count - 1) method that is called mulitple times.
-            // I found it easier to read the code whilst having the suboptimal way. Therefore I stuck with it.
+            //// Disclaimer: In this function I often get the last item of the list by using list[list.count -1].
+            //// I know this is suboptimal and list.LastOrDefault() is less error prone. I used this syntax
+            //// to keep consistency with the list.removeAt(list.count - 1) method that is called multiple times.
+            //// I found it easier to read the code whilst having the suboptimal (but consistent) way. 
             int result = N;
 
             if (index < tableCaps.Count)

@@ -4,7 +4,7 @@ using System.Text;
 using ASPNET_MVC_MolvenoReservationApplication.Models;
 using System.Linq;
 
-namespace GetFreeTablesTests
+namespace TableManagerTests
 {
     public class GetFreeTablesMock
     {

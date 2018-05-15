@@ -12,28 +12,78 @@ using Microsoft.Data.Sqlite;
 
 namespace ASPNET_MVC_MolvenoReservationApplication.Logic
 {
-
+    /// <summary>
+    /// This is main hub where everything for getting the best table configuration is done. The larger methods
+    /// are split up within components. A few smaller helper functions reside in the manager it self 
+    /// (stuff like get all table capacities of the free tables and creating the dictionary with the actual number 
+    /// of these tables)
+    /// </summary>
     public class TableManager
     {
         MyDBContext _context { get; set; }
-        IFreeTableFinder _freeTableFinder { get; set; }
-        ISolutionFinder _solutionFinder { get; set; }
-        ITableConfigurationFinder _tableConfigurationFinder { get; set; }
+        private IFreeTableFinder _freeTableFinder { get; set; }
+        private ISolutionFinder _solutionFinder { get; set; }
+        private ISolutionChecker _SolutionChecker { get; set; }
+        private ISolutionScorer _SolutionScorer { get; set; }
 
         public TableManager(MyDBContext context)
         {
             _context = context;
             _freeTableFinder = new FreeTableFinder(_context);
             _solutionFinder = new SolutionFinderVersion3();
-            _tableConfigurationFinder = new TableConfigurationFinderVersion1();
+            _SolutionChecker = new SolutionCheckerVersion1();
+            _SolutionScorer = new SolutionScorerVersion1();
         }
 
-        public TableManager(MyDBContext context, IFreeTableFinder ftf, ISolutionFinder sf, ITableConfigurationFinder tcf)
+        public TableManager(MyDBContext context, IFreeTableFinder ftf, ISolutionFinder sf, ISolutionChecker sc, ISolutionScorer ss)
         {
             _context = context;
             _freeTableFinder = ftf;
             _solutionFinder = sf;
-            _tableConfigurationFinder = tcf;
+            _SolutionChecker = sc;
+            _SolutionScorer = ss;
+        }
+
+        public List<Table> GetOptimalTableConfig(DateTime start, DateTime end, int partySize)
+        {
+            // First get all free tables for the time we want to make a reservation
+            List<Table> freeTables = _freeTableFinder.GetFreeTables(start, end);
+            // Now rewrite those into a dictionary by table capacities and get a list of just the Keys.
+            Dictionary<int, int> TableCapAmounts = GetAvailabilityDictionary(freeTables);
+            List<int> TableCaps = TableCapAmounts.Keys.ToList();
+
+            // Using these table capacities, see which options we have to seat these people if we would have 
+            // unlimited tables.
+            List<List<int>> PossibleSolutions = _solutionFinder.GetSolutions(TableCaps, partySize);
+
+            // Now using the dictionary, delete all solutions that are using more tables of a particular kind 
+            // than we actually have.
+            List<List<int>> ViableSolutions = _tableConfigurationChecker.GetViableSolutions(PossibleSolutions, TableCapAmounts);
+
+            // And get the scores in so we can pick the configuration with the highest score.
+            List<int> BestSolution = _tableConfigurationScorer.GetBestTableConfiguration(ViableSolutions);
+
+
+            // Now look for the tables with these capacities and return them
+ 
+            return new List<Table>();
+        }
+        
+
+        public Dictionary<int,int> GetAvailabilityDictionary(List<Table> tables)
+        {
+            List<int> TableCaps = tables.Select(table => table._tableCapacity).Distinct().OrderByDescending(x => x).ToList();
+            Dictionary<int, int> TableCapAmounts = new Dictionary<int, int>();
+
+            // Fill the dictionary with Keys TableCapacities and Values How many free tables of that capacity
+            // are present.
+
+            foreach (int cap in TableCaps)
+            {
+                TableCapAmounts.Add(cap, tables.Where(table => table._tableCapacity == cap).Count());
+            }
+
+            return TableCapAmounts;
         }
     }
 }

@@ -4,14 +4,14 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 
-namespace GetFreeTablesTests
+namespace TableManagerTests
 {
 
     [TestClass]
-    public class GetTableConfigurationTests
+    public class SolutionFinderTests
     {
 
-        private GetTableConfigurationMock VersionOne = new GetTableConfigurationMock();
+        private SolutionFinderMock VersionOne = new SolutionFinderMock();
         private SolutionCountFinder CountFinder = new SolutionCountFinder();
 
         [TestInitialize]
@@ -23,22 +23,17 @@ namespace GetFreeTablesTests
         public void GetSolutions1()
         {
 
-            List<int> availableCaps = new List<int> { 10, 5, 3, 2, 1 };
+            List<int> availableCapsList = new List<int> { 10, 5, 2, 1 };
+            int[] availableCapsArray= new int[]{ 10, 5, 2, 1 };
             int N = 200;
             List<List<int>> result = new List<List<int>>();
-            try
-            {
-                result = VersionOne.GetTableConfigurations(availableCaps, N);
+            
+                result = VersionOne.GetTableConfigurations(availableCapsList, N);
 
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-
-                Assert.Fail(e.ToString());
-            }
-            // Here I want the answers (5,5) (5,3,2) and (2,2,2,2,2), so count == 3
-            Assert.AreEqual(4, result.Count);
+            
+           
+            
+            Assert.AreEqual(CountFinder.CountWays(availableCapsArray, availableCapsArray.Length, N), result.Count);
 
         }
 
@@ -68,7 +63,7 @@ namespace GetFreeTablesTests
             List<List<int>> result = new List<List<int>>();
 
             var stopwatch = new Stopwatch();
-            stopwatch.Start();
+            stopwatch.Start(); 
             result = VersionOne.GetTableConfigurations(availableCapsList, N);
             stopwatch.Stop();
 

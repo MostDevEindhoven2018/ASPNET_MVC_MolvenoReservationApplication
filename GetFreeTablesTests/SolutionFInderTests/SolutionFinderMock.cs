@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace GetFreeTablesTests
+namespace TableManagerTests
 {
-    internal class GetTableConfigurationMock
+    internal class SolutionFinderMock
     {
         public List<List<int>> GetTableConfigurations(List<int> tableCaps, int partySize)
         {
@@ -62,6 +62,9 @@ namespace GetFreeTablesTests
                 currentSolution.Remove(tableCaps[i]);
             }
         }
+
+
+        
     }
 }
 

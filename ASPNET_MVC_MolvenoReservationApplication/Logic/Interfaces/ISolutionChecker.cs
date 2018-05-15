@@ -7,8 +7,8 @@ using ASPNET_MVC_MolvenoReservationApplication.Models;
 
 namespace ASPNET_MVC_MolvenoReservationApplication.Logic
 {
-    public interface ITableConfigurationFinder
+    public interface ISolutionChecker
     {
-        List<Table> GetBestTableConfiguration(List<List<Table>> ViableSolutions);
+        List<List<int>> GetViableSolutions(List<List<int>> AllSolutions, Dictionary<int, int> tableCapAmounts);
     }
 }
