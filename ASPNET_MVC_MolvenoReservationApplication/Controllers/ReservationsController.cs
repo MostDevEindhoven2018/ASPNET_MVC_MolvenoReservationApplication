@@ -103,8 +103,8 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
             // random if statement to simulate the check table availability
             if (true && ModelState.IsValid)
             {
-                ViewBag.arrival = resArrivingDate;
-                ViewBag.partySize = reservationInput.Partysize;
+                TempData["arrival"] = resArrivingDate;
+                TempData["size"] = reservationInput.Partysize;
 
                 //TODO: change this return statement to redirect to Guest Details Input
                 return RedirectToAction("Create", "Guests");

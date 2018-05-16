@@ -2,6 +2,8 @@
 
 @{
     ViewData["Title"] = "Create";
+    string date = (string)ViewBag.arrival;
+    string party = (string)ViewBag.partySize;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
@@ -89,7 +91,7 @@
 
     <h2>Create</h2>
 
-    <h4>Guest</h4>
+    <h4>Guest - @TempData["arrival"] - @TempData["size"]</h4>
     <hr />
     <div class="row">
         <div class="col-md-4">
@@ -136,8 +138,7 @@
                 <div class="form-group">
                     <div id="commentsblock">
                         <label asp-for="ResComments" id="commentslabel" class="control-label">Comments:</label>
-                        @* <input asp-for="ResComments" class="form-control text" type="text" style="width: 400px; height: 150px;" tabindex="9" max="100" />*@
-                        <textarea asp-for="ResComments" style="width:400px;height:150px;resize:none" tabindex="9" max="100"></textarea>
+                        <textarea asp-for="ResComments" style="width:400px; height:150px; resize:none" tabindex="9" max="100"></textarea>
                         <span asp-validation-for="ResComments" class="text-danger"></span>
                     </div>
                 </div>
