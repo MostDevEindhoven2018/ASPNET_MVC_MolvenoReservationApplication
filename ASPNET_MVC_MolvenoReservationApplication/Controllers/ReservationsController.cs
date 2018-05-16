@@ -100,14 +100,15 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
             resArrivingDate = new DateTime(ParseIntToString(_arrDate[2]), ParseIntToString(_arrDate[1]),
                 ParseIntToString(_arrDate[0]), reservationInput.ArrivingHour, reservationInput.ArrivingMinute, 0);
 
+
             // random if statement to simulate the check table availability
             if (true && ModelState.IsValid)
             {
-                TempData["arrival"] = resArrivingDate;
-                TempData["size"] = reservationInput.Partysize;
-
+                string[] arr = new string[] {reservationInput.ArrivingDate, reservationInput.ArrivingHour.ToString(),
+                    reservationInput.ArrivingMinute.ToString(), reservationInput.Partysize.ToString()};
                 //TODO: change this return statement to redirect to Guest Details Input
-                return RedirectToAction("Create", "Guests");
+
+                return RedirectToAction("Create", "Guests", new { guestViewModel = arr });
             }
             else
             {
@@ -212,7 +213,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
             }
             return View(reservation);
         }
-     
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ReservationID,_resPartySize,_resArrivingTime,_resLeavingTime,_resHidePrices,_resComments,_resGuest._guestName,_resGuest._guestEmail,_resGuest._guestPhone,_resGuest")] Reservation reservation)

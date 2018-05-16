@@ -2,8 +2,6 @@
 
 @{
     ViewData["Title"] = "Create";
-    string date = (string)ViewBag.arrival;
-    string party = (string)ViewBag.partySize;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
@@ -91,12 +89,18 @@
 
     <h2>Create</h2>
 
-    <h4>Guest - @TempData["arrival"] - @TempData["size"]</h4>
+    <h4>Guest</h4>
     <hr />
     <div class="row">
         <div class="col-md-4">
             <form asp-action="Create">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div>
+                    <input type="hidden" name="arrival" value="@Model.arrival" id="arrival">
+                    <input type="hidden" name="size" value="@Model.size" id="size">
+                </div>
+
                 <div class="form-group">
                     <div id="nameblock">
                         <label asp-for="GuestName" id="namelabel" class="control-label">Name:</label>

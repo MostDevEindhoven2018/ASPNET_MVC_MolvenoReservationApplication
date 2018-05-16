@@ -10,6 +10,8 @@ namespace ASPNET_MVC_MolvenoReservationApplication.ViewModels
     {
         //Each property from each object should be included in the ViewModel
         //No need for data annotations
+        public DateTime arrival { get; set; }
+
         public string ArrivingDate { get; set; }
         
         public int ArrivingHour { get; set; }
@@ -17,5 +19,15 @@ namespace ASPNET_MVC_MolvenoReservationApplication.ViewModels
         public int ArrivingMinute { get; set; }
 
         public int Partysize { get; set; }
+
+        public string GuestName { get; set; }
+
+        public string GuestPhone { get; set; }
+
+        public string GuestEmail { get; set; }
+
+        public bool Hideprices { get; set; }
+
+        public string ResComments { get; set; }
     }
 }

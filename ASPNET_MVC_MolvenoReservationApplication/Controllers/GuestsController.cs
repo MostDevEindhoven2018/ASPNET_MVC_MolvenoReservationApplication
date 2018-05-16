@@ -44,10 +44,32 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
             return View(guest);
         }
 
-        // GET: Guests/Create
-        public IActionResult Create()
+        private int ParseIntToString(string input)
         {
-            return View();
+            int output;
+            if (int.TryParse(input, out output))
+                return output;
+            else
+                throw new ArgumentException();
+        }
+
+        // GET: Guests/Create
+        public IActionResult Create(string[] guestViewModel)
+        {
+            DateTime resArrivingDate = new DateTime();
+
+            string[] _arrDate = guestViewModel[0].Split("-");
+
+            resArrivingDate = new DateTime(ParseIntToString(_arrDate[2]), ParseIntToString(_arrDate[1]),
+                ParseIntToString(_arrDate[0]), ParseIntToString(guestViewModel[1]), ParseIntToString(guestViewModel[2]), 0);
+
+            GuestViewModel gvm = new GuestViewModel
+            {
+                arrival = resArrivingDate,
+                size = ParseIntToString(guestViewModel[3])
+            };
+
+            return View(gvm);
         }
 
         // POST: Guests/Create

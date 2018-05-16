@@ -7,6 +7,10 @@ namespace ASPNET_MVC_MolvenoReservationApplication.ViewModels
 {
     public class GuestViewModel
     {
+        public DateTime arrival { get; set; }
+
+        public int size { get; set; }
+
         public string GuestName { get; set; }
 
         public string GuestPhone { get; set; }
