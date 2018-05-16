@@ -1,44 +1,159 @@
-﻿@model ASPNET_MVC_MolvenoReservationApplication.Guest
+﻿@model ASPNET_MVC_MolvenoReservationApplication.ViewModels.GuestViewModel
 
 @{
     ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="https://code.jquery.com/ui/jquery-ui-git.js"></script>
+<link href="https://code.jquery.com/ui/1.12.1/themes/sunny/jquery-ui.css" rel="stylesheet" />
 
-<h2>Create</h2>
+@*<script src="~/jquery-ui-1.12.1.custom/external/jquery/jquery.js"></script>
+    <script src="~/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+    <link href="~/jquery-ui-1.12.1.custom/jquery-ui.css" rel="stylesheet">*@
 
-<h4>Guest</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="_guestName" class="control-label"></label>
-                <input asp-for="_guestName" class="form-control" />
-                <span asp-validation-for="_guestName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="_guestPhone" class="control-label"></label>
-                <input asp-for="_guestPhone" class="form-control" />
-                <span asp-validation-for="_guestPhone" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="_guestEmail" class="control-label"></label>
-                <input asp-for="_guestEmail" class="form-control" />
-                <span asp-validation-for="_guestEmail" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </form>
-    </div>
-</div>
+@section PageStyles
+    {
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+    <style>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+        form {
+            width: 450px;
+            border: 2px solid lightgray;
+            padding-left: 20px;
+            padding-right: 20px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            background: rgba(255,255,204, 0.2);
+        }
+    </style>
+
+    @*Creating a script that contains a method HideCheckAvailability Fields().This method performs all the user input validation
+        for the fields date,time,party size.The checks occur when the check availability button is pushed (it is prevented)
+        from proceeding due to the return statement in every check which obliges the user to remain in the first page until all fields
+        comply to the user input validation rules.When all fields of the first form are correctly filled, they get hidden
+          and the fields of form 2 appear(name,phone,email,hide prices,comments,label: if you need help...)*@
+    <script>
+
+        var SendDatatoController = function (date, cmb_Time, cmb_Minutes, partysize) {
+
+            console.log({ date: date, hours: cmb_Time, minutes: cmb_Minutes, partysize: partysize })
+
+            var reservationInput = { ArrivingDate: date, ArrivingHour: cmb_Time, ArrivingMinute: cmb_Minutes, Partysize: partysize }
+
+            $.post("http://localhost:49688/Reservations/Create", reservationInput, function (data, status) {
+                $("#feedback").text(data);
+            });
+
+            //Creating a variable date and making it the current in order to be able to compare if the inputed date
+            //belongs in the past
+            var today = new Date();
+            var dd = today.getDate();
+            var mm = today.getMonth() + 1; // January is 0
+            var yyyy = today.getFullYear();
+
+            today = yyyy + '-' + mm + '-' + dd;
+
+            //USER INPUT VALIDATION CLIENT SIDE:
+            //Checks if all fields are null
+            if ((document.getElementById("date").value == "") && ((document.getElementById('cmb_Time').value == "") && (document.getElementById('cmb_Minutes').value == "")) && (document.getElementById("partysize").value == 0)) {
+                alert("Please enter all data.")
+                return;
+            }
+            //checks if the date field is null
+            else if (document.getElementById("date").value == "") {
+                alert("Please select a date");
+                return;
+            }
+            //checks if the Hour and Minute boxes are empty
+            else if ((document.getElementById('cmb_Time').value == "") || (document.getElementById('cmb_Minutes').value == "")) {
+                alert("Please select a time");
+                return;
+            }
+            //checks if the party size is 0 or less than 0 (- minus)
+            else if ((document.getElementById("partysize").value == 0) || (document.getElementById("partysize").value < 0)) {
+                alert("Please enter your party size");
+                return;
+            }
+
+            //checks if the partysize is bigger than 10
+            else if (document.getElementById("partysize").value > 10) {
+                alert("Maximum party size is 10");
+                return;
+            }
+        }
+    </script>
 }
+
+<body background="https://i.pinimg.com/originals/5a/a2/f4/5aa2f4c287849a6b5d3b8de4424e083d.jpg">
+
+    <h2>Create</h2>
+
+    <h4>Guest</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <div id="nameblock">
+                        <label asp-for="GuestName" id="namelabel" class="control-label">Name:</label>
+                        <input asp-for="GuestName" id="name" class="form-control textbox" type="text" style="width: 250px; height: 35px;" pattern="^[A-Za-z][A-Za-z ,.'-]{0,23}[A-Za-z]$" max="25" required tabindex="5" title="The name should only consist of letters with a maximum of 25 characters." />
+                        <span asp-validation-for="GuestName" class="text-danger"></span>
+                    </div>
+                </div>
+
+                @* Input Validation: It only accepts numbers; It expects 10 numbers; is required unless email has a value;  *@
+                @*|(?:[0]{2}[3][0-9]{10}) = for 0031-612345678 numbers*@
+                <div class="form-group">
+                    <div id="phoneblock">
+                        <label asp-for="GuestPhone" id="phonelabel" class="control-label">Phone number:</label>
+                        <input asp-for="GuestPhone" class="form-control textbox" id="phone" type="text" max="25" style="width: 250px; height: 35px;" pattern="(?:[+][0-9]{11})|(?:[0][0-9]{9})|(?:[0-9]{10})" tabindex="6" required title="Phone number should consist of + and 11 numbers or 0 and 9 numbers or 10 numbers" />
+                        <span asp-validation-for="GuestPhone" class="text-danger"></span>
+                    </div>
+                </div>
+
+                @* Input Validation: It only accepts numbers; It expects 10 numbers; is required unless phone number has a value;  *@
+                <div class="form-group">
+                    <div id="emailblock">
+                        <label asp-for="GuestEmail" id="emaillabel" class="control-label">Email:</label>
+                        <input asp-for="GuestEmail" class="form-control emailbox" id="email" type="email" style="width: 250px; height: 35px;" tabindex="7" required />
+                        <span asp-validation-for="GuestEmail" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <br />
+
+                <div class="form-group">
+                    <div id="hidepricesblock">
+                        <label asp-for="Hideprices" id="hidepriceslabel" class="control-label"> Would you like to hide the prices <br /> on the menu card?</label>
+                        <input asp-for="Hideprices" class="form-control-static checkbox" type="checkbox" tabindex="8" />
+                        <span asp-validation-for="Hideprices" class="text-danger"></span>
+                    </div>
+                </div>
+
+                @* Input Validation: Maximum number of characters accepted is a 100 *@
+                <div class="form-group">
+                    <div id="commentsblock">
+                        <label asp-for="ResComments" id="commentslabel" class="control-label">Comments:</label>
+                        @* <input asp-for="ResComments" class="form-control text" type="text" style="width: 400px; height: 150px;" tabindex="9" max="100" />*@
+                        <textarea asp-for="ResComments" style="width:400px;height:150px;resize:none" tabindex="9" max="100"></textarea>
+                        <span asp-validation-for="ResComments" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-default" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }
+</body>

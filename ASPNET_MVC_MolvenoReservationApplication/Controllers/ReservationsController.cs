@@ -93,56 +93,49 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
         //public IActionResult Create([Bind("ReservationID,_resPartySize,_resArrivingTime.Date,_resArrivingTime.Hour,_resArrivingTime.Minute,_resLeavingTime,_resHidePrices,_resComments,_resGuest._guestName,_resGuest._guestPhone,_resGuest._guestEmail")] Reservation reservation)
         public IActionResult Create(ReservationViewModel reservationInput)
         {
-            // TODO: get date, time and party size for all our iterations
             DateTime resArrivingDate = new DateTime();
 
-            // if statement to check if this form is posted before or after checking for tables
-            if (String.IsNullOrEmpty(reservationInput.GuestName))
+            string[] _arrDate = reservationInput.ArrivingDate.Split("-");
+
+            resArrivingDate = new DateTime(ParseIntToString(_arrDate[2]), ParseIntToString(_arrDate[1]),
+                ParseIntToString(_arrDate[0]), reservationInput.ArrivingHour, reservationInput.ArrivingMinute, 0);
+
+            // random if statement to simulate the check table availability
+            if (true && ModelState.IsValid)
             {
-                string[] _arrDate = reservationInput.ArrivingDate.Split("-");
+                ViewBag.arrival = resArrivingDate;
+                ViewBag.partySize = reservationInput.Partysize;
 
-                resArrivingDate = new DateTime(ParseIntToString(_arrDate[2]), ParseIntToString(_arrDate[1]),
-                    ParseIntToString(_arrDate[0]), reservationInput.ArrivingHour, reservationInput.ArrivingMinute, 0);
-
-                // random if statement to simulate the check table availability
-                if (true)//(Equals(typeof(CheckTableAvailability)))
-                {
-                    ModelState.AddModelError("Table", "Found");
-                    ViewBag.TableFound = "true";
-                    ViewData["TableFound"] = "true";
-                    TempData["TableFound"] = "true";
-                    return View(reservationInput);
-                }
-                else
-                {
-                    ModelState.AddModelError("No availability",
-                        "We are sorry, but there are no tables available for your search. Try reserving a different date.");
-                    return View(reservationInput);
-                }
+                //TODO: change this return statement to redirect to Guest Details Input
+                return RedirectToAction("Create", "Guests");
             }
-            // if a guest name is provided it means that we are expecting his details
             else
             {
-                if (ModelState.IsValid)
-                {
-                    Guest guest;
-                    Reservation res;
-                    try
-                    {
-                        guest = new Guest(reservationInput.GuestName, reservationInput.GuestEmail, reservationInput.GuestPhone);
-                    }
-                    catch
-                    {
-                        if (String.IsNullOrEmpty(reservationInput.GuestPhone) || String.IsNullOrWhiteSpace(reservationInput.GuestPhone))
-                        {
-                            guest = new Guest(reservationInput.GuestName, reservationInput.GuestEmail);
-                            res = new Reservation(reservationInput.Partysize, resArrivingDate, 3, guest);
-
-                
-                        }
-                    }
-                }
+                ModelState.AddModelError("No availability",
+                    "We are sorry, but there are no tables available for your search. Try reserving a different date.");
+                return View(reservationInput);
             }
+
+            //if (ModelState.IsValid)
+            //{
+            //    Guest guest;
+            //    Reservation res;
+            //    try
+            //    {
+            //        guest = new Guest(reservationInput.GuestName, reservationInput.GuestEmail, reservationInput.GuestPhone);
+            //    }
+            //    catch
+            //    {
+            //        if (String.IsNullOrEmpty(reservationInput.GuestPhone) || String.IsNullOrWhiteSpace(reservationInput.GuestPhone))
+            //        {
+            //            guest = new Guest(reservationInput.GuestName, reservationInput.GuestEmail);
+            //            res = new Reservation(reservationInput.Partysize, resArrivingDate, 3, guest);
+
+
+            //        }
+            //    }
+            //}
+
             return View();
             // TODO: check for available tables and return them
             // if (CheckTableAvailability > 0)
