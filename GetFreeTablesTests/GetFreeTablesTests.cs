@@ -1,15 +1,16 @@
 using ASPNET_MVC_MolvenoReservationApplication.Models;
 using ASPNET_MVC_MolvenoReservationApplication.Logic;
+using GetFreeTablesTests;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace TableManagerTests
+namespace CheckAvailabilityTest
 {
 
     [TestClass]
-    public class GetFreeTablesTests
+    public class CheckAvailabilityTests
     {
 
         private GetFreeTablesMock VersionOne;
