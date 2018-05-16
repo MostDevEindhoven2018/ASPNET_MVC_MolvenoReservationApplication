@@ -124,5 +124,26 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Logic
 
             return Result;
         }
+        
+        public double GetFreeTablePercentage(DateTime start, DateTime end)
+        {
+            List<Table> FreeTables = _freeTableFinder.GetFreeTables(start, end);
+            List<Table> AllTables = _context.Tables.Select(table => table).ToList();
+            int FreeTableCap = GetTotalCapacity(FreeTables);
+            int AllTableCap = GetTotalCapacity(AllTables);
+
+            return FreeTableCap / AllTableCap;
+
+        }
+
+        private int GetTotalCapacity(List<Table> tables)
+        {
+            int result = 0;
+            foreach (Table table in tables)
+            {
+                result += table._tableCapacity;
+            }
+            return result;
+        }
     }
 }
