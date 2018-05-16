@@ -16,7 +16,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
     public class ReservationsController : Controller
     {
         private readonly MyDBContext _context;
-        private CheckTableAvailability _AvailabilityCheck;
+        private TableManager _tableManager;
 
         public ReservationsController(MyDBContext context)
         {
