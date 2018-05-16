@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Create";
+    string info = (string)ViewData["TableFound"];
 }
 
 <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
@@ -35,16 +36,14 @@
           and the fields of form 2 appear(name,phone,email,hide prices,comments,label: if you need help...)*@
     <script>
 
-        function SendDatatoController(date, cmb_Time, cmb_Minutes, partysize) {
+        var SendDatatoController = function (date, cmb_Time, cmb_Minutes, partysize) {
 
             console.log({ date: date, hours: cmb_Time, minutes: cmb_Minutes, partysize: partysize })
 
             var reservationInput = { ArrivingDate: date, ArrivingHour: cmb_Time, ArrivingMinute: cmb_Minutes, Partysize: partysize }
 
-            $(document).ready(function () {
-                $.post("http://localhost:49688/Reservations/Create", reservationInput, function (data, status) {
-                    alert("Data: " + data + "\nStatus: " + status);
-                });
+            $.post("http://localhost:49688/Reservations/Create", reservationInput, function (data, status) {
+                $("#feedback").text(data);
             });
 
             //Creating a variable date and making it the current in order to be able to compare if the inputed date
@@ -112,7 +111,15 @@
 
     <h4>Molveno Lake Resort Restaurant</h4>
     <hr />
+    @{
+        string a = "";
+        if (ViewData["TableFound"] != null)
+        {
+            a = ViewData["TableFound"].ToString();
+        }
+    }
 
+    <h6 id="feedback" data-info="foo">@Html.Raw(a)</h6>
     <div class="row">
         <div class="col-md-4">
             <form asp-action="Create" id="form">
@@ -179,7 +186,12 @@
                         <span asp-validation-for="Partysize" class="text-danger"></span>
                     </div>
                 </div>
+                <div id="SendData">
+                    <input type="submit" value="Check Availability" onclick="SendDatatoController(document.getElementById('date').value, document.getElementById('cmb_Time').value, document.getElementById('cmb_Minutes').value, document.getElementById('partysize').value);" id="btnChkAvail" />
+                </div>
+            </form>
 
+            <!--form asp-action="" id="guestDetailsForm">
                 @* Input Validation: It only accepts letters; it accepts a maximum of 25 characters; it is required;  *@
                 <div class="form-group">
                     <div id="nameblock" style="display: none;">
@@ -235,9 +247,6 @@
 
                 <br />
                 <br />
-                <div id="SendData">
-                    <input type="button" value="Check Availability" onclick="SendDatatoController(document.getElementById('date').value, document.getElementById('cmb_Time').value, document.getElementById('cmb_Minutes').value, document.getElementById('partysize').value);" id="btnChkAvail" />
-                </div>
                 <div class="form-group">
 
                     <div id="submitbutton" style="display: none;">
@@ -248,7 +257,7 @@
                 <div class="form-group">
                     <label for:"AnyotherProblem" class="OtherProblems">Feel free to contact us on 0000000000 if you experience any problems.</label>
                 </div>
-            </form>
+            </form>-->
         </div>
     </div>
 

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ASPNET_MVC_MolvenoReservationApplication;
 using ASPNET_MVC_MolvenoReservationApplication.Models;
+using ASPNET_MVC_MolvenoReservationApplication.ViewModels;
 
 namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
 {
@@ -43,10 +44,32 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
             return View(guest);
         }
 
-        // GET: Guests/Create
-        public IActionResult Create()
+        private int ParseIntToString(string input)
         {
-            return View();
+            int output;
+            if (int.TryParse(input, out output))
+                return output;
+            else
+                throw new ArgumentException();
+        }
+
+        // GET: Guests/Create
+        public IActionResult Create(string[] guestViewModel)
+        {
+            DateTime resArrivingDate = new DateTime();
+
+            string[] _arrDate = guestViewModel[0].Split("-");
+
+            resArrivingDate = new DateTime(ParseIntToString(_arrDate[2]), ParseIntToString(_arrDate[1]),
+                ParseIntToString(_arrDate[0]), ParseIntToString(guestViewModel[1]), ParseIntToString(guestViewModel[2]), 0);
+
+            GuestViewModel gvm = new GuestViewModel
+            {
+                arrival = resArrivingDate,
+                size = ParseIntToString(guestViewModel[3])
+            };
+
+            return View(gvm);
         }
 
         // POST: Guests/Create
@@ -54,15 +77,21 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("GuestID,_guestName,_guestPhone,_guestEmail")] Guest guest)
+        public async Task<IActionResult> Create(GuestViewModel guestViewModel)
         {
             if (ModelState.IsValid)
             {
+                Guest guest = new Guest
+                {
+                    _guestName = guestViewModel.GuestName,
+                    _guestEmail = guestViewModel.GuestEmail,
+                    _guestPhone = guestViewModel.GuestPhone
+                };
                 _context.Add(guest);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(guest);
+            return View();
         }
 
         // GET: Guests/Edit/5
