@@ -262,8 +262,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
                 return NotFound();
             }
 
-            var reservation = await _context.Reservations
-                .SingleOrDefaultAsync(m => m.ReservationID == id);
+            var reservation = await _context.Reservations.Include("_resGuest").SingleOrDefaultAsync(m => m.ReservationID == id);
             if (reservation == null)
             {
                 return NotFound();
@@ -277,6 +276,8 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+
+            //Include("_resGuest")
             var reservation = await _context.Reservations.SingleOrDefaultAsync(m => m.ReservationID == id);
             _context.Reservations.Remove(reservation);
             await _context.SaveChangesAsync();
