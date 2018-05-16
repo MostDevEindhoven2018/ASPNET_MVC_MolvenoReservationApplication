@@ -95,7 +95,6 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Logic
             return Result;
         }
         
-
         public Dictionary<int,int> GetAvailabilityDictionary(List<Table> tables)
         {
             List<int> TableCaps = tables.Select(table => table._tableCapacity).Distinct().OrderByDescending(x => x).ToList();
@@ -134,6 +133,11 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Logic
 
             return FreeTableCap / AllTableCap;
 
+        }
+
+        public bool SufficientCapacity(List<Table> freeTables, int partySize)
+        {
+            return (partySize >= GetTotalCapacity(freeTables));
         }
 
         private int GetTotalCapacity(List<Table> tables)
