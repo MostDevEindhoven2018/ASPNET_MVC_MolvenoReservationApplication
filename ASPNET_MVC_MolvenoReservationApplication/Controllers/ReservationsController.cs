@@ -9,10 +9,12 @@ using ASPNET_MVC_MolvenoReservationApplication;
 using ASPNET_MVC_MolvenoReservationApplication.Models;
 using ASPNET_MVC_MolvenoReservationApplication.Logic;
 using ASPNET_MVC_MolvenoReservationApplication.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
 {
+    [Authorize]
     public class ReservationsController : Controller
     {
         private readonly MyDBContext _context;
@@ -92,8 +94,8 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
             return View();
         }
 
-            // GET: Reservations/Details/5
-            public async Task<IActionResult> Details(int? id)
+        // GET: Reservations/Details/5
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
@@ -110,7 +112,11 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
             return View(reservation);
         }
 
-        // GET: Reservations/Create
+
+
+
+        // GET: Reservations/Create 
+        [AllowAnonymous]
         public IActionResult Create()
         {
             // Calls get method in case there isn't a record of Admin in Admins database table
@@ -174,6 +180,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         //public async Task<IActionResult> Create([Bind("ReservationID,_resPartySize,_resArrivingTime,_resLeavingTime,_resHidePrices,_resComments")] Reservation reservation)
         [HttpPost]
+        [AllowAnonymous]
         //[ValidateAntiForgeryToken]        
         //public IActionResult Create([Bind("ReservationID,_resPartySize,_resArrivingTime.Date,_resArrivingTime.Hour,_resArrivingTime.Minute,_resLeavingTime,_resHidePrices,_resComments,_resGuest._guestName,_resGuest._guestPhone,_resGuest._guestEmail")] Reservation reservation)
         public IActionResult Create(ReservationViewModel reservationInput)
@@ -272,6 +279,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
         }
 
         // GET: Reservations
+        [AllowAnonymous]
         public IActionResult CreateDone()
         {
             return View();

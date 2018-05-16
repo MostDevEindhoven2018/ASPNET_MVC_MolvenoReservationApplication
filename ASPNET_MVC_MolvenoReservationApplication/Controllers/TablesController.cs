@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ASPNET_MVC_MolvenoReservationApplication;
 using ASPNET_MVC_MolvenoReservationApplication.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
 {
+    [Authorize]
     public class TablesController : Controller
     {
         private readonly MyDBContext _context;

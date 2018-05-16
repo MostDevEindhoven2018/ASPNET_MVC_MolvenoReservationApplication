@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ASPNET_MVC_MolvenoReservationApplication.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace ASPNET_MVC_MolvenoReservationApplication.Models
 {
-    public class MyDBContext : DbContext
+    public class MyDBContext : IdentityDbContext<ApplicationUser>
     {
         //This defines the DB tables Reservations,Guests,Tables
         public DbSet<Reservation> Reservations { get; set; }

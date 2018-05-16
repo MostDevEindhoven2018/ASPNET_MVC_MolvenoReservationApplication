@@ -2,11 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Identity;
+using ASPNET_MVC_MolvenoReservationApplication.Models;
+using ASPNET_MVC_MolvenoReservationApplication.Services;
+using ASPNET_MVC_MolvenoReservationApplication.Data;
+using Microsoft.AspNetCore.Mvc;
+using DataTables.AspNet.AspNetCore;
+
+
 
 namespace ASPNET_MVC_MolvenoReservationApplication
 {
@@ -24,7 +34,18 @@ namespace ASPNET_MVC_MolvenoReservationApplication
         {   //Checking for the communication from Server to Database
             services.AddDbContext<Models.MyDBContext>(option =>
             option.UseSqlServer(Configuration.GetConnectionString("ReservationDatabase")));
+
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<MyDBContext>()
+                .AddDefaultTokenProviders();
+
+            // Add application services.
+            services.AddTransient<IEmailSender, EmailSender>();
+
             services.AddMvc();
+
+            services.RegisterDataTables();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -34,6 +55,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication
             {
                 app.UseBrowserLink();
                 app.UseDeveloperExceptionPage();
+                //app.UseDatabaseErrorPage();
             }
             else
             {
@@ -41,6 +63,8 @@ namespace ASPNET_MVC_MolvenoReservationApplication
             }
 
             app.UseStaticFiles();
+
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {

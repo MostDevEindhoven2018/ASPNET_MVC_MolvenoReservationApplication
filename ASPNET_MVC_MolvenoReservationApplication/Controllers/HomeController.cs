@@ -5,9 +5,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ASPNET_MVC_MolvenoReservationApplication.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
 {
+    [AllowAnonymous]
     public class HomeController : Controller
     {
         MyDBContext _context;

@@ -9,10 +9,11 @@ using ASPNET_MVC_MolvenoReservationApplication;
 using ASPNET_MVC_MolvenoReservationApplication.Models;
 using ASPNET_MVC_MolvenoReservationApplication.Logic;
 using ASPNET_MVC_MolvenoReservationApplication.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
 {
-    //[authorize]
+    [Authorize]
     public class AdminController : Controller
     {
         private readonly MyDBContext _context;
