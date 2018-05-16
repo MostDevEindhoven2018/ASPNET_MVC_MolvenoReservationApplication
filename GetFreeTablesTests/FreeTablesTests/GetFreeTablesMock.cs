@@ -11,7 +11,7 @@ namespace TableManagerTests
     {
         List<ReservationTableCoupling> ReservationTableCouplingsList;
         List<Reservation> ReservationList;
-        List<Table> TableList;
+        public List<Table> TableList;
 
         public GetFreeTablesMock(List<ReservationTableCoupling> rTCList, List<Reservation> resList, List<Table> tableList)
         {
