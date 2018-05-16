@@ -22,7 +22,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
         {
             //_AvailabilityCheck = new CheckTableAvailability(context);
             _context = context;
-
+            _tableManager = new TableManager(context);
         }
 
         // GET: Reservations
