@@ -86,7 +86,8 @@ namespace TableManagerTests
             _freeTableFinder = new GetFreeTablesMock(TestRTCs, TestReservations, TestTables);
             _tableManager = new TableManager(_freeTableFinder);
         }
-
+        
+        
         [TestMethod]
         public void CompleteProcess1()
         {
