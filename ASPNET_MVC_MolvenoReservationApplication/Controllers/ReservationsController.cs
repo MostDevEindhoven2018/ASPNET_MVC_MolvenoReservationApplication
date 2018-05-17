@@ -11,6 +11,8 @@ using ASPNET_MVC_MolvenoReservationApplication.Logic;
 using ASPNET_MVC_MolvenoReservationApplication.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
+using ASPNET_MVC_MolvenoReservationApplication.Services;
 
 namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
 {
@@ -20,33 +22,33 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
         private readonly MyDBContext _context;
         private CheckTableAvailability _AvailabilityCheck;
 
-        private ApplicationUser _User;
+        private ApplicationUser _Users;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        private ApplicationUser User
+        private ApplicationUser Users
         {
             get
             {
-                if (_User == null)
-                {                    
-                    _User = _context.Users.FirstOrDefault(a => a.Id == "1");
-                    if (_User == null)
+                if (_Users == null)
+                {
+                    _Users = _context.Users.FirstOrDefault(a => a.UserId == 1);
+                    if (_Users == null)
                     {
-                       
-                       
-
-                        _User = new ApplicationUser();
-                        _User.UserName = "Admin";
-                        _User.Email = "test@testersexample.nl";
+                        _Users = new ApplicationUser();
+                        _Users.UserName = "Admin";
+                        _Users.Email = "test@testersexample.nl";
+                        _Users.EmailConfirmed = true;
                         string Password = "bla";
-                        var result = _userManager.CreateAsync(_User, Password);
+                        var result = _userManager.CreateAsync(_Users, Password);
+                        //string code = "1";
+                        //var result2 = _userManager.ConfirmEmailAsync(_Users, code);
 
-                        _context.Users.Add(_User);
+
+                        _context.Users.Add(_Users);
                         _context.SaveChanges();
                     }
                 }
-
-                return _User;
+                return _Users;
             }
             set { throw new InvalidOperationException(); }
         }
@@ -77,10 +79,12 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
             set { throw new InvalidOperationException(); }
         }
 
-        public ReservationsController(MyDBContext context)
+
+        public ReservationsController(MyDBContext context, UserManager<ApplicationUser> userManager)
         {
             //_AvailabilityCheck = new CheckTableAvailability(context);
             _context = context;
+            _userManager = userManager;
 
         }
 
@@ -153,7 +157,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
         {
             // Calls get method in case there isn't a record of Admin in Admins database table
             var x = AdminConfigure;
-            var y = User;
+            var y = Users;
 
             // Make an instance of the ReservationViewModel and later send it to the view
             ReservationViewModel resVM = new ReservationViewModel();
