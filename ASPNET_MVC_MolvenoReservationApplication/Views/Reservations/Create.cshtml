@@ -37,14 +37,7 @@
     <script>
 
         var SendDatatoController = function (date, cmb_Time, cmb_Minutes, partysize) {
-
-            console.log({ date: date, hours: cmb_Time, minutes: cmb_Minutes, partysize: partysize })
-
-            var reservationInput = { ArrivingDate: date, ArrivingHour: cmb_Time, ArrivingMinute: cmb_Minutes, Partysize: partysize }
-
-            $.post("http://localhost:49688/Reservations/Create", reservationInput, function (data, status) {
-                $("#feedback").text(data);
-            });
+            
 
             //Creating a variable date and making it the current in order to be able to compare if the inputed date
             //belongs in the past
