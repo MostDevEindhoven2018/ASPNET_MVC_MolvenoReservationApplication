@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
 {
-    [AllowAnonymous]
+    //[AllowAnonymous]
     public class HomeController : Controller
     {
         MyDBContext _context;

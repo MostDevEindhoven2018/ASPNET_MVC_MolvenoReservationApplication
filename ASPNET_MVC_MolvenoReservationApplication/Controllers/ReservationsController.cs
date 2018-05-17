@@ -10,7 +10,7 @@ using ASPNET_MVC_MolvenoReservationApplication.Models;
 using ASPNET_MVC_MolvenoReservationApplication.Logic;
 using ASPNET_MVC_MolvenoReservationApplication.ViewModels;
 using Microsoft.AspNetCore.Authorization;
-
+using Microsoft.AspNetCore.Identity;
 
 namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
 {
@@ -19,6 +19,38 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
     {
         private readonly MyDBContext _context;
         private CheckTableAvailability _AvailabilityCheck;
+
+        private ApplicationUser _User;
+        private readonly UserManager<ApplicationUser> _userManager;
+
+        private ApplicationUser User
+        {
+            get
+            {
+                if (_User == null)
+                {                    
+                    _User = _context.Users.FirstOrDefault(a => a.Id == "1");
+                    if (_User == null)
+                    {
+                       
+                       
+
+                        _User = new ApplicationUser();
+                        _User.UserName = "Admin";
+                        _User.Email = "test@testersexample.nl";
+                        string Password = "bla";
+                        var result = _userManager.CreateAsync(_User, Password);
+
+                        _context.Users.Add(_User);
+                        _context.SaveChanges();
+                    }
+                }
+
+                return _User;
+            }
+            set { throw new InvalidOperationException(); }
+        }
+
         private AdminConfigure _adminConfigure;
 
         private AdminConfigure AdminConfigure
@@ -121,6 +153,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
         {
             // Calls get method in case there isn't a record of Admin in Admins database table
             var x = AdminConfigure;
+            var y = User;
 
             // Make an instance of the ReservationViewModel and later send it to the view
             ReservationViewModel resVM = new ReservationViewModel();

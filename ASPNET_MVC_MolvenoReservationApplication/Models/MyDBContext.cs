@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 namespace ASPNET_MVC_MolvenoReservationApplication.Models
 {
     public class MyDBContext : IdentityDbContext<ApplicationUser>
+    //public class MyDBContext : DbContext
     {
         //This defines the DB tables Reservations,Guests,Tables
         public DbSet<Reservation> Reservations { get; set; }
@@ -28,6 +29,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Reservation>().ToTable("Reservations");
         }
     }

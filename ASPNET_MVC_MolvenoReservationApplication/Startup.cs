@@ -27,14 +27,11 @@ namespace ASPNET_MVC_MolvenoReservationApplication
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        public IConfiguration Configuration { get; set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {   //Checking for the communication from Server to Database
-            services.AddDbContext<Models.MyDBContext>(option =>
-            option.UseSqlServer(Configuration.GetConnectionString("ReservationDatabase")));
-
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<MyDBContext>()
                 .AddDefaultTokenProviders();
@@ -45,6 +42,10 @@ namespace ASPNET_MVC_MolvenoReservationApplication
             services.AddMvc();
 
             services.RegisterDataTables();
+
+            services.AddDbContext<MyDBContext>(option =>
+            option.UseSqlServer(Configuration.GetConnectionString("ReservationDatabase")));
+
 
         }
 
@@ -64,7 +65,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication
 
             app.UseStaticFiles();
 
-            app.UseAuthentication();
+            //app.UseAuthentication();
 
             app.UseMvc(routes =>
             {
