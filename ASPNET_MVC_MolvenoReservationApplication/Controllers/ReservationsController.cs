@@ -110,7 +110,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
             bool sufficientTables = _tableManager.SufficientCapacity(freetables, reservationInput.Partysize);
 
             // random if statement to simulate the check table availability
-            if (sufficientTables && ModelState.IsValid)
+            if (false)//(sufficientTables && ModelState.IsValid)
             {
                 string[] arr = new string[] {reservationInput.ArrivingDate, reservationInput.ArrivingHour.ToString(),
                     reservationInput.ArrivingMinute.ToString(), reservationInput.Partysize.ToString()};

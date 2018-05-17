@@ -116,6 +116,11 @@
     <div class="row">
         <div class="col-md-4">
             <form asp-action="Create" id="form">
+                <div>
+                    <span style="color:red">
+                        @Html.ValidationMessage("No availability")
+                    </span>
+                </div>
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 @*<div>
                         <input asp-for="ReservationID" class="form-control textbox" type="number" hidden />
