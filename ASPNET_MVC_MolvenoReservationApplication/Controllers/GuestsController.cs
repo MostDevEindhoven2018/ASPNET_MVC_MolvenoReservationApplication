@@ -107,7 +107,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
 
 
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("ConfirmReservation", "Home");
             }
             return View();
         }
