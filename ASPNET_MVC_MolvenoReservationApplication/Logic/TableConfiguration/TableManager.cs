@@ -40,7 +40,8 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Logic
         /// This one is basically for testing purposes only as 
         /// it is not connected to a database. Do not use it outside of testing.
         /// </summary>
-        public TableManager(IFreeTableFinder ftf) {
+        public TableManager(IFreeTableFinder ftf)
+        {
             _freeTableFinder = ftf;
             _solutionFinder = new SolutionFinderVersion3();
             _solutionChecker = new SolutionCheckerVersion1();
@@ -94,8 +95,8 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Logic
 
             return Result;
         }
-        
-        public Dictionary<int,int> GetAvailabilityDictionary(List<Table> tables)
+
+        public Dictionary<int, int> GetAvailabilityDictionary(List<Table> tables)
         {
             List<int> TableCaps = tables.Select(table => table._tableCapacity).Distinct().OrderByDescending(x => x).ToList();
             Dictionary<int, int> TableCapAmounts = new Dictionary<int, int>();
@@ -123,7 +124,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Logic
 
             return Result;
         }
-        
+
         public double GetFreeTablePercentage(DateTime start, DateTime end)
         {
             List<Table> FreeTables = _freeTableFinder.GetFreeTables(start, end);
@@ -134,10 +135,23 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Logic
             return FreeTableCap / AllTableCap;
 
         }
+        /// <summary>
+        /// This is purely to get the freetables before actually going through the entire process of getting the table solution
+        /// etc. It is simply a public version of the getfreetables method.
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <returns></returns>
+        public List<Table> GetFreeTables(DateTime start, DateTime end)
+        {
+            return _freeTableFinder.GetFreeTables(start, end);
+        }
+
 
         public bool SufficientCapacity(List<Table> freeTables, int partySize)
         {
-            return (partySize >= GetTotalCapacity(freeTables));
+
+            return (partySize <= GetTotalCapacity(freeTables));
         }
 
         private int GetTotalCapacity(List<Table> tables)

@@ -24,16 +24,16 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Logic
             // the least 'overkill' on summed capacities and partysize
 
             // the scoring weights used here are completely arbitrary.
-            double CountWeight = 0.3;
+            double CountWeight = 10;
             double OKWeight = 0.2;
-            double SDWeight = 0.1;
+            double SDWeight = 0.05;
             foreach (List<int> config in ViableSolutions)
             {
                 // calculate its Overall Capacity
                 int OC = config.Sum();
                 Overkill = OC - PartySize;
 
-                double score = CountWeight * (1/config.Count) - SDWeight * StandardDeviation(config) - OKWeight * Overkill;
+                double score = CountWeight * (1/(double)config.Count) - SDWeight * StandardDeviation(config) - OKWeight * Overkill;
 
 
                 Scores.Add(config, score);

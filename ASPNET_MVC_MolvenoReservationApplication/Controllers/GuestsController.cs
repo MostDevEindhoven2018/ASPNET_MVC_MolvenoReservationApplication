@@ -8,16 +8,19 @@ using Microsoft.EntityFrameworkCore;
 using ASPNET_MVC_MolvenoReservationApplication;
 using ASPNET_MVC_MolvenoReservationApplication.Models;
 using ASPNET_MVC_MolvenoReservationApplication.ViewModels;
+using ASPNET_MVC_MolvenoReservationApplication.Logic;
 
 namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
 {
     public class GuestsController : Controller
     {
         private readonly MyDBContext _context;
+        private TableManager _tableManager; 
 
         public GuestsController(MyDBContext context)
         {
             _context = context;
+            _tableManager = new TableManager(context);
         }
 
         // GET: Guests
@@ -88,6 +91,21 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
                     _guestPhone = guestViewModel.GuestPhone
                 };
                 _context.Add(guest);
+
+                DateTime leaving = guestViewModel.arrival.AddHours(3);
+
+                List<Table> TablesForThisReservation = _tableManager.GetOptimalTableConfig(guestViewModel.arrival, leaving, guestViewModel.size);
+
+                Reservation currentRes = new Reservation(guestViewModel.size, guestViewModel.arrival, 3, guest);
+                _context.Reservations.Add(currentRes);
+
+                foreach (Table table in TablesForThisReservation)
+                {
+                    _context.ReservationTableCouplings.Add(new ReservationTableCoupling(currentRes, table));
+                }
+
+
+
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }

@@ -101,8 +101,16 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
                 ParseIntToString(_arrDate[0]), reservationInput.ArrivingHour, reservationInput.ArrivingMinute, 0);
 
 
+            // watch out! Hard coded stuff! 
+            DateTime resLeavingDate = resArrivingDate.AddHours(3);
+
+            // Get a list of all free tables for this particular time and calculate whether or not we have sufficient 
+            // room for the partysize.
+            List<Table> freetables = _tableManager.GetFreeTables(resArrivingDate, resLeavingDate);
+            bool sufficientTables = _tableManager.SufficientCapacity(freetables, reservationInput.Partysize);
+
             // random if statement to simulate the check table availability
-            if (true && ModelState.IsValid)
+            if (sufficientTables && ModelState.IsValid)
             {
                 string[] arr = new string[] {reservationInput.ArrivingDate, reservationInput.ArrivingHour.ToString(),
                     reservationInput.ArrivingMinute.ToString(), reservationInput.Partysize.ToString()};
