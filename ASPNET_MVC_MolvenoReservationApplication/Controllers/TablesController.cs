@@ -140,6 +140,15 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var table = await _context.Tables.SingleOrDefaultAsync(m => m.TableID == id);
+
+
+            List<ReservationTableCoupling> AllIncludedRTCs = _context.ReservationTableCouplings.Where(rtc => rtc.Table.TableID == id).ToList();
+
+            foreach (ReservationTableCoupling rtc in AllIncludedRTCs)
+            {
+                _context.ReservationTableCouplings.Remove(rtc);
+            }
+
             _context.Tables.Remove(table);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
