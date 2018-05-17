@@ -104,17 +104,16 @@
                 <div class="form-group">
                     <div id="nameblock">
                         <label asp-for="GuestName" id="namelabel" class="control-label">Name:</label>
-                        <input asp-for="GuestName" id="name" class="form-control textbox" type="text" style="width: 250px; height: 35px;" pattern="^[A-Za-z][A-Za-z ,.'-]{0,23}[A-Za-z]$" max="25" required tabindex="5" title="The name should only consist of letters with a maximum of 25 characters." />
+                        <input asp-for="GuestName" id="name" class="form-control"  type="text" style="width: 250px; height: 35px;" pattern="^[A-Za-z][A-Za-z ,.'-]{0,23}[A-Za-z]$" maxlength="25" required tabindex="5" title="The name should only consist of letters with a maximum of 25 characters." />
                         <span asp-validation-for="GuestName" class="text-danger"></span>
                     </div>
                 </div>
-
                 @* Input Validation: It only accepts numbers; It expects 10 numbers; is required unless email has a value;  *@
                 @*|(?:[0]{2}[3][0-9]{10}) = for 0031-612345678 numbers*@
                 <div class="form-group">
                     <div id="phoneblock">
                         <label asp-for="GuestPhone" id="phonelabel" class="control-label">Phone number:</label>
-                        <input asp-for="GuestPhone" class="form-control textbox" id="phone" type="text" max="25" style="width: 250px; height: 35px;" pattern="(?:[+][0-9]{11})|(?:[0][0-9]{9})|(?:[0-9]{10})" tabindex="6" required title="Phone number should consist of + and 11 numbers or 0 and 9 numbers or 10 numbers" />
+                        <input asp-for="GuestPhone" class="form-control" id="phone" type="tel" maxlength="13" style="width: 250px; height: 35px;"  required pattern="(?:[+][0-9]{11})|(?:[0][0-9]{9})|(?:[0-9]{10})" tabindex="6" title="Phone number should consist of + and 11 numbers or 0 and 9 numbers or 10 numbers" />
                         <span asp-validation-for="GuestPhone" class="text-danger"></span>
                     </div>
                 </div>
@@ -123,7 +122,7 @@
                 <div class="form-group">
                     <div id="emailblock">
                         <label asp-for="GuestEmail" id="emaillabel" class="control-label">Email:</label>
-                        <input asp-for="GuestEmail" class="form-control emailbox" id="email" type="email" style="width: 250px; height: 35px;" tabindex="7" required />
+                        <input asp-for="GuestEmail" class="form-control" id="email" type="email" style="width: 250px; height: 35px;" tabindex="7" required />
                         <span asp-validation-for="GuestEmail" class="text-danger"></span>
                     </div>
                 </div>
@@ -142,7 +141,7 @@
                 <div class="form-group">
                     <div id="commentsblock">
                         <label asp-for="ResComments" id="commentslabel" class="control-label">Comments:</label>
-                        <textarea asp-for="ResComments" style="width:400px; height:150px; resize:none" tabindex="9" max="100"></textarea>
+                        <textarea asp-for="ResComments" style="width:400px; height:150px; resize:none" tabindex="9" maxlength="100"></textarea>
                         <span asp-validation-for="ResComments" class="text-danger"></span>
                     </div>
                 </div>
