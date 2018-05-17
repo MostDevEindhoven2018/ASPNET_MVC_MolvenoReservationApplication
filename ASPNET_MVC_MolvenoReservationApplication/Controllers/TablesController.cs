@@ -7,12 +7,14 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ASPNET_MVC_MolvenoReservationApplication;
 using ASPNET_MVC_MolvenoReservationApplication.Models;
+using ASPNET_MVC_MolvenoReservationApplication.Logic;
 
 namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
 {
     public class TablesController : Controller
     {
         private readonly MyDBContext _context;
+        private TableManager _tableManager;
 
         public TablesController(MyDBContext context)
         {
@@ -140,6 +142,29 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var table = await _context.Tables.SingleOrDefaultAsync(m => m.TableID == id);
+
+            // Now we have deleted a table, lets again find the best table configuration for all reservations using this table.
+            // This needs to be done in sequence, (not async) as the results will differ for subsequent reservations as the free tables will change.
+            List<ReservationTableCoupling> AllIncludedRTCs = _context.ReservationTableCouplings.Where(rtc => rtc.Table.TableID == id).Include(rtc => rtc.Reservation).ToList();
+            List<Reservation> AffectedReservations = new List<Reservation>();
+
+            foreach (ReservationTableCoupling rtc in AllIncludedRTCs)
+            {
+                _context.ReservationTableCouplings.Remove(rtc);
+                AffectedReservations.Add(rtc.Reservation);
+            }
+
+            foreach (Reservation res in AffectedReservations)
+            {
+                List<Table> newTables = _tableManager.GetOptimalTableConfig(res._resArrivingTime, res._resLeavingTime, res._resPartySize);
+                foreach (Table t in newTables)
+                {
+                    _context.ReservationTableCouplings.Add(new ReservationTableCoupling(res, t));
+
+                }
+                _context.SaveChanges();
+            }
+            
             _context.Tables.Remove(table);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));

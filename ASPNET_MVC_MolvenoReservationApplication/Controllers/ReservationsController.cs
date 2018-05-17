@@ -284,6 +284,15 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
 
             //Include("_resGuest")
             var reservation = await _context.Reservations.SingleOrDefaultAsync(m => m.ReservationID == id);
+
+            // Also remove the reservation couplings.
+            List<ReservationTableCoupling> AllIncludedRTCs = _context.ReservationTableCouplings.Where(rtc => rtc.Reservation.ReservationID == id).ToList();
+
+            foreach (ReservationTableCoupling rtc in AllIncludedRTCs)
+            {
+                _context.ReservationTableCouplings.Remove(rtc);
+            }
+
             _context.Reservations.Remove(reservation);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));

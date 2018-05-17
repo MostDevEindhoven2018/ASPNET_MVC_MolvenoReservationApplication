@@ -1,5 +1,4 @@
-﻿@model ASPNET_MVC_MolvenoReservationApplication.Table
-
+﻿@model ASPNET_MVC_MolvenoReservationApplication.Models.Table
 @{
     ViewData["Title"] = "Delete";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -25,7 +24,7 @@
             @Html.DisplayFor(model => model._tableArea)
         </dd>
     </dl>
-    
+
     <form asp-action="Delete">
         <input type="hidden" asp-for="TableID" />
         <input type="submit" value="Delete" class="btn btn-default" /> |
