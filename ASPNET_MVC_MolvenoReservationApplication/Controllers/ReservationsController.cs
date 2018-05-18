@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using ASPNET_MVC_MolvenoReservationApplication.Services;
 
+
 namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
 {
     [Authorize]
@@ -22,78 +23,18 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
         private readonly MyDBContext _context;
         private CheckTableAvailability _AvailabilityCheck;
 
-        private ApplicationUser _Users;
-        private readonly UserManager<ApplicationUser> _userManager;
-
-        private ApplicationUser Users
-        {
-            get
-            {
-                if (_Users == null)
-                {
-                    _Users = _context.Users.FirstOrDefault(a => a.UserId == 1);
-                    if (_Users == null)
-                    {
-                        _Users = new ApplicationUser();
-                        _Users.UserName = "Admin";
-                        _Users.Email = "test@testersexample.nl";
-                        _Users.EmailConfirmed = true;
-                        string Password = "bla";
-                        var result = _userManager.CreateAsync(_Users, Password);
-                        //string code = "1";
-                        //var result2 = _userManager.ConfirmEmailAsync(_Users, code);
-
-
-                        _context.Users.Add(_Users);
-                        _context.SaveChanges();
-                    }
-                }
-                return _Users;
-            }
-            set { throw new InvalidOperationException(); }
-        }
-
-        private AdminConfigure _adminConfigure;
-
-        private AdminConfigure AdminConfigure
-        {
-            get
-            {
-                if (_adminConfigure == null)
-                {
-                    _adminConfigure = _context.Admins.FirstOrDefault(a => a.AdminID == 1);
-                    if (_adminConfigure == null)
-                    {
-                        _adminConfigure = new AdminConfigure();
-                        _adminConfigure.OpeningHour = 12;
-                        _adminConfigure.ClosingHours = 00;
-                        _adminConfigure._resDurationHour = 3;
-                        _adminConfigure.PercentageMaxCapacity = 100;
-                        _context.Admins.Add(_adminConfigure);
-                        _context.SaveChanges();
-                    }
-                }
-
-                return _adminConfigure;
-            }
-            set { throw new InvalidOperationException(); }
-        }
-
-
-        public ReservationsController(MyDBContext context, UserManager<ApplicationUser> userManager)
+        
+        public ReservationsController(MyDBContext context)
         {
             //_AvailabilityCheck = new CheckTableAvailability(context);
-            _context = context;
-            _userManager = userManager;
-
+            _context = context;            
         }
 
         // GET: Reservations
         public async Task<IActionResult> Index()
         {
             return View(await _context.Reservations.Include("_resGuest").ToListAsync());
-            //return View(await _context.Reservations.Include("_resGuest").Include("_resReservationTableCouplings").ToListAsync());
-            
+            //return View(await _context.Reservations.Include("_resGuest").Include("_resReservationTableCouplings").ToListAsync());           
 
         }
 
@@ -155,27 +96,27 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
         [AllowAnonymous]
         public IActionResult Create()
         {
+
             // Calls get method in case there isn't a record of Admin in Admins database table
-            var x = AdminConfigure;
-            var y = Users;
+            var adminConfigure1 = _context.Admins.FirstOrDefault(y => y.AdminID == 1);           
 
             // Make an instance of the ReservationViewModel and later send it to the view
             ReservationViewModel resVM = new ReservationViewModel();
 
             // Set the Openinghour to the variable "a"
-            int a = AdminConfigure.OpeningHour;
+            int a = adminConfigure1.OpeningHour;
 
             // Set the LastPossibleReservationHour to variable "b"
             int b;
             // If Closinghour minus OpeningHour results in a negative number or zero, add 24 to the hour
-            if (AdminConfigure.ClosingHours - a <= 0)
+            if (adminConfigure1.ClosingHours - a <= 0)
             {
-                b = AdminConfigure.LastPossibleReservationHour + 24;
+                b = adminConfigure1.LastPossibleReservationHour + 24;
 
             }
             else
             {
-                b = AdminConfigure.LastPossibleReservationHour;
+                b = adminConfigure1.LastPossibleReservationHour;
             }
 
             // Add all the hours from opening till closinghour in list
@@ -222,6 +163,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
         //public IActionResult Create([Bind("ReservationID,_resPartySize,_resArrivingTime.Date,_resArrivingTime.Hour,_resArrivingTime.Minute,_resLeavingTime,_resHidePrices,_resComments,_resGuest._guestName,_resGuest._guestPhone,_resGuest._guestEmail")] Reservation reservation)
         public IActionResult Create(ReservationViewModel reservationInput)
         {
+            var adminConfigure1 = _context.Admins.FirstOrDefault(y => y.AdminID == 1);
             DateTime resArrivingDate = new DateTime(reservationInput.Arrivingdate.Year, reservationInput.Arrivingdate.Month, reservationInput.Arrivingdate.Day, reservationInput.ArrivingHour, reservationInput.ArrivingMinute, 0);
 
             string dtpart = resArrivingDate.ToShortDateString();
@@ -245,7 +187,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
                 _resHidePrices = reservationInput.Hideprices,
                 _resComments = reservationInput.ResComments,
                 _resGuest = resGuest,
-                _resDurationOfReservation = AdminConfigure._resDurationHour
+                _resDurationOfReservation = adminConfigure1._resDurationHour
             };
 
             //// Error: System.NullReferenceException: 'Object reference not set to an instance of an object.'

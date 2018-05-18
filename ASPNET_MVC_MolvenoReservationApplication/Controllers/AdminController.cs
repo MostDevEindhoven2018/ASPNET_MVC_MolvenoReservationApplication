@@ -17,31 +17,30 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
     public class AdminController : Controller
     {
         private readonly MyDBContext _context;
-        private CheckTableAvailability _AvailabilityCheck;
-        private AdminConfigure _adminConfigure;
 
-        private AdminConfigure AdminConfigure
-        {
-            get {
-                if(_adminConfigure == null)
-                {
-                    _adminConfigure = _context.Admins.FirstOrDefault(a => a.AdminID == 1);
-                    if (_adminConfigure == null)
-                    {
-                        _adminConfigure = new AdminConfigure();
-                        _adminConfigure.OpeningHour = 12;
-                        _adminConfigure.ClosingHours = 00;
-                        _adminConfigure._resDurationHour = 3;
-                        _adminConfigure.PercentageMaxCapacity = 100;
-                        _context.Admins.Add(_adminConfigure);
-                        _context.SaveChanges();
-                    }
-                }
+        //private AdminConfigure _adminConfigure;
+        //private AdminConfigure AdminConfigure
+        //{
+        //    get {
+        //        if(_adminConfigure == null)
+        //        {
+        //            _adminConfigure = _context.Admins.FirstOrDefault(a => a.AdminID == 1);
+        //            if (_adminConfigure == null)
+        //            {
+        //                _adminConfigure = new AdminConfigure();
+        //                _adminConfigure.OpeningHour = 12;
+        //                _adminConfigure.ClosingHours = 00;
+        //                _adminConfigure._resDurationHour = 3;
+        //                _adminConfigure.PercentageMaxCapacity = 100;
+        //                _context.Admins.Add(_adminConfigure);
+        //                _context.SaveChanges();
+        //            }
+        //        }
 
-                return _adminConfigure;
-            }
-            set { throw new InvalidOperationException(); }
-        }
+        //        return _adminConfigure;
+        //    }
+        //    set { throw new InvalidOperationException(); }
+        //}
         
         public AdminController(MyDBContext context)
         {
@@ -62,7 +61,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
         // GET: Admin stuff
         public async Task<IActionResult> ReservationSettings()
         {
-            var x = AdminConfigure;
+            //var x = AdminConfigure;
             return View(await _context.Admins.ToListAsync());            
         }
 
@@ -89,7 +88,8 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ReservationSettingsEdit(int id, [Bind("AdminID,OpeningHour,ClosingHours,_resDurationHour,PercentageMaxCapacity")] AdminConfigure admin)
-        {
+        {           
+
             if (id != admin.AdminID)
             {
                 return NotFound();
@@ -99,13 +99,14 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
             {
                 try
                 {
-                    
-                    AdminConfigure.OpeningHour = admin.OpeningHour;
-                    AdminConfigure.ClosingHours = admin.ClosingHours;                    
-                    AdminConfigure._resDurationHour = admin._resDurationHour;
-                    AdminConfigure.PercentageMaxCapacity = admin.PercentageMaxCapacity;                    
+                    var adminConfigure1 = _context.Admins.FirstOrDefault(y => y.AdminID == 1);
 
-                    _context.Update(AdminConfigure);
+                    adminConfigure1.OpeningHour = admin.OpeningHour;
+                    adminConfigure1.ClosingHours = admin.ClosingHours;
+                    adminConfigure1._resDurationHour = admin._resDurationHour;
+                    adminConfigure1.PercentageMaxCapacity = admin.PercentageMaxCapacity;                    
+
+                    _context.Update(adminConfigure1);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
