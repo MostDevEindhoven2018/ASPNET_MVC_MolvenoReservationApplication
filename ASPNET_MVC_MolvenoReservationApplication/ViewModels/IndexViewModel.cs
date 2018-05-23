@@ -20,10 +20,10 @@ namespace ASPNET_MVC_MolvenoReservationApplication.ViewModels
 
         public DateTime Arrivingdate { get; set; }
 
-        public string dtpart { get; set; }
+        public string Dtpart { get; set; }
             
 
-        public string tpart { get; set; }
+        public string Tpart { get; set; }
 
         public int ArrivingHour { get; set; }
 
@@ -43,7 +43,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.ViewModels
 
         public string ResComments { get; set; }
 
-        public int tableID { get; set; }
+        public int TableID { get; set; }
 
     }
 }

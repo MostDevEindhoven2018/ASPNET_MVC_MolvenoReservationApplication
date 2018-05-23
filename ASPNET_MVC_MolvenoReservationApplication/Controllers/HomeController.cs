@@ -119,5 +119,10 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        public IActionResult ConfirmReservation()
+        {
+            return View();
+        }
     }
 }

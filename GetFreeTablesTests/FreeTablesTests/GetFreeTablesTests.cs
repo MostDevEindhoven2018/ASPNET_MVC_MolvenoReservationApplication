@@ -1,16 +1,15 @@
 using ASPNET_MVC_MolvenoReservationApplication.Models;
 using ASPNET_MVC_MolvenoReservationApplication.Logic;
-using GetFreeTablesTests;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CheckAvailabilityTest
+namespace TableManagerTests
 {
 
     [TestClass]
-    public class CheckAvailabilityTests
+    public class GetFreeTablesTests
     {
 
         private GetFreeTablesMock VersionOne;
@@ -25,7 +24,8 @@ namespace CheckAvailabilityTest
                 new Reservation(2, new System.DateTime(2018,2,1,16,00,00), 3, MockGuest){ReservationID = 2},
                 new Reservation(3, new System.DateTime(2018,2,1,20,00,00), 3, MockGuest){ReservationID = 3},
                 new Reservation(4, new System.DateTime(2018,2,1,10,00,00), 1, MockGuest){ReservationID = 4},
-                new Reservation(5, new System.DateTime(2018,2,1,21,00,00), 2, MockGuest){ReservationID = 5}
+                new Reservation(5, new System.DateTime(2018,2,1,21,00,00), 2, MockGuest){ReservationID = 5},
+                new Reservation(6, new System.DateTime(2018,2,1,23,00,00), 1, MockGuest){ReservationID = 6}
 
             };
 
@@ -55,6 +55,9 @@ namespace CheckAvailabilityTest
                 new ReservationTableCoupling(TestReservations[3],TestTables[2]),    // 3 and
                 new ReservationTableCoupling(TestReservations[3],TestTables[3]),    // 4 and
                 new ReservationTableCoupling(TestReservations[3],TestTables[4]),    // 5 
+
+                new ReservationTableCoupling(TestReservations[4],TestTables[4]),    // ResID 5 has tables 5 
+                
 
                 
 
@@ -169,6 +172,31 @@ namespace CheckAvailabilityTest
             
         }
 
+        [TestMethod]
+        public void WhatHappensWhenNoTablesAreFree()
+        {
+            // Scenario 
+            // Arrange
+
+
+            DateTime CheckStart = new System.DateTime(2018, 2, 1, 10, 00, 00);
+            DateTime CheckEnd = new System.DateTime(2018, 2, 1, 22, 00, 00);
+
+
+            // Act
+
+            List<Table> result = VersionOne.GetFreeTables(CheckStart, CheckEnd);
+
+
+            // Assert
+            // Between 13 and 17 tables 1, 2, and 3 are occupied. 
+            // The returned list should be of length 2 with [0] = ID 4 and [1] is ID 5.
+
+            Assert.AreEqual(0, result.Count);
+           
+
+
+        }
 
 
 

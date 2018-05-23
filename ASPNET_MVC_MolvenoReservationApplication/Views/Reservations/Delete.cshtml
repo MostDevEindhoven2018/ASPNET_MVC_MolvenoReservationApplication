@@ -4,33 +4,57 @@
     ViewData["Title"] = "Delete";
 }
 
-<h2>Delete</h2>
+<style>
+    h3{
+        color:white;
+    }
+
+</style>
 
 <h3>Are you sure you want to delete this?</h3>
+<body background="http://1.bp.blogspot.com/-32Kd2jhSCX8/UFdVeCWN72I/AAAAAAAABSE/wfCf4wnkyoU/s1600/LAVine2.jpg"></body>
 <div>
-    <h4>Reservation</h4>
+
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model._resPartySize)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model._resPartySize)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model._resArrivingTime)
+            <label>Date & Time: </label>
         </dt>
         <dd>
             @Html.DisplayFor(model => model._resArrivingTime)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model._resHidePrices)
+            <label>Party Size:</label>
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model._resPartySize)
+        </dd>
+        <dt>
+            <label>Name:</label>
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model._resGuest._guestName)
+        </dd>
+        <dt>
+            <label>Phone:</label>
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model._resGuest._guestPhone)
+        </dd>
+        <dt>
+            <label>Email:</label>
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model._resGuest._guestEmail)
+        </dd>
+        <dt>
+            <label>Hide Prices:</label>
         </dt>
         <dd>
             @Html.DisplayFor(model => model._resHidePrices)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model._resComments)
+            <label>Comments:</label>
         </dt>
         <dd>
             @Html.DisplayFor(model => model._resComments)

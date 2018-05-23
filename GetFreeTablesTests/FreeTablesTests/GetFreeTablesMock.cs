@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Text;
 using ASPNET_MVC_MolvenoReservationApplication.Models;
 using System.Linq;
+using ASPNET_MVC_MolvenoReservationApplication.Logic;
 
-namespace GetFreeTablesTests
+namespace TableManagerTests
 {
-    public class GetFreeTablesMock
+    public class GetFreeTablesMock : IFreeTableFinder
     {
         List<ReservationTableCoupling> ReservationTableCouplingsList;
         List<Reservation> ReservationList;
-        List<Table> TableList;
+        public List<Table> TableList;
 
         public GetFreeTablesMock(List<ReservationTableCoupling> rTCList, List<Reservation> resList, List<Table> tableList)
         {
@@ -18,8 +19,7 @@ namespace GetFreeTablesTests
             ReservationList = resList;
             TableList = tableList;
         }
-
-
+        
         public List<Table> GetFreeTables(DateTime start, DateTime end)
         {
             List<Table> FreeTables;
