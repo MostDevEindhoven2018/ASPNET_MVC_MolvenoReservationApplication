@@ -41,6 +41,7 @@
                     <li><a asp-area="" asp-controller="Reservations" asp-action="Create">Reserve a Table</a></li>
                     <li><a asp-area="" asp-controller="Reservations" asp-action="Index">View Reservations</a></li>
                 </ul>
+                @await Html.PartialAsync("_LoginPartial")
             </div>
         </div>
     </nav>
