@@ -29,72 +29,6 @@
         }
     </style>
 
-    @*Creating a script that contains a method HideCheckAvailability Fields().This method performs all the user input validation
-        for the fields date,time,party size.The checks occur when the check availability button is pushed (it is prevented)
-        from proceeding due to the return statement in every check which obliges the user to remain in the first page until all fields
-        comply to the user input validation rules.When all fields of the first form are correctly filled, they get hidden
-          and the fields of form 2 appear(name,phone,email,hide prices,comments,label: if you need help...)*@
-    <script>
-
-        var SendDatatoController = function (date, cmb_Time, cmb_Minutes, partysize) {
-            
-
-            //Creating a variable date and making it the current in order to be able to compare if the inputed date
-            //belongs in the past
-            var today = new Date();
-            var dd = today.getDate();
-            var mm = today.getMonth() + 1; // January is 0
-            var yyyy = today.getFullYear();
-
-            today = yyyy + '-' + mm + '-' + dd;
-
-            //USER INPUT VALIDATION CLIENT SIDE:
-            //Checks if all fields are null
-            if ((document.getElementById("date").value == "") && ((document.getElementById('cmb_Time').value == "") && (document.getElementById('cmb_Minutes').value == "")) && (document.getElementById("partysize").value == 0)) {
-                alert("Please enter all data.")
-                return;
-            }
-            //checks if the date field is null
-            else if (document.getElementById("date").value == "") {
-                alert("Please select a date");
-                return;
-            }
-            //checks if the Hour and Minute boxes are empty
-            else if ((document.getElementById('cmb_Time').value == "") || (document.getElementById('cmb_Minutes').value == "")) {
-                alert("Please select a time");
-                return;
-            }
-            //checks if the party size is 0 or less than 0 (- minus)
-            else if ((document.getElementById("partysize").value == 0) || (document.getElementById("partysize").value < 0)) {
-                alert("Please enter your party size");
-                return;
-            }
-
-            //checks if the partysize is bigger than 10
-            else if (document.getElementById("partysize").value > 10) {
-                alert("Maximum party size is 10");
-                return;
-            }
-
-            //SHOULD HAPPEN ONCE THE RESULT FROM THE CHECK TABLE AVAILABILITY HAS HAPPENED
-            //HIDING THE FIELDS:
-            //Hiding Date,Time and Party Size and activating Name,Phone,Email,Hide Prices,Comments,Block of text (if you need more info please call us)
-            //and the submit button
-            //document.getElementById("date").style.display = "None";
-            //document.getElementById("datelabel").style.display = "None";
-            //document.getElementById("timeblock").style.display = "None";
-            //document.getElementById("partysizeblock").style.display = "None";
-            //document.getElementById("SendData").style.display = "None";
-            //document.getElementById("timelabel").style.display = "None";
-            //document.getElementById("nameblock").style.display = "";
-            //document.getElementById("phoneblock").style.display = "";
-            //document.getElementById("emailblock").style.display = "";
-            //document.getElementById("hidepricesblock").style.display = "";
-            //document.getElementById("commentsblock").style.display = "";
-            //document.getElementById("submitbutton").style.display = "";
-        }
-    </script>
-
 }
 
 <body background="https://i.pinimg.com/originals/5a/a2/f4/5aa2f4c287849a6b5d3b8de4424e083d.jpg">
@@ -155,16 +89,6 @@
                     <div id="timeblock">
                         <select asp-for="ArrivingHour" class="form-control-static combobox" type="number" max="10" min="0" required tabindex="2" onchange="MyFunction2()" id="cmb_Time">
                             <option disabled selected hidden></option>  @*Added this option so when you start you don't see 12:00, but you cannot select it (hidden)*@
-                            <option value="12">12</option>
-                            <option value="13">13</option>
-                            <option value="14">14</option>
-                            <option value="15">15</option>
-                            <option value="16">16</option>
-                            <option value="17">17</option>
-                            <option value="18">18</option>
-                            <option value="19">19</option>
-                            <option value="20">20</option>
-                            <option value="21">21</option>
                         </select>
                         <span asp-validation-for="ArrivingHour" class="text-danger"></span>
 
@@ -177,24 +101,8 @@
                             <option value="45">45</option>
                         </select>
                         <span asp-validation-for="ArrivingMinute" class="text-danger"></span>
-                    </div>
+                    </div>                    
                 </div>
-                    <select asp-for="ArrivingHour" class="form-control-static combobox" type="number" max="10" min="0" required tabindex="2" onchange="MyFunction2()" id="cmb_Time">
-                        <option disabled selected hidden></option>  @*Added this option so when you start you don't see 12:00, but you cannot select it (hidden)*@
-                    </select>
-                    <span asp-validation-for="ArrivingHour" class="text-danger"></span>
-                    
-                    @*<label asp-for="ArrivingMinute" class="control-label"></label>*@
-                    <select asp-for="ArrivingMinute" class="form-control-static comboboxMinutes" type="number" max="10" min="0" required tabindex="3" id="cmb_Minutes">
-                        <option disabled selected hidden></option>  @*Added this option so when you start you don't see 12:00, but you cannot select it (hidden)*@
-                        <option value="0">00</option>
-                        <option value="15">15</option>
-                        <option value="30">30</option>
-                        <option value="45">45</option>
-                    </select>
-                    <span asp-validation-for="ArrivingMinute" class="text-danger"></span>
-                </div>
-
                 <script>
                     var min = @Model.PossibleReservationHours.Min()
                         max = @Model.PossibleReservationHours.Max();

@@ -59,14 +59,24 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
         }
 
         // GET: Guests/Create
+        [AllowAnonymous]
         public IActionResult Create(string[] guestViewModel)
         {
             DateTime resArrivingDate = new DateTime();
+            string[] _arrDate;
 
-            string[] _arrDate = guestViewModel[0].Split("-");
+            try
+            {
+                _arrDate = guestViewModel[0].Split("-");
 
-            resArrivingDate = new DateTime(ParseIntToString(_arrDate[2]), ParseIntToString(_arrDate[1]),
+                resArrivingDate = new DateTime(ParseIntToString(_arrDate[2]), ParseIntToString(_arrDate[1]),
                 ParseIntToString(_arrDate[0]), ParseIntToString(guestViewModel[1]), ParseIntToString(guestViewModel[2]), 0);
+            }
+            catch (IndexOutOfRangeException e)
+            {
+                Console.WriteLine(e.Message);
+                return RedirectToAction("Create", "Reservations");
+            }
 
             GuestViewModel gvm = new GuestViewModel
             {
@@ -82,10 +92,14 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AllowAnonymous]
         public async Task<IActionResult> Create(GuestViewModel guestViewModel)
         {
             if (ModelState.IsValid)
             {
+                // Gets admin with ID 1 from database
+                var adminConfigure1 = _context.Admins.FirstOrDefault(y => y.AdminID == 1);
+
                 Guest guest = new Guest
                 {
                     _guestName = guestViewModel.GuestName,
@@ -94,19 +108,18 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
                 };
                 _context.Add(guest);
 
-                DateTime leaving = guestViewModel.arrival.AddHours(3);
+                int addHours = adminConfigure1._resDurationHour;
+                DateTime leaving = guestViewModel.arrival.AddHours(addHours);
 
                 List<Table> TablesForThisReservation = _tableManager.GetOptimalTableConfig(guestViewModel.arrival, leaving, guestViewModel.size);
 
-                Reservation currentRes = new Reservation(guestViewModel.size, guestViewModel.arrival, 3, guest);
+                Reservation currentRes = new Reservation(guestViewModel.size, guestViewModel.arrival, addHours, guest);
                 _context.Reservations.Add(currentRes);
 
                 foreach (Table table in TablesForThisReservation)
                 {
                     _context.ReservationTableCouplings.Add(new ReservationTableCoupling(currentRes, table));
                 }
-
-
 
                 await _context.SaveChangesAsync();
                 return RedirectToAction("ConfirmReservation", "Home");

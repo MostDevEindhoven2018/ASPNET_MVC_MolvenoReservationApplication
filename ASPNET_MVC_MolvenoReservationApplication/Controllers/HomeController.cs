@@ -41,17 +41,6 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
 
                         var result = _userManager.CreateAsync(_Users, Password);
                         _signInManager.SignInAsync(_Users, isPersistent: false);
-                        //_logger.LogInformation("User created a new account with password.");
-
-
-
-                        //var res = _userManager.AddPasswordAsync(_Users, Password);
-                        //string code = "1";
-                        //var result2 = _userManager.ConfirmEmailAsync(_Users, code);
-
-
-                        //_context.Users.Add(_Users);
-                        //_context.SaveChanges();
                     }
                 }
                 return _Users;
@@ -60,7 +49,6 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
         }
 
         private AdminConfigure _adminConfigure;
-
         public AdminConfigure AdminConfigure
         {
             get

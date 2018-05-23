@@ -30,5 +30,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.ViewModels
         public bool Hideprices { get; set; }
 
         public string ResComments { get; set; }
+
+        public List<int> PossibleReservationHours { get; set; }
     }
 }

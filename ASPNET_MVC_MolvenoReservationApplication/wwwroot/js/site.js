@@ -68,7 +68,6 @@ for (var i = min; i <= max; i++) {
             opt.value = i;
             opt.innerHTML = "0" + i;
             select.appendChild(opt);
-
         }
         else {
             var opt = document.createElement('option');
@@ -263,13 +262,77 @@ jQuery(function ($) {
 
 //SCRIPT FOUR ENDS
 
+//SCRIPT SIX ENDS
+//@* Creating a script that contains a method HideCheckAvailability Fields().This method performs all the user input validation
+//for the fields date, time, party size.The checks occur when the check availability button is pushed(it is prevented)
+//from proceeding due to the return statement in every check which obliges the user to remain in the first page until all fields
+//comply to the user input validation rules.When all fields of the first form are correctly filled, they get hidden
+//and the fields of form 2 appear(name, phone, email, hide prices, comments, label: if you need help...)*@
+var SendDatatoController = function (date, cmb_Time, cmb_Minutes, partysize) {
 
-   
+    //console.log({ date: date, hours: cmb_Time, minutes: cmb_Minutes, partysize: partysize })
 
+    //var reservationInput = { ArrivingDate: date, ArrivingHour: cmb_Time, ArrivingMinute: cmb_Minutes, Partysize: partysize }
 
-                
+    //$.post("http://localhost:49688/Reservations/Create", reservationInput, function (data, status) {
+    //    $("#feedback").text(data);
+    //});
 
+    ////Creating a variable date and making it the current in order to be able to compare if the inputed date
+    ////belongs in the past
+    //var today = new Date();
+    //var dd = today.getDate();
+    //var mm = today.getMonth() + 1; // January is 0
+    //var yyyy = today.getFullYear();
 
+    //today = yyyy + '-' + mm + '-' + dd;
+
+    //USER INPUT VALIDATION CLIENT SIDE:
+    //Checks if all fields are null
+    if ((document.getElementById("date").value == "") && ((document.getElementById('cmb_Time').value == "") && (document.getElementById('cmb_Minutes').value == "")) && (document.getElementById("partysize").value == 0)) {
+        alert("Please enter all data.")
+        return;
+    }
+    //checks if the date field is null
+    else if (document.getElementById("date").value == "") {
+        alert("Please select a date");
+        return;
+    }
+    //checks if the Hour and Minute boxes are empty
+    else if ((document.getElementById('cmb_Time').value == "") || (document.getElementById('cmb_Minutes').value == "")) {
+        alert("Please select a time");
+        return;
+    }
+    //checks if the party size is 0 or less than 0 (- minus)
+    else if ((document.getElementById("partysize").value == 0) || (document.getElementById("partysize").value < 0)) {
+        alert("Please enter your party size");
+        return;
+    }
+
+    //checks if the partysize is bigger than 10
+    else if (document.getElementById("partysize").value > 10) {
+        alert("Maximum party size is 10");
+        return;
+    }
+
+    //SHOULD HAPPEN ONCE THE RESULT FROM THE CHECK TABLE AVAILABILITY HAS HAPPENED
+    //HIDING THE FIELDS:
+    //Hiding Date,Time and Party Size and activating Name,Phone,Email,Hide Prices,Comments,Block of text (if you need more info please call us)
+    //and the submit button
+    //document.getElementById("date").style.display = "None";
+    //document.getElementById("datelabel").style.display = "None";
+    //document.getElementById("timeblock").style.display = "None";
+    //document.getElementById("partysizeblock").style.display = "None";
+    //document.getElementById("SendData").style.display = "None";
+    //document.getElementById("timelabel").style.display = "None";
+    //document.getElementById("nameblock").style.display = "";
+    //document.getElementById("phoneblock").style.display = "";
+    //document.getElementById("emailblock").style.display = "";
+    //document.getElementById("hidepricesblock").style.display = "";
+    //document.getElementById("commentsblock").style.display = "";
+    //document.getElementById("submitbutton").style.display = "";
+}
+/////////////////////////////SCRIPT SIX ENDS
 
 
 

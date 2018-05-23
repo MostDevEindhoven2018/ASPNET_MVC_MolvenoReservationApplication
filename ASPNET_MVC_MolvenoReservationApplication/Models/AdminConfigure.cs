@@ -26,7 +26,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Models
         [Range(0, 23)]
         public int ClosingHours { get; set; } = 3;
 
-        //// Need to store this in database?
+        //// Need to store this in database
         public int LastPossibleReservationHour
         {
             get
@@ -44,16 +44,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Models
 
         [Display(Name = "Duration reservation in Hours", AutoGenerateField = true)]
         [Range(0, 23)]
-        public int _resDurationHour { get; set;} = 3;
-
-        ///// <summary>
-        ///// Method to update the duration of a reservation in hours (when it is set to private set;)
-        ///// </summary>
-        ///// <param name="i">The new duration of a reservaton</param>
-        //public void update(int i)
-        //{
-        //    _resDurationHour = i;
-        //}
+        public int _resDurationHour { get; set;}
 
         // Percentage that of max capacity of restaurant that can be reserved
         // Need to store this in database

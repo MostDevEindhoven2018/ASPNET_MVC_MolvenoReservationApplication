@@ -41,15 +41,12 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
                 r.Time = r._resArrivingTime.ToShortTimeString();
             }
             return View(resList);
-
-
         }
 
 
         [HttpPost]
         public IActionResult Index(Reservation res)
         {
-
             res.Date = res._resArrivingTime.ToShortDateString();
             res.Time = res._resArrivingTime.ToShortTimeString();
 
@@ -73,46 +70,42 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
             return View(reservation);
         }
 
+        public List<int> PossibleResHours()
+        {
+            // Gets admin with ID 1 from database
+            var adminConfigure1 = _context.Admins.FirstOrDefault(y => y.AdminID == 1);
 
+            // Set the LastPossibleReservationHour to variable
+            int _lastPossibleReservationhour;
+            // If Closinghour minus OpeningHour results in a negative number or zero, add 24 to the hour
+            if (adminConfigure1.ClosingHours - adminConfigure1.OpeningHour <= 0)
+            {
+                _lastPossibleReservationhour = adminConfigure1.LastPossibleReservationHour + 24;
+
+            }
+            else
+            {
+                _lastPossibleReservationhour = adminConfigure1.LastPossibleReservationHour;
+            }
+
+            List<int> PossibleResHoursList = new List<int>();
+            // Add all the hours from opening till closinghour in list PossibleReservationHours        
+            for (var i = adminConfigure1.OpeningHour; i <= _lastPossibleReservationhour; i++)
+            {                
+                PossibleResHoursList.Add(i);
+            }
+
+            return PossibleResHoursList;
+        }
 
 
         // GET: Reservations/Create 
         [AllowAnonymous]
         public IActionResult Create()
         {
-
-            // Calls get method in case there isn't a record of Admin in Admins database table
-            var adminConfigure1 = _context.Admins.FirstOrDefault(y => y.AdminID == 1);           
-
             // Make an instance of the ReservationViewModel and later send it to the view
             ReservationViewModel resVM = new ReservationViewModel();
-
-            // Set the Openinghour to the variable "a"
-            int a = adminConfigure1.OpeningHour;
-
-            // Set the LastPossibleReservationHour to variable "b"
-            int b;
-            // If Closinghour minus OpeningHour results in a negative number or zero, add 24 to the hour
-            if (adminConfigure1.ClosingHours - a <= 0)
-            {
-                b = adminConfigure1.LastPossibleReservationHour + 24;
-
-            }
-            else
-            {
-                b = adminConfigure1.LastPossibleReservationHour;
-            }
-
-            // Add all the hours from opening till closinghour in list
-            List<int> c = new List<int>();
-
-            for (var i = a; i <= b; i++)
-            {
-                    c.Add(i);
-            }
-
-            // Save this list in the list PossibleReservationHours
-            resVM.PossibleReservationHours = c; 
+            resVM.PossibleReservationHours = PossibleResHours();
 
             // Send the instance of ReservationViewModel to the view
             return View(resVM);
@@ -136,18 +129,18 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
         //[ValidateAntiForgeryToken]
         public IActionResult Create(ReservationViewModel reservationInput)
         {
+            // Gets admin with ID 1 from database
             var adminConfigure1 = _context.Admins.FirstOrDefault(y => y.AdminID == 1);
+            reservationInput.PossibleReservationHours = PossibleResHours();
+
             DateTime resArrivingDate = new DateTime();
 
             string[] _arrDate = reservationInput.ArrivingDate.Split("-");
 
             resArrivingDate = new DateTime(ParseIntToString(_arrDate[2]), ParseIntToString(_arrDate[1]),
-                ParseIntToString(_arrDate[0]), reservationInput.ArrivingHour, reservationInput.ArrivingMinute, 0);
-
-
-            // watch out! Hard coded stuff!            
-            _resDurationOfReservation = adminConfigure1._resDurationHour
-            DateTime resLeavingDate = resArrivingDate.AddHours(_resDurationOfReservation);
+                ParseIntToString(_arrDate[0]), reservationInput.ArrivingHour, reservationInput.ArrivingMinute, 0);            
+           
+            DateTime resLeavingDate = resArrivingDate.AddHours(adminConfigure1._resDurationHour);
 
             // Get a list of all free tables for this particular time and calculate whether or not we have sufficient 
             // room for the partysize.
@@ -190,7 +183,6 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
             //    }
             //}
 
-            return View();
             // TODO: check for available tables and return them
             // if (CheckTableAvailability > 0)
             // then go on with guest input details
