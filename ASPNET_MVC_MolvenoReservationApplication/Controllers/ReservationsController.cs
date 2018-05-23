@@ -85,7 +85,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
             }
             else
             {
-                _lastPossibleReservationhour = adminConfigure1._resDurationHour - adminConfigure1.OpeningHour;
+                _lastPossibleReservationhour = adminConfigure1.ClosingHours - adminConfigure1._resDurationHour;
             }
 
             List<int> PossibleResHoursList = new List<int>();
