@@ -1,5 +1,19 @@
 ﻿// Write your JavaScript code.
 
+//SCRIPT FOUR STARTS
+///jQuery function that inputs the phonenumber and email and changes required to empty/false for one of them when the other one has a value
+
+jQuery(function ($) {
+
+    var $inputs = $('input[id=phone],input[id=email]');
+    $inputs.on('input', function () {
+        $inputs.not(this).prop('required', !$(this).val().length);
+
+    });
+});
+
+//SCRIPT FOUR ENDS
+
 // To delete date of today in the textBox and the times in comboboxes at start
 document.getElementById("date").value = null;
 document.getElementById("cmb_Time").selectedIndex = "0";
@@ -45,8 +59,6 @@ var select = document.getElementById('cmb_Time');
 // Adds every value in the list to the selectbox options
 for (var i = min; i <= max; i++) {
 
-    console.log(min, max);
-
     // If the value in the list is higher than 24, then substract the 24, add a "0" if it has a value lower than 10, and add it to the selectbox options
     if (i >= 24) {
         var j = i - 24;
@@ -62,7 +74,6 @@ for (var i = min; i <= max; i++) {
             opt.innerHTML = j;
             select.appendChild(opt);
         }
-        console.log(j);
     }
     // If the value in the list is lower than 24, add a "0" if it has a value lower than 10, and add it to the selectbox options
     else {
@@ -78,7 +89,6 @@ for (var i = min; i <= max; i++) {
             opt.innerHTML = i;
             select.appendChild(opt);
         }
-        console.log(i);
     }
 }
 ///////// TWO ENDS
@@ -252,19 +262,7 @@ function MyFunction3() {
 ////////+++++++++++++++++++++++++++++++++++++++++++++++++++++
 //////SCRIPT THREE ENDS
 
-//SCRIPT FOUR STARTS
-///jQuery function that inputs the phonenumber and email and changes required to empty/false for one of them when the other one has a value
 
-jQuery(function ($) {
-
-    var $inputs = $('input[id=phone],input[id=email]');
-    $inputs.on('input', function () {
-        $inputs.not(this).prop('required', !$(this).val().length);
-
-    });
-});
-
-//SCRIPT FOUR ENDS
 
 //SCRIPT SIX ENDS
 //@* Creating a script that contains a method HideCheckAvailability Fields().This method performs all the user input validation
@@ -337,6 +335,7 @@ var SendDatatoController = function (date, cmb_Time, cmb_Minutes, partysize) {
     //document.getElementById("submitbutton").style.display = "";
 }
 /////////////////////////////SCRIPT SIX ENDS
+
 
 
 
