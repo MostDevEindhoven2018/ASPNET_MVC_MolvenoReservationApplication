@@ -80,7 +80,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
             // If Closinghour minus OpeningHour results in a negative number or zero, add 24 to the hour
             if (adminConfigure1.ClosingHours - adminConfigure1.OpeningHour <= 0)
             {
-                _lastPossibleReservationhour = adminConfigure1.LastPossibleReservationHour + 24;
+                _lastPossibleReservationhour = adminConfigure1.ClosingHours + 24;
 
             }
             else

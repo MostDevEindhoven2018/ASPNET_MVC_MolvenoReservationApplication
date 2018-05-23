@@ -45,6 +45,8 @@ var select = document.getElementById('cmb_Time');
 // Adds every value in the list to the selectbox options
 for (var i = min; i <= max; i++) {
 
+    console.log(min, max);
+
     // If the value in the list is higher than 24, then substract the 24, add a "0" if it has a value lower than 10, and add it to the selectbox options
     if (i >= 24) {
         var j = i - 24;
@@ -60,6 +62,7 @@ for (var i = min; i <= max; i++) {
             opt.innerHTML = j;
             select.appendChild(opt);
         }
+        console.log(j);
     }
     // If the value in the list is lower than 24, add a "0" if it has a value lower than 10, and add it to the selectbox options
     else {
@@ -75,6 +78,7 @@ for (var i = min; i <= max; i++) {
             opt.innerHTML = i;
             select.appendChild(opt);
         }
+        console.log(i);
     }
 }
 ///////// TWO ENDS
