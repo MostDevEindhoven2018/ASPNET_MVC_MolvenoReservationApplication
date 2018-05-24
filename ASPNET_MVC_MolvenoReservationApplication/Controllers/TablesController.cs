@@ -13,12 +13,14 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
 {
     public class TablesController : Controller
     {
+
         private readonly MyDBContext _context;
         private TableManager _tableManager;
 
         public TablesController(MyDBContext context)
         {
             _context = context;
+            _tableManager = new TableManager(context);
         }
 
         // GET: Tables
@@ -143,29 +145,73 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
         {
             var table = await _context.Tables.SingleOrDefaultAsync(m => m.TableID == id);
 
-            // Now we have deleted a table, lets again find the best table configuration for all reservations using this table.
-            // This needs to be done in sequence, (not async) as the results will differ for subsequent reservations as the free tables will change.
-            List<ReservationTableCoupling> AllIncludedRTCs = _context.ReservationTableCouplings.Where(rtc => rtc.Table.TableID == id).Include(rtc => rtc.Reservation).ToList();
-            List<Reservation> AffectedReservations = new List<Reservation>();
+            // We want to remove a table but we are not yet sure whether or not we actually can without screwing up reservations using this table.
+            // So lets start a transaction
 
-            foreach (ReservationTableCoupling rtc in AllIncludedRTCs)
+            using (var transaction = _context.Database.BeginTransaction())
             {
-                _context.ReservationTableCouplings.Remove(rtc);
-                AffectedReservations.Add(rtc.Reservation);
-            }
+                _context.Tables.Remove(table);
 
-            foreach (Reservation res in AffectedReservations)
-            {
-                List<Table> newTables = _tableManager.GetOptimalTableConfig(res._resArrivingTime, res._resLeavingTime, res._resPartySize);
-                foreach (Table t in newTables)
+                // Now we have deleted a table, lets again find the best table configuration for all reservations using this table.
+                // Start by removing all included RTCs fromt the context (but still have them in a list) to open up space.
+
+                List<ReservationTableCoupling> AllIncludedRTCs = _context.ReservationTableCouplings.Where(rtc => rtc.Table.TableID == id).Include(rtc => rtc.Reservation).Include(rtc => rtc.Table).ToList();
+                List<Reservation> AffectedReservations = new List<Reservation>();
+
+                foreach (ReservationTableCoupling rtc in AllIncludedRTCs)
                 {
-                    _context.ReservationTableCouplings.Add(new ReservationTableCoupling(res, t));
+                    AffectedReservations.Add(rtc.Reservation);
+                    _context.ReservationTableCouplings.Remove(rtc);
+                }
+                // remove multiple inputs
+                AffectedReservations.Distinct();
+
+                // Now lets see whether or not we have enough space to reorganise the other reservations.
+                List<Reservation> ReservationsWithProblems = new List<Reservation>();
+                foreach (Reservation res in AffectedReservations)
+                {
+                    if (!_tableManager.SufficientCapacity(_tableManager.GetFreeTables(res._resArrivingTime, res._resLeavingTime), res._resPartySize))
+                    {
+                        ReservationsWithProblems.Add(res);
+                    }
+                }
+                if (ReservationsWithProblems.Count == 0)
+                {
+                    // Only now we know for sure that removing this table will not mess up other reservations, lets find new tables.
+                    foreach (Reservation res in AffectedReservations)
+                    {
+
+                        List<Table> newTables = _tableManager.GetOptimalTableConfig(res._resArrivingTime, res._resLeavingTime, res._resPartySize);
+                        foreach (Table t in newTables)
+                        {
+                            _context.ReservationTableCouplings.Add(new ReservationTableCoupling(res, t));
+                        }
+                    }
+
+                    // Awesome, everything worked out. Lets Commit
+                    transaction.Commit();
 
                 }
-                _context.SaveChanges();
+                else
+                {
+                    // There were issues with removing this table. Show which reservations will have problems and stop any changes made
+                    // (Being the removed tables and the removed RTCs)
+
+                    string errorMessage = "There were reservations depending on this table at times:" + Environment.NewLine;
+                    foreach (Reservation res in ReservationsWithProblems)
+                    {
+                        errorMessage += res._resArrivingTime.ToString() + Environment.NewLine;
+                    }
+
+                    errorMessage += "The changes were not implemented.";
+
+                    // Send the errorMessage to the view
+                    transaction.Rollback();
+                }
+
             }
-            
-            _context.Tables.Remove(table);
+
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

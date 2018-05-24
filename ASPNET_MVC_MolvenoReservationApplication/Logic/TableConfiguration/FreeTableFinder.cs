@@ -30,9 +30,8 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Logic
             // Then get all occupied Tables.
             OccupiedTables = ReservationTableCouplingsInTimeslot.Select(RTC => RTC.Table).ToList();
             // Get all tables and subtract all tables from the Couplings in the list above. 
-
             FreeTables = _context.Tables.Where(TableFromAllTables => !OccupiedTables.Any(TableFromOccupiedTables => TableFromOccupiedTables.TableID == TableFromAllTables.TableID)).ToList();
-
+            
             return FreeTables;
         }
     }

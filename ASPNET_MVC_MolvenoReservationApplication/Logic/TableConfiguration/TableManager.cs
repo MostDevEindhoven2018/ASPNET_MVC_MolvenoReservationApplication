@@ -68,6 +68,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Logic
             _solutionFinder = sf;
             _solutionChecker = sc;
             _solutionScorer = ss;
+            
         }
 
         public List<Table> GetOptimalTableConfig(DateTime start, DateTime end, int partySize)
@@ -95,7 +96,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Logic
 
             return Result;
         }
-
+        #region Helper Methods
         public Dictionary<int, int> GetAvailabilityDictionary(List<Table> tables)
         {
             List<int> TableCaps = tables.Select(table => table._tableCapacity).Distinct().OrderByDescending(x => x).ToList();
@@ -154,7 +155,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Logic
             return (partySize <= GetTotalCapacity(freeTables));
         }
 
-        private int GetTotalCapacity(List<Table> tables)
+        public int GetTotalCapacity(List<Table> tables)
         {
             int result = 0;
             foreach (Table table in tables)
@@ -163,5 +164,6 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Logic
             }
             return result;
         }
+        #endregion
     }
 }

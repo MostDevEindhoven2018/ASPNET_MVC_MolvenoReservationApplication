@@ -32,6 +32,7 @@ namespace TableManagerTests
             OccupiedTables = ReservationTableCouplingsInTimeslot.Select(RTC => RTC.Table).ToList();
             // Get all tables and subtract all tables from the Couplings in the list above. 
 
+
             FreeTables = TableList.Where(TableFromAllTables => !OccupiedTables.Any(TableFromOccupiedTables => TableFromOccupiedTables.TableID == TableFromAllTables.TableID)).ToList();
 
             return FreeTables;

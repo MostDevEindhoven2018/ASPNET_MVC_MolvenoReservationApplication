@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ASPNET_MVC_MolvenoReservationApplication.Models;
+using ASPNET_MVC_MolvenoReservationApplication.Data;
 
 namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
 {
@@ -20,6 +21,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
         public IActionResult Index()
         {
             _context.Database.EnsureCreated();
+            DbInitializer.Initialize(_context);
             return View();
         }
 

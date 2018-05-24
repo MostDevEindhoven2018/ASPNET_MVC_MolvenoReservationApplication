@@ -15,7 +15,7 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Data
             var Guests = new Guest[]
             {
                 new Guest("George Vasileiadis", "06942020937"),//0
-                new Guest("Mathijs van ser Ven", "djfas@emial.com"),//1
+                new Guest("Mathijs van de Ven", "jemoeder@emial.com"),//1
                 new Guest("Erica Panayidou", "daifudsf@fgdf.ds", "058951213"),//2
                 new Guest("Xiao Jong", "437879334")//3
             };

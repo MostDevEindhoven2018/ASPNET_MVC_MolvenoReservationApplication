@@ -233,6 +233,45 @@ namespace ASPNET_MVC_MolvenoReservationApplication.Controllers
                 return NotFound();
             }
 
+            // See whether or not it might be a good idea to redo the configuration check
+
+            List<ReservationTableCoupling> AllIncludedRTCs = await _context.ReservationTableCouplings.Where(rtc => rtc.Reservation.ReservationID == id).Include(rtc => rtc.Table).ToListAsync();
+            List<Table> AllIncludedTables = AllIncludedRTCs.Select(rtc => rtc.Table).ToList();
+            // if the partysize is not equal to the total capacity of the tables, maybe a better solution arose, or maybe it is 
+            // not possible at all to up the partysize at this moment. Start a transaction to check it.
+            if (_tableManager.GetTotalCapacity(AllIncludedTables) != reservation._resPartySize)
+            {
+                using (var transaction = _context.Database.BeginTransaction())
+                {
+                    // Remove all tables currently used (to let them be seen as free tables instead of occupied) from the reservation and look for a new configuration.
+                    foreach (ReservationTableCoupling rtc in AllIncludedRTCs)
+                    {
+                        _context.ReservationTableCouplings.Remove(rtc);
+                    }
+                    // See whether or not there is sufficient room for the new party size.
+                    if (_tableManager.SufficientCapacity(_tableManager.GetFreeTables(reservation._resArrivingTime, reservation._resLeavingTime), reservation._resPartySize))
+                    {
+                        // If so, continue with looking for new tables.
+                        List<Table> newTables = _tableManager.GetOptimalTableConfig(reservation._resArrivingTime, reservation._resLeavingTime, reservation._resPartySize);
+
+                        foreach (Table t in newTables)
+                        {
+                            _context.ReservationTableCouplings.Add(new ReservationTableCoupling(reservation, t));
+                        }
+                        // Hurray! We found a new configuration. Lets keep this.
+                        transaction.Commit();
+                    }
+                    else
+                    {
+                        // there was not enough room to change the party size. Send a message and rollback the transaction.
+                        ModelState.AddModelError("No availability",
+                        "There is not enough capacity for this partysize at this time. The changes made will not take effect.");
+                        transaction.Rollback();
+                    }
+                }
+            }
+
+
             if (ModelState.IsValid)
             {
                 try
